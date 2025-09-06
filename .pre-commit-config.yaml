@@ -1,0 +1,35 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/python-poetry/poetry
+    rev: '1.8.4'
+    hooks:
+      - id: poetry-check
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        description: "Black: The uncompromising Python code formatter"
+        exclude: ^alembic/
+        entry: black
+        language: system
+        types: [ python ]
+      - id: ruff
+        name: ruff
+        entry: ruff check --fix --show-fixes blank-project/
+        language: system
+        types: [python]
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        types: [ python ]
+#      - id: pytest
+#        name: pytest
+#        entry: pytest
+#        language: system
+#        types: [ python ]
