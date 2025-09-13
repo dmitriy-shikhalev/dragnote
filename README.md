@@ -1,1 +1,4 @@
-# blank-project
+# dragnote
+
+## В linux запустить fluidsynth:
+- ```$ fluidsynth ```
