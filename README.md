@@ -1,4 +1,7 @@
 # dragnote
 
 ## В linux запустить fluidsynth:
-- ```$ fluidsynth ```
+- ```fluidsynth ```
+
+## Запуск до-мажор:
+- ```python dragnote/test.py```
