@@ -11,15 +11,29 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        choices=['play', 'synths'],
+        choices=['study', "lessons", 'synths'],
         dest="command",
+    )
+    parser.add_argument(
+        "--lesson-num",
+        dest="lesson_num",
+        type=int,
+        required=False,
+    )
+    parser.add_argument(
+        "--synth-num",
+        dest="synth_num",
+        type=int,
+        required=False,
     )
 
     args = parser.parse_args()
-    if args.command == "synths":
+    if args.command == "study":
+        raise NotImplementedError(args)
+    elif args.command == "lessons":
+        raise NotImplementedError(args)
+    elif args.command == "synths":
         get_synths()
-    elif args.command == "play":
-        raise NotImplementedError
     else:
         raise ValueError(f"Unknown command: {args.command}")
 
