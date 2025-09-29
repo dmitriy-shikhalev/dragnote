@@ -18,8 +18,10 @@ def main():
     args = parser.parse_args()
     if args.command == "synths":
         get_synths()
+    elif args.command == "play":
+        raise NotImplementedError
     else:
-        raise ZeroDivisionError(args.command)
+        raise ValueError(f"Unknown command: {args.command}")
 
 
 if __name__ == "__main__":
