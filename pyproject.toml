@@ -7,8 +7,10 @@ license = "BSD-3"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.13"
 pygame = "^2.6.1"
+pydantic-settings = "^2.11.0"
+pydantic-yaml = "^1.6.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -21,9 +23,9 @@ pytest-coverage = "^0.0"
 
 [tool.isort]
 profile = "black"
-src_paths = ["blank_project", "tests"]
+src_paths = ["dragnote", "tests"]
 skip = [
-    "blank_project/xxx.py",
+    "dragnote/xxx.py",
 ]
 
 [build-system]
@@ -31,7 +33,7 @@ requires = ["poetry-core>=2.0.1"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-blank-project = "blank_project.main:main"
+dragnote = "dragnote.main:main"
 
 
 [tool.black]
@@ -44,7 +46,7 @@ exclude = 'xxx'
 # Same as Black.
 line-length = 120
 cache-dir = "~/.cache/ruff"
-include = ["blank_project/*", "tests/*"]
+include = ["dragnote/*", "tests/*"]
 exclude = [".venv"]
 # Assume Python 3.13
 target-version = "py313"
@@ -67,6 +69,9 @@ lint.ignore = [
     "W292",  # no new line at end of file, handled by black
     "C901",  # too complex
     "D100",  # Missing docstring in public module
+    "D101",
+    "D102",
+    "D103",
     "D104",  # Missing docstring in public package
 ]
 
@@ -92,8 +97,8 @@ filterwarnings = [
 ]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
-addopts = "-vvv --mypy --ruff --black --isort --cov=blank_project --no-cov-on-fail  --cov-fail-under=100 --cov-report term-missing --color=yes"
+addopts = "-vvv --mypy --ruff --black --isort --cov=dragnote --no-cov-on-fail  --cov-fail-under=100 --cov-report term-missing --color=yes"
 testpaths = [
-    "blank_project", "tests",
+    "dragnote", "tests",
 ]
 
