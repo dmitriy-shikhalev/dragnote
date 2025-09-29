@@ -2,6 +2,7 @@ import argparse
 import logging
 
 from dragnote.info import get_synths
+from dragnote.lessons import get_lessons
 
 logging.basicConfig(level=logging.INFO)
 
@@ -21,6 +22,13 @@ def main():
         required=False,
     )
     parser.add_argument(
+        "--lessons-path",
+        dest="lessons_path",
+        type=str,
+        required=False,
+        default="lessons",
+    )
+    parser.add_argument(
         "--synth-num",
         dest="synth_num",
         type=int,
@@ -31,7 +39,9 @@ def main():
     if args.command == "study":
         raise NotImplementedError(args)
     elif args.command == "lessons":
-        raise NotImplementedError(args)
+        print("Lessons:")
+        for lesson in get_lessons(args.lessons_path):
+            print(lesson)
     elif args.command == "synths":
         get_synths()
     else:
