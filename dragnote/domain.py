@@ -2,52 +2,33 @@ from __future__ import annotations
 
 from collections import defaultdict
 from dataclasses import dataclass
-from enum import Enum
 from fractions import Fraction
+from typing import Iterator
 
-from attr.validators import max_len
-
-
-# Music models
-
-class Name(int, Enum):
-    """
-    Номер ноты в MIDI в первой (или второй? или третьей?) октаве.
-    """
-    C = 60
-    D = 62
-    E = 64
-    F = 65
-    G = 67
-    A = 69
-    H = 71
-
-    P = 0  # Pause
-
-
-class Sign(int, Enum):
-    NATURAL = 0
-    SHARP = 1
-    FLAT = -1
-    DOUBLE_SHARP = 2
-    DOUBLE_FLAT = -2
+from dragnote.consts import CLASS, NAME, OCTAVE_SHIFT, SEMITONES_IN_AN_OCTAVE, SIGN
 
 
 
 @dataclass(frozen=True)
 class Note:
-    name: Name
-    sign: Sign
+    name: NAME
+    sign: SIGN
     octave: int
-    duration: Fraction
     volume: int
 
-    @property
-    def value(self) -> int:
+    def _get_event_value(self) -> int:
         value = self.name.value + self.sign.value
-
-        value += 12 * (self.octave - 3)
+        value += SEMITONES_IN_AN_OCTAVE * (self.octave - OCTAVE_SHIFT)
         return value
+
+    def to_events(self, duration: float) -> Iterator[tuple[float, Event]]:
+        if self.name == NAME.P:
+            pass
+        else:
+            value = self._get_event_value()
+
+            yield 0, Event(value=value, volume=self.volume, klass=CLASS.ON)
+            yield duration, Event(value=value, volume=self.volume, klass=CLASS.OFF)
 
 
 @dataclass(frozen=True)
@@ -55,10 +36,25 @@ class Harmony:
     notes: tuple[Note, ...]
     duration: Fraction
 
+    def _get_duration(self, tempo: int) -> float:
+        return float(self.duration) * 4 * 60 / tempo
+
+    def to_events(self, tempo: int) -> Iterator[tuple[float, Event]]:
+        for note in self.notes:
+            for ts, event in note.to_events(self._get_duration(tempo)):
+                yield ts, event
 
 @dataclass(frozen=True)
 class Voice:
     harmonies: tuple[Harmony, ...]
+
+    def to_events(self, tempo: int) -> Iterator[tuple[float, Event]]:
+        offset: float = 0
+        for harmony in self.harmonies:
+            for ts, event in harmony.to_events(tempo):
+                yield ts + offset, event
+
+            offset += harmony._get_duration(tempo)
 
 
 @dataclass(frozen=True)
@@ -68,83 +64,41 @@ class Composition:
     tonality: str
     voices: tuple[Voice, ...]
 
-    def to_schedule(self):
-        raise NotImplementedError
+    def to_events(self) -> Iterator[tuple[float, Event]]:
+        for voice in self.voices:
+            for ts, event in voice.to_events(self.tempo):
+                yield ts, event
+
+    def to_schedule(self) -> Schedule:
+        # Or, may be, this method need to be moved in class @classmethod Schedule.from_composition(cls, composition)?
+        schedule = Schedule(values=defaultdict(set))
+        for ts, event in self.to_events():
+            schedule.add_event(ts, event)
+        return schedule
 
 
 # Sequenced models
-
-class Klass(str, Enum):
-    ON = "ON"
-    OFF = "OFF"
-
 
 @dataclass(frozen=True)
 class Event:
     value: int
     volume: int
-    klass: Klass
+    klass: CLASS
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=False)
 class Schedule:
-    values: dict[float, set[Event]]
+    values: defaultdict[float, set[Event]]
 
-    def __sum__(self, other: Schedule) -> Schedule:
+    def add_event(self, ts: float, event: Event):
+        self.values[ts].add(event)
+
+    def __iadd__(self, other: Schedule) -> None:
         if not isinstance(other, Schedule):
             raise ValueError(f"{other} should be a Schedule.")
-        new_values = defaultdict(set)
-        for ts, events in self.values.items():
+        for ts, events in other.values.items():
             for event in events:
-                new_values[ts].add(event)
-        return Schedule(values=new_values)
+                self.values[ts].add(event)
 
-
-def duration_to_seconds(duration: Fraction, tempo: int) -> float:
-    return float(duration) * 4 * 60 / tempo
-
-
-def note_to_events(
-    note: Note, tempo: int, max_duration: Fraction | None = None
-) -> tuple[tuple[float, Event], tuple[float, Event]]:
-    """
-    duration_in_seconds = duration_in_fractal * 60 / tempo
-    """
-    if note.name == Name.P:
-        return ()
-
-    if max_duration is None:
-        duration = duration_to_seconds(note.duration, tempo)
-    else:
-        duration = duration_to_seconds(max_duration, tempo)
-
-    return (
-        (
-            0,
-            Event(
-                value=note.value,
-                volume=note.volume,
-                klass=Klass.ON,
-            ),
-        ),
-        (
-            duration,
-            Event(
-                value=note.value,
-                volume=note.volume,
-                klass=Klass.OFF,
-            )
-        )
-    )
-
-
-def harmony_to_schedule(harmony: Harmony) -> Schedule:
-    raise NotImplementedError
-
-
-def voice_to_schedule(voice: Voice) -> Schedule:
-    raise NotImplementedError
-
-
-def composition_to_schedule(composition: Composition) -> Schedule:
-    schedules = [voice_to]
+    def __add__(self, other):
+        raise NotImplementedError

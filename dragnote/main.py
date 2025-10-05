@@ -2,7 +2,8 @@ import argparse
 import logging
 from fractions import Fraction
 
-from dragnote.domain import Event, Klass, Name, Note, Sign, Schedule, Harmony, Voice, Composition
+from dragnote.consts import CLASS, NAME, SIGN
+from dragnote.domain import Event, Note, Schedule, Harmony, Voice, Composition
 from dragnote.info import get_synths
 from dragnote.lessons import get_lessons
 from dragnote.sequencer import Sequencer
@@ -10,10 +11,11 @@ from dragnote.sequencer import Sequencer
 logging.basicConfig(level=logging.DEBUG)
 
 
-def test(synth_num):  # todo: remove
-    import pygame.midi
-    pygame.midi.init()
-    sequencer = Sequencer(synth_num)
+def play_test_note(sequencer: Sequencer):
+    sequencer.play_note(Note(name=NAME.C, sign=SIGN.NATURAL, octave=3, volume=100), tempo=60)
+
+
+def play_test_composition(sequencer: Sequencer):
     sequencer.play_composition(
         Composition(
             voices=(
@@ -22,10 +24,9 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.C,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.C,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 4),
                                     volume=100,
                                 ),
                             ),
@@ -34,10 +35,9 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.E,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.E,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 4),
                                     volume=100,
                                 ),
                             ),
@@ -46,10 +46,9 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.G,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.G,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 4),
                                     volume=100,
                                 ),
                             ),
@@ -58,10 +57,9 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.C,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.C,
+                                    sign=SIGN.NATURAL,
                                     octave=4,
-                                    duration=Fraction(1, 4),
                                     volume=100,
                                 ),
                             ),
@@ -70,10 +68,9 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.G,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.G,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 4),
                                     volume=100,
                                 ),
                             ),
@@ -82,10 +79,9 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.E,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.E,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 4),
                                     volume=100,
                                 ),
                             ),
@@ -94,10 +90,9 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.C,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.C,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 4),
                                     volume=100,
                                 ),
                             ),
@@ -107,10 +102,9 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.P,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.P,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 4),
                                     volume=100,
                                 ),
                             ),
@@ -120,24 +114,21 @@ def test(synth_num):  # todo: remove
                         Harmony(
                             notes=(
                                 Note(
-                                    name=Name.C,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.C,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 2),
                                     volume=100,
                                 ),
                                 Note(
-                                    name=Name.E,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.E,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 2),
                                     volume=100,
                                 ),
                                 Note(
-                                    name=Name.G,
-                                    sign=Sign.NATURAL,
+                                    name=NAME.G,
+                                    sign=SIGN.NATURAL,
                                     octave=3,
-                                    duration=Fraction(1, 2),
                                     volume=100,
                                 ),
                             ),
@@ -151,6 +142,15 @@ def test(synth_num):  # todo: remove
             name="asdf",
         ),
     )
+
+
+def test(synth_num):  # todo: remove
+    import pygame.midi
+    pygame.midi.init()
+    sequencer = Sequencer(synth_num)
+    # play_test_note(sequencer)
+    play_test_composition(sequencer)
+
 
 def main():
     """Main function."""

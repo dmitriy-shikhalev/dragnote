@@ -4,8 +4,15 @@ from collections import defaultdict
 
 import pygame.midi
 
-from dragnote.domain import Event, Name, Note, note_to_events, Klass, Harmony, Schedule, Voice, duration_to_seconds, \
-    Composition, composition_to_schedule
+from dragnote.consts import CLASS
+from dragnote.domain import (
+    Composition,
+    Event,
+    Harmony,
+    Note,
+    Schedule,
+    Voice,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +23,7 @@ class Sequencer:
         self.midi_out = pygame.midi.Output(synth_num)
 
     def play_event(self, event: Event):
-        if event.klass == Klass.ON:
+        if event.klass == CLASS.ON:
             logger.debug("Event on: %s", event)
             self.midi_out.note_on(event.value, event.volume)
         else:
@@ -24,7 +31,8 @@ class Sequencer:
             self.midi_out.note_off(event.value, event.volume)
 
     def play_note(self, note: Note, tempo: int):
-        for ts, event in note_to_events(note, tempo):
+        for ts, event in note.to_events(tempo):
+            logger.debug("Sleep ts: %s", ts)
             time.sleep(ts)
             logger.debug("play %s", event)
             self.play_event(event)
@@ -53,18 +61,14 @@ class Sequencer:
         self.play_schedule(schedule)
 
     def play_composition(self, composition: Composition):
-        schedule = composition_to_schedule(composition)
+        schedule = composition.to_schedule()
         self.play_schedule(schedule)
 
     def play_schedule(self, schedule: Schedule):
         keys = list(set(schedule.values.keys()))
         keys.sort()
-        previous_key = keys[0]
-        del keys[0]
+        previous_key = 0
 
-        events = schedule.values.pop(previous_key)
-        for event in events:
-            self.play_event(event)
         for key in keys:
             pygame.time.wait(
                 int(
