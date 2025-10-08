@@ -5,20 +5,26 @@ from dataclasses import dataclass
 from fractions import Fraction
 from typing import Iterator
 
-from dragnote.consts import CLASS, NAME, OCTAVE_SHIFT, SEMITONES_IN_AN_OCTAVE, SIGN
-
+from dragnote.consts import (
+    CLASS,
+    NAME,
+    OCTAVE,
+    OCTAVE_SHIFT,
+    SEMITONES_IN_AN_OCTAVE,
+    SIGN,
+)
 
 
 @dataclass(frozen=True)
 class Note:
     name: NAME
     sign: SIGN
-    octave: int
+    octave: OCTAVE
     volume: int
 
     def _get_event_value(self) -> int:
         value = self.name.value + self.sign.value
-        value += SEMITONES_IN_AN_OCTAVE * (self.octave - OCTAVE_SHIFT)
+        value += SEMITONES_IN_AN_OCTAVE * (self.octave.value - OCTAVE_SHIFT)
         return value
 
     def to_events(self, duration: float) -> Iterator[tuple[float, Event]]:
@@ -36,13 +42,14 @@ class Harmony:
     notes: tuple[Note, ...]
     duration: Fraction
 
-    def _get_duration(self, tempo: int) -> float:
+    def get_duration_in_seconds(self, tempo: int) -> float:
         return float(self.duration) * 4 * 60 / tempo
 
     def to_events(self, tempo: int) -> Iterator[tuple[float, Event]]:
         for note in self.notes:
-            for ts, event in note.to_events(self._get_duration(tempo)):
+            for ts, event in note.to_events(self.get_duration_in_seconds(tempo)):
                 yield ts, event
+
 
 @dataclass(frozen=True)
 class Voice:
@@ -54,7 +61,7 @@ class Voice:
             for ts, event in harmony.to_events(tempo):
                 yield ts + offset, event
 
-            offset += harmony._get_duration(tempo)
+            offset += harmony.get_duration_in_seconds(tempo)
 
 
 @dataclass(frozen=True)
@@ -79,6 +86,7 @@ class Composition:
 
 # Sequenced models
 
+
 @dataclass(frozen=True)
 class Event:
     value: int
@@ -100,5 +108,5 @@ class Schedule:
             for event in events:
                 self.values[ts].add(event)
 
-    def __add__(self, other):
+    def __add__(self, other: Schedule):
         raise NotImplementedError

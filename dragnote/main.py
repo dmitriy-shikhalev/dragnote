@@ -2,17 +2,15 @@ import argparse
 import logging
 from fractions import Fraction
 
-from dragnote.consts import CLASS, NAME, SIGN
-from dragnote.domain import Event, Note, Schedule, Harmony, Voice, Composition
+import pygame.midi
+
+from dragnote.consts import NAME, OCTAVE, SIGN
+from dragnote.domain import Composition, Harmony, Note, Voice
 from dragnote.info import get_synths
 from dragnote.lessons import get_lessons
 from dragnote.sequencer import Sequencer
 
 logging.basicConfig(level=logging.DEBUG)
-
-
-def play_test_note(sequencer: Sequencer):
-    sequencer.play_note(Note(name=NAME.C, sign=SIGN.NATURAL, octave=3, volume=100), tempo=60)
 
 
 def play_test_composition(sequencer: Sequencer):
@@ -26,113 +24,111 @@ def play_test_composition(sequencer: Sequencer):
                                 Note(
                                     name=NAME.C,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 4)
+                            duration=Fraction(1, 4),
                         ),
                         Harmony(
                             notes=(
                                 Note(
                                     name=NAME.E,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 4)
+                            duration=Fraction(1, 4),
                         ),
                         Harmony(
                             notes=(
                                 Note(
                                     name=NAME.G,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 4)
+                            duration=Fraction(1, 4),
                         ),
                         Harmony(
                             notes=(
                                 Note(
                                     name=NAME.C,
                                     sign=SIGN.NATURAL,
-                                    octave=4,
+                                    octave=OCTAVE.SECOND,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 4)
+                            duration=Fraction(1, 4),
                         ),
                         Harmony(
                             notes=(
                                 Note(
                                     name=NAME.G,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 4)
+                            duration=Fraction(1, 4),
                         ),
                         Harmony(
                             notes=(
                                 Note(
                                     name=NAME.E,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 4)
+                            duration=Fraction(1, 4),
                         ),
                         Harmony(
                             notes=(
                                 Note(
                                     name=NAME.C,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 4)
+                            duration=Fraction(1, 4),
                         ),
-
                         Harmony(
                             notes=(
                                 Note(
                                     name=NAME.P,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 4)
+                            duration=Fraction(1, 4),
                         ),
-
                         Harmony(
                             notes=(
                                 Note(
                                     name=NAME.C,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                                 Note(
                                     name=NAME.E,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                                 Note(
                                     name=NAME.G,
                                     sign=SIGN.NATURAL,
-                                    octave=3,
+                                    octave=OCTAVE.FIRST,
                                     volume=100,
                                 ),
                             ),
-                            duration=Fraction(1, 2)
+                            duration=Fraction(1, 2),
                         ),
                     )
                 ),
@@ -144,25 +140,29 @@ def play_test_composition(sequencer: Sequencer):
     )
 
 
-def test(synth_num):  # todo: remove
-    import pygame.midi
+def test(synth_num, instrument_num):  # todo: remove
     pygame.midi.init()
-    sequencer = Sequencer(synth_num)
+    sequencer = Sequencer(synth_num, instrument_num)
     # play_test_note(sequencer)
     play_test_composition(sequencer)
 
 
 def main():
-    """Main function."""
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        choices=['study', "lessons", 'synths', "test"],
+        choices=["study", "lessons", "synths", "test"],
         dest="command",
     )
     parser.add_argument(
         "--lesson-num",
         dest="lesson_num",
+        type=int,
+        required=False,
+    )
+    parser.add_argument(
+        "--instrument-num",
+        dest="instrument_num",
         type=int,
         required=False,
     )
@@ -190,7 +190,7 @@ def main():
     elif args.command == "synths":
         get_synths()
     elif args.command == "test":
-        test(args.synth_num)
+        test(args.synth_num, args.instrument_num)
     else:
         raise ValueError(f"Unknown command: {args.command}")
 

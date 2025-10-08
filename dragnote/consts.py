@@ -5,10 +5,10 @@ OCTAVE_SHIFT = 3
 
 # Music models
 
+
 class NAME(int, Enum):
-    """
-    Номер ноты в MIDI в первой (или второй? или третьей?) октаве.
-    """
+    """Номер ноты в MIDI в первой (или второй? или третьей?) октаве."""
+
     C = 60
     D = 62
     E = 64
@@ -31,3 +31,15 @@ class SIGN(int, Enum):
 class CLASS(str, Enum):
     ON = "ON"
     OFF = "OFF"
+
+
+class OCTAVE(str, Enum):
+    SUBCONTRA = -1
+    CONTRA = 0
+    GREAT = 1
+    SMALL = 2
+    FIRST = 3
+    SECOND = 4
+    THIRD = 5
+    FOURTH = 6
+    FIFTH = 7

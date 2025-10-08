@@ -73,6 +73,8 @@ lint.ignore = [
     "D102",
     "D103",
     "D104",  # Missing docstring in public package
+    "D105",  # Missing docstring in magic method
+    "D107",  # Missing docstring in `__init__`
 ]
 
 [tool.ruff.lint.flake8-quotes]
