@@ -9,7 +9,6 @@ from dragnote.consts import (
     CLASS,
     NAME,
     OCTAVE,
-    OCTAVE_SHIFT,
     SEMITONES_IN_AN_OCTAVE,
     SIGN,
 )
@@ -23,8 +22,8 @@ class Note:
     volume: int
 
     def _get_event_value(self) -> int:
-        value = self.name.value + self.sign.value
-        value += SEMITONES_IN_AN_OCTAVE * (self.octave.value - OCTAVE_SHIFT)
+        value = self.name.value + self.sign.to_num()
+        value += SEMITONES_IN_AN_OCTAVE * self.octave.to_num()
         return value
 
     def to_events(self, duration: float) -> Iterator[tuple[float, Event]]:

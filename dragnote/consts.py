@@ -1,7 +1,6 @@
 from enum import Enum
 
 SEMITONES_IN_AN_OCTAVE = 12
-OCTAVE_SHIFT = 3
 
 # Music models
 
@@ -20,12 +19,19 @@ class NAME(int, Enum):
     P = 0  # Pause
 
 
-class SIGN(int, Enum):
-    NATURAL = 0
+class SIGN(str, Enum):
+    NATURAL = "NATURAL"
     SHARP = 1
     FLAT = -1
     DOUBLE_SHARP = 2
     DOUBLE_FLAT = -2
+
+    def to_num(self) -> int:
+        match self:
+            case self.NATURAL:
+                return 0
+            case _:
+                raise ValueError(self)
 
 
 class CLASS(str, Enum):
@@ -38,8 +44,15 @@ class OCTAVE(str, Enum):
     CONTRA = 0
     GREAT = 1
     SMALL = 2
-    FIRST = 3
+    FIRST = "FIRST"
     SECOND = 4
     THIRD = 5
     FOURTH = 6
     FIFTH = 7
+
+    def to_num(self) -> int:
+        match self:
+            case self.FIRST:
+                return 0
+            case _:
+                raise ValueError(self)

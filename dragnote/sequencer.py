@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 class Sequencer:
     def __init__(self, synth_num: int, instrument_num: int):
+        if synth_num is None:
+            raise ValueError("Synth num can not be None!")
         self.synth_num = synth_num
         self.midi_out = pygame.midi.Output(synth_num)
         self.midi_out.set_instrument(instrument_num)
