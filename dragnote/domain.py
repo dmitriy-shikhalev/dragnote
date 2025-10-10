@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from fractions import Fraction
+from itertools import zip_longest
 from typing import Iterator
 
 from dragnote.consts import (
@@ -13,6 +15,8 @@ from dragnote.consts import (
     SIGN,
 )
 
+logger = logging.getLogger(__name__)
+
 
 @dataclass(frozen=True)
 class Note:
@@ -20,11 +24,6 @@ class Note:
     sign: SIGN
     octave: OCTAVE
     volume: int
-
-    def __eq__(self, other: Note):
-        if self._get_event_value() != other._get_event_value():
-            return False
-        return True
 
     @classmethod
     def from_str(cls, s: str) -> Note:
@@ -46,7 +45,7 @@ class Note:
             volume=127,  # это заведомо ложное значение, но оно не играет роли, потому что планируется использовать ноты из этого метода лишь для сравнения.
         )
 
-    def _get_event_value(self) -> int:
+    def get_event_value(self) -> int:
         value = self.name.to_num() + self.sign.to_num()
         value += SEMITONES_IN_AN_OCTAVE * self.octave.to_num()
         return value
@@ -55,7 +54,7 @@ class Note:
         if self.name == NAME.P:
             pass
         else:
-            value = self._get_event_value()
+            value = self.get_event_value()
 
             yield 0, Event(value=value, volume=self.volume, klass=CLASS.ON)
             yield duration, Event(value=value, volume=self.volume, klass=CLASS.OFF)
@@ -117,6 +116,11 @@ class Event:
     volume: int
     klass: CLASS
 
+    def __eq__(self, other: Event):
+        if self.value == other.value:
+            return True
+        return False
+
 
 @dataclass(frozen=False)
 class Schedule:
@@ -124,6 +128,10 @@ class Schedule:
 
     def add_event(self, ts: float, event: Event):
         self.values[ts].add(event)
+
+    def __eq__(self, other: Schedule):
+        logger.debug("self, other: %s, %s", self.values, other.values)
+        return self.values == other.values
 
     def __iadd__(self, other: Schedule) -> None:
         if not isinstance(other, Schedule):
@@ -136,4 +144,43 @@ class Schedule:
         return NotImplemented
 
     def substitute(self, notes: Iterator[set[Note]]) -> Schedule:
-        raise NotImplementedError
+        keys = list(self.values)
+        keys.sort()
+
+        new_values: defaultdict[float, set[Event]] = {}
+        notes_iter = iter(notes)
+        for key in keys:
+            logger.debug("key: %s", key)
+
+            old_notes_values = set(
+                event.value
+                for event in self.values[key]
+                if event.klass == CLASS.ON
+            )
+            if not old_notes_values:
+                continue
+
+            notes_one = next(notes_iter)  # notes_one - bad name!
+            new_notes_values = set(
+                note.get_event_value()
+                for note in notes_one
+            )
+
+            if old_notes_values == new_notes_values:
+                logger.debug(
+                    "old_notes_values == new_notes_values: %s == %s", old_notes_values, new_notes_values
+                )
+                new_values[key] = self.values[key]
+            else:
+                logger.debug(
+                    "old_notes_values != new_notes_values: %s == %s", old_notes_values, new_notes_values
+                )
+                new_values[key] = set(
+                    Event(
+                        value=value,
+                        volume=127,
+                        klass=CLASS.ON,
+                    ) for value in new_notes_values
+                )
+
+        return Schedule(values=new_values)

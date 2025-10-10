@@ -1,11 +1,15 @@
+import logging
+
 from dragnote.domain import Note
 from dragnote.parse import parse_composition
 from dragnote.sequencer import Sequencer
 
+logger = logging.getLogger(__name__)
+
 
 def harmony_str_to_notes_set(harmony: str):
     notes = [Note.from_str(note_str) for note_str in harmony.split(":")]
-
+    return notes
 
 def get_note_iter_from_str(input_notes: str):
     harmonies: list[str] = input_notes.split(" ")
@@ -27,5 +31,4 @@ def play(composition_name: str, synth_num: int, instrument_num: int):
     new_schedule = schedule.substitute(notes)
 
     sequencer.play_schedule(new_schedule)
-
-
+    raise NotImplementedError(schedule == new_schedule)

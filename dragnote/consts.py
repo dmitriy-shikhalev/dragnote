@@ -11,12 +11,12 @@ class NAME(Enum):
     """Номер ноты в MIDI в первой (или второй? или третьей?) октаве."""
 
     C = "C"
-    D = 62
-    E = 64
-    F = 65
-    G = 67
-    A = 69
-    H = 71
+    D = "D"
+    E = "E"
+    F = "F"
+    G = "G"
+    A = "A"
+    H = "H"
 
     P = 0  # Pause
 
@@ -25,6 +25,10 @@ class NAME(Enum):
         match s:
             case "C":
                 return NAME.C
+            case "E":
+                return NAME.E
+            case "G":
+                return NAME.G
             case _:
                 raise ValueError(s)
 
@@ -32,6 +36,18 @@ class NAME(Enum):
         match self:
             case self.C:
                 return 60
+            case self.D:
+                return 62
+            case self.E:
+                return 64
+            case self.F:
+                return 65
+            case self.G:
+                return 67
+            case self.A:
+                return 69
+            case self.H:
+                return 71
             case _:
                 raise ValueError(self)
 
