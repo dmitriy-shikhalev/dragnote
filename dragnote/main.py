@@ -1,6 +1,8 @@
 import argparse
 import logging
 
+import pygame.midi
+
 from dragnote.info import get_synths
 from dragnote.parse import get_compositions
 from dragnote.play import play
@@ -41,6 +43,7 @@ def main():
         required=False,
     )
 
+    pygame.midi.init()
     args = parser.parse_args()
     if args.command == "study":
         raise NotImplementedError(args)

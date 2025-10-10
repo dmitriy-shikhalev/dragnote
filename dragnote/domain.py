@@ -21,8 +21,33 @@ class Note:
     octave: OCTAVE
     volume: int
 
+    def __eq__(self, other: Note):
+        if self._get_event_value() != other._get_event_value():
+            return False
+        return True
+
+    @classmethod
+    def from_str(cls, s: str) -> Note:
+        if len(s) < 2:
+            raise ValueError(f"Too short str: {s}")
+        name = NAME.from_str(s[0])
+
+        octave_num = int(s[-1])
+        if s[-2] == "-":
+            octave_num *= -1
+        octave = OCTAVE.from_num(octave_num)
+
+        sign_str = s[1:-1] if octave_num >= 0 else s[1:-2]
+        sign = SIGN.from_str(sign_str)
+        return cls(
+            name=name,
+            sign=sign,
+            octave=octave,
+            volume=127,  # это заведомо ложное значение, но оно не играет роли, потому что планируется использовать ноты из этого метода лишь для сравнения.
+        )
+
     def _get_event_value(self) -> int:
-        value = self.name.value + self.sign.to_num()
+        value = self.name.to_num() + self.sign.to_num()
         value += SEMITONES_IN_AN_OCTAVE * self.octave.to_num()
         return value
 
@@ -108,4 +133,7 @@ class Schedule:
                 self.values[ts].add(event)
 
     def __add__(self, other: Schedule):
+        return NotImplemented
+
+    def substitute(self, notes: Iterator[set[Note]]) -> Schedule:
         raise NotImplementedError

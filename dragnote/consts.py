@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import Enum
 
 SEMITONES_IN_AN_OCTAVE = 12
@@ -5,10 +7,10 @@ SEMITONES_IN_AN_OCTAVE = 12
 # Music models
 
 
-class NAME(int, Enum):
+class NAME(Enum):
     """Номер ноты в MIDI в первой (или второй? или третьей?) октаве."""
 
-    C = 60
+    C = "C"
     D = 62
     E = 64
     F = 65
@@ -18,6 +20,21 @@ class NAME(int, Enum):
 
     P = 0  # Pause
 
+    @classmethod
+    def from_str(cls, s: str) -> NAME:
+        match s:
+            case "C":
+                return NAME.C
+            case _:
+                raise ValueError(s)
+
+    def to_num(self) -> int:
+        match self:
+            case self.C:
+                return 60
+            case _:
+                raise ValueError(self)
+
 
 class SIGN(str, Enum):
     NATURAL = "NATURAL"
@@ -26,17 +43,20 @@ class SIGN(str, Enum):
     DOUBLE_SHARP = 2
     DOUBLE_FLAT = -2
 
+    @classmethod
+    def from_str(cls, s: str) -> SIGN:
+        match s:
+            case "":
+                return SIGN.NATURAL
+            case _:
+                raise ValueError(s)
+
     def to_num(self) -> int:
         match self:
             case self.NATURAL:
                 return 0
             case _:
                 raise ValueError(self)
-
-
-class CLASS(str, Enum):
-    ON = "ON"
-    OFF = "OFF"
 
 
 class OCTAVE(str, Enum):
@@ -50,9 +70,25 @@ class OCTAVE(str, Enum):
     FOURTH = 6
     FIFTH = 7
 
+    @classmethod
+    def from_num(cls, num: int) -> OCTAVE:
+        match num:
+            case 0:
+                return cls.FIRST
+            case _:
+                raise ValueError(num)
+
     def to_num(self) -> int:
         match self:
             case self.FIRST:
                 return 0
             case _:
                 raise ValueError(self)
+
+
+# Events
+
+
+class CLASS(str, Enum):
+    ON = "ON"
+    OFF = "OFF"
