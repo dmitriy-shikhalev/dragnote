@@ -1,5 +1,7 @@
 import logging
 
+import pygame.midi
+
 from dragnote.domain import Note
 from dragnote.parse import parse_composition
 from dragnote.sequencer import Sequencer
@@ -19,9 +21,11 @@ def get_notes_list_from_str(input_notes: str) -> list[set[int]]:
     return notes_list
 
 
-def play(composition_name: str, synth_num: int, instrument_num: int):
+def play(composition_name: str, synth_num: int):
+    pygame.midi.init()
+
     composition = parse_composition(composition_name)
-    sequencer = Sequencer(synth_num, instrument_num)
+    sequencer = Sequencer(synth_num, 0)
     print("Composition name is", composition.name)
     print("Tonality is", composition.tonality)
     sequencer.play_composition(composition)
