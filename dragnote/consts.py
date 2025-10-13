@@ -25,10 +25,18 @@ class NAME(Enum):
         match s:
             case "C":
                 return NAME.C
+            case "D":
+                return NAME.D
             case "E":
                 return NAME.E
+            case "F":
+                return NAME.F
             case "G":
                 return NAME.G
+            case "A":
+                return NAME.A
+            case "H":
+                return NAME.H
             case _:
                 raise ValueError(s)
 
@@ -54,16 +62,24 @@ class NAME(Enum):
 
 class SIGN(str, Enum):
     NATURAL = "NATURAL"
-    SHARP = 1
-    FLAT = -1
-    DOUBLE_SHARP = 2
-    DOUBLE_FLAT = -2
+    SHARP = "SHARP"
+    FLAT = "FLAT"
+    DOUBLE_SHARP = "DOUBLE_SHARP"
+    DOUBLE_FLAT = "DOUBLE_FLAT"
 
     @classmethod
     def from_str(cls, s: str) -> SIGN:
         match s:
             case "":
-                return SIGN.NATURAL
+                return cls.NATURAL
+            case "b":
+                return cls.FLAT
+            case "#":
+                return cls.SHARP
+            case "bb":
+                return cls.DOUBLE_FLAT
+            case "##":
+                return cls.DOUBLE_FLAT
             case _:
                 raise ValueError(s)
 
@@ -71,33 +87,73 @@ class SIGN(str, Enum):
         match self:
             case self.NATURAL:
                 return 0
+            case self.FLAT:
+                return -1
+            case self.SHARP:
+                return 1
+            case self.DOUBLE_FLAT:
+                return -2
+            case self.DOUBLE_SHARP:
+                return 2
             case _:
                 raise ValueError(self)
 
 
 class OCTAVE(str, Enum):
-    SUBCONTRA = -1
-    CONTRA = 0
-    GREAT = 1
-    SMALL = 2
+    SUBCONTRA = "SUBCONTRA"
+    CONTRA = "CONTRA"
+    GREAT = "GREAT"
+    SMALL = "SMALL"
     FIRST = "FIRST"
-    SECOND = 4
-    THIRD = 5
-    FOURTH = 6
-    FIFTH = 7
+    SECOND = "SECOND"
+    THIRD = "THIRD"
+    FOURTH = "FOURTH"
+    FIFTH = "FIFTH"
 
     @classmethod
     def from_num(cls, num: int) -> OCTAVE:
         match num:
+            case -4:
+                return cls.SUBCONTRA
+            case -3:
+                return cls.CONTRA
+            case -2:
+                return cls.GREAT
+            case -1:
+                return cls.SMALL
             case 0:
                 return cls.FIRST
+            case 1:
+                return cls.SECOND
+            case 2:
+                return cls.THIRD
+            case 3:
+                return cls.FOURTH
+            case 4:
+                return cls.FIFTH
             case _:
                 raise ValueError(num)
 
     def to_num(self) -> int:
         match self:
+            case self.SUBCONTRA:
+                return -4
+            case self.CONTRA:
+                return -3
+            case self.GREAT:
+                return -2
+            case self.SMALL:
+                return -1
             case self.FIRST:
                 return 0
+            case self.SECOND:
+                return 1
+            case self.THIRD:
+                return 2
+            case self.FOURTH:
+                return 3
+            case self.FIFTH:
+                return 4
             case _:
                 raise ValueError(self)
 

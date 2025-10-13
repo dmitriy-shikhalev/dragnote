@@ -7,7 +7,7 @@ from dragnote.info import get_synths
 from dragnote.parse import get_compositions
 from dragnote.play import play
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 def main():

@@ -1,23 +1,11 @@
 name: one_note
-tonality: C-moll/C-dur
+tonality: C-dur/C-moll
 tempo: 60
-voices:
-  - harmonies:
-      - notes:
-          - name: C
-            sign: NATURAL
-            octave: FIRST
-            volume: 127
-        duration: 1/4
-      - notes:
-          - name: E
-            sign: NATURAL
-            octave: FIRST
-            volume: 127
-        duration: 1/4
-      - notes:
-          - name: G
-            sign: NATURAL
-            octave: FIRST
-            volume: 127
-        duration: 1/4
+voice:
+  harmonies:
+    - notes:
+        - name: C
+          sign: NATURAL
+          octave: FIRST
+          volume: 127
+      duration: 1/2

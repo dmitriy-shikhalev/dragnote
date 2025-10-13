@@ -1,0 +1,79 @@
+name: bat
+tonality: H-moll
+tempo: 80
+voice:
+  harmonies:
+    - notes:
+        - name: H
+          sign: NATURAL
+          octave: SMALL
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: G
+          sign: NATURAL
+          octave: FIRST
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: A
+          sign: NATURAL
+          octave: FIRST
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: G
+          sign: NATURAL
+          octave: FIRST
+          volume: 127
+      duration: 1/8
+
+    - notes:
+        - name: F
+          sign: SHARP
+          octave: FIRST
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: H
+          sign: NATURAL
+          octave: SMALL
+          volume: 127
+      duration: 10/8
+
+    - notes:
+        - name: H
+          sign: NATURAL
+          octave: SMALL
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: G
+          sign: NATURAL
+          octave: FIRST
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: A
+          sign: NATURAL
+          octave: FIRST
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: G
+          sign: NATURAL
+          octave: FIRST
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: F
+          sign: SHARP
+          octave: FIRST
+          volume: 127
+      duration: 1/8
+    - notes:
+        - name: H
+          sign: NATURAL
+          octave: FIRST
+          volume: 127
+      duration: 6/8
