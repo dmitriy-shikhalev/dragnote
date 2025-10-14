@@ -11,14 +11,15 @@ logging.basicConfig(level=logging.INFO)
 def main():
     args = get_args()
 
-    if args.command == Choice.COMPOSITIONS.value:
-        print_compositions()
-    elif args.command == Choice.SYNTH.value:
-        print_synths()
-    elif args.command == Choice.PLAY.value:
-        play(args.composition_name, args.synth_num)
-    else:
-        raise ValueError(f"Unknown command: {args.command}")
+    match args.command:
+        case Choice.COMPOSITIONS.value:
+            print_compositions()
+        case Choice.SYNTH.value:
+            print_synths()
+        case Choice.PLAY.value:
+            play(args.composition_name, args.synth_num)
+        case _:
+            raise ValueError(f"Unknown command: {args.command}")
 
 
 if __name__ == "__main__":
