@@ -11,18 +11,6 @@ def get_args():
         dest="command",
     )
     parser.add_argument(
-        "--composition-name",
-        dest="composition_name",
-        type=str,
-        required=False,
-    )
-    parser.add_argument(
-        "--lesson-num",
-        dest="lesson_num",
-        type=int,
-        required=False,
-    )
-    parser.add_argument(
         "--synth-num",
         dest="synth_num",
         type=int,

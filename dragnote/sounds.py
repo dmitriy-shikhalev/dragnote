@@ -1,10 +1,26 @@
+from enum import Enum
+
 import pygame
-file = 'sounds/a59760104f31c56.mp3'
-# file = 'sounds/erroneous-action.wav'
-pygame.init()
-pygame.mixer.init()
-pygame.mixer.music.load(file)
-pygame.mixer.music.play()
-pygame.event.wait()
-while pygame.mixer.music.get_busy():
-    pygame.time.Clock().tick(10)
+
+
+class Sounds(Enum):
+    # Bad
+    FAIL = "sounds/fail.wav"
+    PEEP = "sounds/peep.wav"
+    # Good
+    OVER = "sounds/over.mp3"
+    DZIN = "sounds/dzin.mp3"
+    BULK = "sounds/bulk.mp3"
+
+
+def play_sound(sound: Sounds):
+    pygame.mixer.music.load(sound.value)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():
+        pygame.time.Clock().tick(10)
+
+
+if __name__ == "__main__":
+    from dragnote.initialize import init
+    init()
+    play_sound(Sounds.BULK)

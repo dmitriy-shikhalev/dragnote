@@ -2,11 +2,10 @@ import logging
 
 import pygame.midi
 
-from dragnote.consts import CLASS
 from dragnote.domain import (
     Composition,
-    Event,
-    Schedule,
+    Harmony,
+    Note,
 )
 
 logger = logging.getLogger(__name__)
@@ -20,26 +19,20 @@ class Sequencer:
         self.midi_out = pygame.midi.Output(synth_num)
         self.midi_out.set_instrument(instrument_num)
 
-    def play_event(self, event: Event):
-        if event.klass == CLASS.ON:
-            logger.debug("Event on: %s", event)
-            self.midi_out.note_on(event.value, event.volume)
-        else:
-            logger.debug("Event off: %s", event)
-            self.midi_out.note_off(event.value, event.volume)
+    def play_harmony(self, harmony: Harmony, tempo: int):
+        logger.debug("play harmony: %s in tempo %s", harmony, tempo)
+        for note in harmony.notes:
+            self.midi_out.note_on(note.to_note_value(), note.volume)
+
+        pygame.time.wait(
+            int(
+                harmony.get_duration_in_seconds(tempo) * 1000
+            )
+        )
+
+        for note in harmony.notes:
+            self.midi_out.note_off(note.to_note_value(), note.volume)
 
     def play_composition(self, composition: Composition):
-        schedule = composition.to_schedule()
-        self.play_schedule(schedule)
-
-    def play_schedule(self, schedule: Schedule):
-        keys = list(set(schedule.values.keys()))
-        keys.sort()
-        previous_key: float = 0
-
-        for key in keys:
-            pygame.time.wait(int((key - previous_key) * 1000))
-            previous_key = key
-
-            for event in schedule.values.pop(key):
-                self.play_event(event)
+        for harmony in composition.voice.harmonies:
+            self.play_harmony(harmony, composition.tempo)

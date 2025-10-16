@@ -158,9 +158,4 @@ class OCTAVE(str, Enum):
                 raise ValueError(self)
 
 
-# Events
-
-
-class CLASS(str, Enum):
-    ON = "ON"
-    OFF = "OFF"
+ACCEPTABLE_ERROR_NUMBER = 3
