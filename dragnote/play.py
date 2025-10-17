@@ -1,7 +1,9 @@
 import logging
+from fractions import Fraction
 
+from dragnote.consts import ACCEPTABLE_ERROR_NUMBER
 from dragnote.database import read, write
-from dragnote.domain import Harmony, Note
+from dragnote.domain import Composition, Harmony, Note
 from dragnote.parse import parse_composition
 from dragnote.sequencer import Sequencer
 from dragnote.sounds import Sounds, play_sound
@@ -9,15 +11,71 @@ from dragnote.sounds import Sounds, play_sound
 logger = logging.getLogger(__name__)
 
 
-def harmony_str_to_notes_set(harmony: str) -> set[Note]:
-    notes = {Note.from_str(note_str) for note_str in harmony.split(":")}
-    return notes
-
-
-def get_notes_list_from_str(input_notes: str) -> list[Note]:
-    note_list = harmony_str_to_notes_set(input_notes)
-    note_list = [s for s in note_list if s]  # todo: use normal name against "s"
+def get_notes_list_from_str(input_notes: str, duration: Fraction) -> list[Note]:
+    note_list = Harmony.from_str(input_notes, duration)
+    note_list = [s for s in note_list.notes if s]  # todo: use normal name against "s"
     return note_list
+
+
+class PlayHarmony:
+    def __init__(self, harmony: Harmony, count: int, step_num: int, tempo: int, sequencer: Sequencer):
+        self.harmony = harmony
+        self.count = count
+        self.step_num = step_num
+        self.tempo = tempo
+        self.sequencer = sequencer
+
+    def play(self) -> bool:
+        while self.count:
+            print("Step", self.step_num)
+            input_notes = input(f"tries left: {self.count}: ")
+            try:
+                new_harmony = Harmony.from_str(input_notes, self.harmony.duration)
+            except ValueError as error:
+                logger.debug(error)
+                print(f"Incorrect input: {error.args[0]}")
+                continue
+
+            values = {note.to_note_value() for note in self.harmony.notes}
+            input_values = {note.to_note_value() for note in new_harmony.notes}
+            result = values == input_values
+            self.sequencer.play_harmony(new_harmony, tempo=self.tempo)
+            if result:
+                return True
+            else:
+                play_sound(Sounds.PEEP)
+                self.sequencer.play_harmony(self.harmony, tempo=self.tempo)
+                self.count -= 1
+        return False
+
+
+class PlayComposition:
+    def __init__(self, composition_num: int, sequencer: Sequencer):
+        self.composition_num = composition_num
+        self.sequencer = sequencer
+        self.composition = parse_composition(self.composition_num)
+
+    def get_harmonies(self):
+        for harmony in self.composition.harmonies:
+            yield harmony
+
+    def play(self):
+        print("Composition name is", self.composition.name)
+        print("Tonality is", self.composition.tonality)
+        self.sequencer.play_composition(self.composition)
+
+        for i, harmony in enumerate(self.get_harmonies()):
+            play_harmony = PlayHarmony(harmony, ACCEPTABLE_ERROR_NUMBER, i, self.composition.tempo, self.sequencer)
+            result = play_harmony.play()
+
+            if result:
+                play_sound(Sounds.OVER)
+            else:
+                play_sound(Sounds.FAIL)
+                break
+        else:
+            play_sound(Sounds.BULK)
+            write(self.composition_num + 1)
 
 
 def play(synth_num: int):
@@ -25,33 +83,12 @@ def play(synth_num: int):
 
     while True:
         composition_num = read()
-        composition = parse_composition(composition_num)
-        print("Composition name is", composition.name)
-        print("Tonality is", composition.tonality)
-        sequencer.play_composition(composition)
 
-        errors_count = 0
+        try:
+            play_composition = PlayComposition(composition_num, sequencer)
+        except FileNotFoundError:
+            print(f"No composition {composition_num}")
+            play_sound(Sounds.DZIN)
+            return
 
-        for i, harmony in enumerate(composition.voice.harmonies):
-            while errors_count < 3:  # todo: remove magic number
-                input_notes = input(f"Enter {i} notes (errors: {errors_count}):")
-                new_notes_list = get_notes_list_from_str(input_notes)
-                values = {note.to_note_value() for note in harmony.notes}
-                input_values = {note.to_note_value() for note in new_notes_list}
-                result = values == input_values
-                sequencer.play_harmony(Harmony(notes=tuple(new_notes_list), duration=harmony.duration), tempo=composition.tempo)
-                if result:
-                    play_sound(Sounds.OVER)
-                    break
-                else:
-                    play_sound(Sounds.PEEP)
-                    errors_count += 1
-            else:
-                play_sound(Sounds.FAIL)
-                break
-        else:
-            play_sound(Sounds.BULK)
-            write(composition_num + 1)
-            continue
-
-        play_sound(Sounds.DZIN)
+        play_composition.play()

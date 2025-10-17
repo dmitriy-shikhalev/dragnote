@@ -10,6 +10,7 @@ from dragnote.consts import (
     SEMITONES_IN_AN_OCTAVE,
     SIGN,
 )
+from dragnote.regexps import NOTE_INPUT
 
 logger = logging.getLogger(__name__)
 
@@ -19,26 +20,22 @@ class Note:
     name: NAME
     sign: SIGN
     octave: OCTAVE
-    volume: int
 
     @classmethod
     def from_str(cls, s: str) -> Note:
-        if len(s) < 2:
-            raise ValueError(f"Too short str: {s}")
-        name = NAME.from_str(s[0].upper())
+        r = NOTE_INPUT.search(s)
+        if r is None:
+            raise ValueError(f"Incorrect note: \"{s}\"")
 
-        octave_num = int(s[-1])
-        if s[-2] == "-":
-            octave_num *= -1
-        octave = OCTAVE.from_num(octave_num)
+        groupdict = r.groupdict()
+        name = NAME.from_str(groupdict["note"].upper())
+        sign = SIGN.from_str(groupdict["sign"] or "")
+        octave = OCTAVE.from_num(int(groupdict["octave"]))
 
-        sign_str = s[1:-1] if octave_num >= 0 else s[1:-2]
-        sign = SIGN.from_str(sign_str)
         return cls(
             name=name,
             sign=sign,
             octave=octave,
-            volume=127,  # это заведомо ложное значение, но оно не играет роли, потому что планируется использовать ноты из этого метода лишь для сравнения.
         )
 
     def to_note_value(self) -> int:
@@ -52,13 +49,12 @@ class Harmony:
     notes: tuple[Note, ...]
     duration: Fraction
 
+    @classmethod
+    def from_str(cls, s: str, duration: Fraction) -> Harmony:
+        return Harmony(notes=tuple(Note.from_str(note_str) for note_str in s.split(":")), duration=duration)
+
     def get_duration_in_seconds(self, tempo: int) -> float:
         return float(self.duration) * 4 * 60 / tempo
-
-
-@dataclass(frozen=True)
-class Voice:
-    harmonies: tuple[Harmony, ...]
 
 
 @dataclass(frozen=True)
@@ -66,4 +62,4 @@ class Composition:
     name: str
     tempo: int
     tonality: str
-    voice: Voice
+    harmonies: tuple[Harmony, ...]

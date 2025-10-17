@@ -159,3 +159,4 @@ class OCTAVE(str, Enum):
 
 
 ACCEPTABLE_ERROR_NUMBER = 3
+VOLUME = 127

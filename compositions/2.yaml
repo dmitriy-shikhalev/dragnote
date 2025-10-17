@@ -1,0 +1,79 @@
+name: C major gamma
+tonality: C-dur
+tempo: 60
+harmonies:
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: D
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: F
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: A
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: A
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: F
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: D
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/2
