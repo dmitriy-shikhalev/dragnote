@@ -1,0 +1,14 @@
+compositions:
+  - different/one note.yaml
+  - different/bat.yaml
+
+  - gammas/c-dur/gamma.yaml
+  - gammas/c-dur/accords.yaml
+  - gammas/c-dur/arp short.yaml
+  - gammas/c-dur/arp long.yaml
+
+  - gammas/a-moll/gamma-garmonic.yaml
+  - gammas/a-moll/gamma-melodic.yaml
+  - gammas/a-moll/accords.yaml
+  - gammas/a-moll/arp short.yaml
+  - gammas/a-moll/arp long.yaml

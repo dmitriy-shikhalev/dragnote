@@ -86,7 +86,7 @@ def play(synth_num: int):
 
         try:
             play_composition = PlayComposition(composition_num, sequencer)
-        except FileNotFoundError:
+        except ValueError:
             print(f"No composition {composition_num}")
             play_sound(Sounds.DZIN)
             return

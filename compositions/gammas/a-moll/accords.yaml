@@ -1,0 +1,81 @@
+name: A minor accords
+tonality: A-moll
+tempo: 60
+harmonies:
+  - notes:
+      - name: A
+        sign: NATURAL
+        octave: FIRST
+      - name: C
+        sign: NATURAL
+        octave: SECOND
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: SECOND
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+      - name: A
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+      - name: A
+        sign: NATURAL
+        octave: SECOND
+      - name: C
+        sign: NATURAL
+        octave: THIRD
+    duration: 1/4
+  - notes:
+      - name: A
+        sign: NATURAL
+        octave: SECOND
+      - name: C
+        sign: NATURAL
+        octave: THIRD
+      - name: E
+        sign: NATURAL
+        octave: THIRD
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+      - name: A
+        sign: NATURAL
+        octave: SECOND
+      - name: C
+        sign: NATURAL
+        octave: THIRD
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: SECOND
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+      - name: A
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: A
+        sign: NATURAL
+        octave: FIRST
+      - name: C
+        sign: NATURAL
+        octave: SECOND
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/2

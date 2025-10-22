@@ -1,0 +1,69 @@
+name: C major arpeggios long
+tonality: C-dur
+tempo: 60
+harmonies:
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: THIRD
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/2
