@@ -1,14 +1,9 @@
-name: C major gamma
+name: C major arpeggios long
 tonality: C-dur
-tempo: 80
+tempo: 60
 harmonies:
   - notes:
       - name: C
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/4
-  - notes:
-      - name: D
         sign: NATURAL
         octave: FIRST
     duration: 1/4
@@ -18,22 +13,7 @@ harmonies:
         octave: FIRST
     duration: 1/4
   - notes:
-      - name: F
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/4
-  - notes:
       - name: G
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/4
-  - notes:
-      - name: A
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/4
-  - notes:
-      - name: H
         sign: NATURAL
         octave: FIRST
     duration: 1/4
@@ -43,14 +23,34 @@ harmonies:
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: H
+      - name: E
         sign: NATURAL
-        octave: FIRST
+        octave: SECOND
     duration: 1/4
   - notes:
-      - name: A
+      - name: G
         sign: NATURAL
-        octave: FIRST
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: THIRD
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: C
+        sign: NATURAL
+        octave: SECOND
     duration: 1/4
   - notes:
       - name: G
@@ -58,17 +58,7 @@ harmonies:
         octave: FIRST
     duration: 1/4
   - notes:
-      - name: F
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/4
-  - notes:
       - name: E
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/4
-  - notes:
-      - name: D
         sign: NATURAL
         octave: FIRST
     duration: 1/4

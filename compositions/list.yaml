@@ -12,3 +12,14 @@ compositions:
   - gammas/a-moll/accords.yaml
   - gammas/a-moll/arp short.yaml
   - gammas/a-moll/arp long.yaml
+
+  - gammas/g-dur/gamma.yaml
+  - gammas/g-dur/accords.yaml
+  - gammas/g-dur/arp short.yaml
+  - gammas/g-dur/arp long.yaml
+
+  - gammas/e-moll/gamma-garmonic.yaml
+  - gammas/e-moll/gamma-melodic.yaml
+  - gammas/e-moll/accords.yaml
+  - gammas/e-moll/arp short.yaml
+  - gammas/e-moll/arp long.yaml

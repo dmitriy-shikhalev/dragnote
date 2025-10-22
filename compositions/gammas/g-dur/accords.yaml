@@ -1,0 +1,81 @@
+name: G major accords
+tonality: G-dur
+tempo: 60
+harmonies:
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+      - name: D
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+      - name: D
+        sign: NATURAL
+        octave: SECOND
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: D
+        sign: NATURAL
+        octave: SECOND
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+      - name: H
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+      - name: H
+        sign: NATURAL
+        octave: SECOND
+      - name: D
+        sign: NATURAL
+        octave: THIRD
+    duration: 1/4
+  - notes:
+      - name: D
+        sign: NATURAL
+        octave: SECOND
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+      - name: H
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+      - name: D
+        sign: NATURAL
+        octave: SECOND
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+      - name: D
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/2
