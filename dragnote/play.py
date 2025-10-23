@@ -17,29 +17,42 @@ def get_notes_list_from_str(input_notes: str, duration: Fraction) -> list[Note]:
     return note_list
 
 
+class Input:
+    def __init__(self):
+        self.data = ""
+        self.right_notes = []
+
+    def _read_input(self):
+        self.data = input(f"Enter note ({' '.join(self.right_notes)}): ")
+
+    def clean(self):
+        self.data = ""
+
+    def get_note(self):
+        if not self.data:
+            self._read_input()
+
+        if " " in self.data:
+            note_str, self.data = self.data.split(" ", 1)
+        else:
+            note_str = self.data
+            self.data = ""
+
+        return note_str
+
+
 class PlayHarmony:
-    def __init__(self, harmony: Harmony, count: int, step_num: int, tempo: int, sequencer: Sequencer):
+    def __init__(self, harmony: Harmony, count: int, step_num: int, tempo: int, sequencer: Sequencer, input: Input):
         self.harmony = harmony
         self.count = count
         self.step_num = step_num
         self.tempo = tempo
         self.sequencer = sequencer
+        self.input = input
 
-    def play(self, tail: str) -> tuple[bool, str]:
+    def play(self) -> bool:
         while self.count:
-            if not tail:
-                print("Step", self.step_num)
-                input_notes = input(f"tries left: {self.count}: ")
-                if " " in input_notes:
-                    input_notes, tail = input_notes.split(" ", 1)
-                else:
-                    tail = ""
-            else:
-                if " " in tail:
-                    input_notes, tail = tail.split(" ", 1)
-                else:
-                    input_notes = tail
-                    tail = ""
+            input_notes = self.input.get_note()
             try:
                 new_harmony = Harmony.from_str(input_notes, self.harmony.duration)
             except ValueError as error:
@@ -52,12 +65,13 @@ class PlayHarmony:
             result = values == input_values
             self.sequencer.play_harmony(new_harmony, tempo=self.tempo)
             if result:
-                return True, tail
+                return True
             else:
                 play_sound(Sounds.PEEP)
+                self.input.clean()
                 self.sequencer.play_harmony(self.harmony, tempo=self.tempo)
                 self.count -= 1
-        return False, tail
+        return False
 
 
 class PlayComposition:
@@ -74,17 +88,16 @@ class PlayComposition:
         print("Composition name is", self.composition.name)
         print("Tonality is", self.composition.tonality)
         self.sequencer.play_composition(self.composition)
-        tail = []
+        input_ = Input()
 
         for i, harmony in enumerate(self.get_harmonies()):
-            play_harmony = PlayHarmony(harmony, ACCEPTABLE_ERROR_NUMBER, i, self.composition.tempo, self.sequencer)
-            result, tail = play_harmony.play(tail)
+            play_harmony = PlayHarmony(harmony, ACCEPTABLE_ERROR_NUMBER, i, self.composition.tempo, self.sequencer, input_)
+            result = play_harmony.play()
 
-            if result:
-                play_sound(Sounds.OVER)
-            else:
+            if not result:
                 play_sound(Sounds.FAIL)
                 break
+            input_.right_notes.append(harmony.to_str())
         else:
             play_sound(Sounds.BULK)
             write(self.composition_num + 1)

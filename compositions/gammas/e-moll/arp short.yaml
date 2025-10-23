@@ -1,32 +1,37 @@
-name: C major arpeggios short
-tonality: C-dur
+name: E minor arpeggios short
+tonality: E-moll
 tempo: 60
 harmonies:
   - notes:
-      - name: A
+      - name: E
         sign: NATURAL
         octave: FIRST
     duration: 1/4
   - notes:
-      - name: C
+      - name: G
         sign: NATURAL
-        octave: SECOND
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: FIRST
     duration: 1/4
   - notes:
       - name: E
-        sign: NATURAL
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: A
         sign: NATURAL
         octave: SECOND
     duration: 1/4
 
   - notes:
-      - name: C
+      - name: G
         sign: NATURAL
-        octave: SECOND
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: FIRST
     duration: 1/4
   - notes:
       - name: E
@@ -34,14 +39,30 @@ harmonies:
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: A
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
         sign: NATURAL
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: C
+      - name: G
         sign: NATURAL
-        octave: THIRD
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: SECOND
     duration: 1/4
 
   - notes:
@@ -50,59 +71,17 @@ harmonies:
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: A
+      - name: G
         sign: NATURAL
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: C
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: E
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-
-  - notes:
-      - name: A
+      - name: H
         sign: NATURAL
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: C
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: E
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: C
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-
-  - notes:
-      - name: A
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: E
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: C
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: A
+      - name: G
         sign: NATURAL
         octave: SECOND
     duration: 1/4
@@ -113,12 +92,12 @@ harmonies:
         octave: THIRD
     duration: 1/4
   - notes:
-      - name: C
+      - name: H
         sign: NATURAL
-        octave: THIRD
+        octave: SECOND
     duration: 1/4
   - notes:
-      - name: A
+      - name: G
         sign: NATURAL
         octave: SECOND
     duration: 1/4
@@ -129,12 +108,12 @@ harmonies:
     duration: 1/4
 
   - notes:
-      - name: C
+      - name: H
         sign: NATURAL
-        octave: THIRD
+        octave: SECOND
     duration: 1/4
   - notes:
-      - name: A
+      - name: G
         sign: NATURAL
         octave: SECOND
     duration: 1/4
@@ -144,13 +123,13 @@ harmonies:
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: C
+      - name: H
         sign: NATURAL
-        octave: SECOND
+        octave: FIRST
     duration: 1/4
 
   - notes:
-      - name: A
+      - name: G
         sign: NATURAL
         octave: SECOND
     duration: 1/4
@@ -160,12 +139,33 @@ harmonies:
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: C
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+
+  - notes:
+      - name: E
         sign: NATURAL
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: A
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
         sign: NATURAL
         octave: FIRST
     duration: 1/2

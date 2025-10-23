@@ -98,6 +98,21 @@ class SIGN(str, Enum):
             case _:
                 raise ValueError(self)
 
+    def to_str(self) -> str:
+        match self:
+            case self.NATURAL:
+                return ""
+            case self.FLAT:
+                return "b"
+            case self.SHARP:
+                return "#"
+            case self.DOUBLE_FLAT:
+                return "##"
+            case self.DOUBLE_SHARP:
+                return "bb"
+            case _:
+                raise ValueError(self)
+
 
 class OCTAVE(str, Enum):
     SUBCONTRA = "SUBCONTRA"

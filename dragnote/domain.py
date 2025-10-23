@@ -43,6 +43,9 @@ class Note:
         value += SEMITONES_IN_AN_OCTAVE * self.octave.to_num()
         return value
 
+    def to_str(self) -> str:
+        return f"{self.name.value}{self.sign.to_str()}{self.octave.to_num()}"
+
 
 @dataclass(frozen=True)
 class Harmony:
@@ -55,6 +58,9 @@ class Harmony:
 
     def get_duration_in_seconds(self, tempo: int) -> float:
         return float(self.duration) * 4 * 60 / tempo
+
+    def to_str(self) -> str:
+        return ":".join([note.to_str() for note in self.notes])
 
 
 @dataclass(frozen=True)

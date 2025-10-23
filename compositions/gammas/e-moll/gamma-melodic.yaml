@@ -1,8 +1,23 @@
-name: A melodic gamma
-tonality: A-moll
+name: E melodic gamma
+tonality: E-moll
 tempo: 80
 harmonies:
   - notes:
+      - name: E
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: F
+        sign: SHARP
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
       - name: A
         sign: NATURAL
         octave: FIRST
@@ -14,42 +29,12 @@ harmonies:
     duration: 1/4
   - notes:
       - name: C
-        sign: NATURAL
+        sign: SHARP
         octave: SECOND
     duration: 1/4
   - notes:
       - name: D
-        sign: NATURAL
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: E
-        sign: NATURAL
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: F
         sign: SHARP
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: G
-        sign: SHARP
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: A
-        sign: NATURAL
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: G
-        sign: NATURAL
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: F
-        sign: NATURAL
         octave: SECOND
     duration: 1/4
   - notes:
@@ -74,6 +59,21 @@ harmonies:
     duration: 1/4
   - notes:
       - name: A
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: F
+        sign: SHARP
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
         sign: NATURAL
         octave: FIRST
     duration: 1/2

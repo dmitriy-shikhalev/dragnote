@@ -1,14 +1,49 @@
-name: A minor arpeggios long
-tonality: A-moll
+name: E minor arpeggios long
+tonality: E-moll
 tempo: 60
 harmonies:
   - notes:
-      - name: A
+      - name: E
         sign: NATURAL
         octave: FIRST
     duration: 1/4
   - notes:
-      - name: C
+      - name: G
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: G
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: E
+        sign: NATURAL
+        octave: THIRD
+    duration: 1/4
+  - notes:
+      - name: H
+        sign: NATURAL
+        octave: SECOND
+    duration: 1/4
+  - notes:
+      - name: G
         sign: NATURAL
         octave: SECOND
     duration: 1/4
@@ -18,52 +53,17 @@ harmonies:
         octave: SECOND
     duration: 1/4
   - notes:
-      - name: A
+      - name: H
         sign: NATURAL
-        octave: SECOND
+        octave: FIRST
     duration: 1/4
   - notes:
-      - name: C
+      - name: G
         sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: E
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: A
-        sign: NATURAL
-        octave: THIRD
+        octave: FIRST
     duration: 1/4
   - notes:
       - name: E
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: C
-        sign: NATURAL
-        octave: THIRD
-    duration: 1/4
-  - notes:
-      - name: A
-        sign: NATURAL
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: E
-        sign: NATURAL
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: C
-        sign: NATURAL
-        octave: SECOND
-    duration: 1/4
-  - notes:
-      - name: A
         sign: NATURAL
         octave: FIRST
     duration: 1/2
