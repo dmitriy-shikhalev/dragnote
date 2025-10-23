@@ -9,3 +9,5 @@
 
 ## Запуск:
 - ```python dragnote```
+
+## Добавить кучу гамм: https://samesound.ru/write/78409-piano-scales-for-dummies
