@@ -1,5 +1,4 @@
-name: g major gamma
-tonality: g-dur
+first_note: G0
 tempo: 80
 harmonies:
   - notes:

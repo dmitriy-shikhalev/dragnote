@@ -1,80 +1,101 @@
-first_note: G0
-tempo: 60
+first_note: D1
+tempo: 80
 harmonies:
   - notes:
-      - name: G
-        sign: NATURAL
-        octave: FIRST
-      - name: H
-        sign: NATURAL
-        octave: FIRST
       - name: D
         sign: NATURAL
         octave: SECOND
+    duration: 1/8
+  - notes:
+      - name: D
+        sign: NATURAL
+        octave: SECOND
+      - name: H
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/2
+  - notes:
+      - name: D
+        sign: NATURAL
+        octave: SECOND
+      - name: H
+        sign: NATURAL
+        octave: FIRST
     duration: 1/4
   - notes:
       - name: H
         sign: NATURAL
         octave: FIRST
-      - name: D
-        sign: NATURAL
-        octave: SECOND
       - name: G
         sign: NATURAL
-        octave: SECOND
+        octave: FIRST
     duration: 1/4
   - notes:
-      - name: D
+      - name: C
         sign: NATURAL
         octave: SECOND
-      - name: G
+      - name: A
         sign: NATURAL
-        octave: SECOND
-      - name: H
-        sign: NATURAL
-        octave: SECOND
+        octave: FIRST
     duration: 1/4
   - notes:
-      - name: G
+      - name: C
         sign: NATURAL
         octave: SECOND
-      - name: H
+      - name: A
         sign: NATURAL
-        octave: SECOND
-      - name: D
-        sign: NATURAL
-        octave: THIRD
+        octave: FIRST
     duration: 1/4
   - notes:
-      - name: D
+      - name: C
         sign: NATURAL
         octave: SECOND
-      - name: G
+      - name: A
+        sign: NATURAL
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: C
         sign: NATURAL
         octave: SECOND
-      - name: H
+      - name: A
         sign: NATURAL
-        octave: SECOND
+        octave: FIRST
     duration: 1/4
   - notes:
       - name: H
         sign: NATURAL
         octave: FIRST
-      - name: D
-        sign: NATURAL
-        octave: SECOND
       - name: G
         sign: NATURAL
-        octave: SECOND
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: A
+        sign: NATURAL
+        octave: FIRST
+      - name: F
+        sign: FLAT
+        octave: FIRST
     duration: 1/4
   - notes:
       - name: G
         sign: NATURAL
         octave: FIRST
-      - name: H
+      - name: E
         sign: NATURAL
         octave: FIRST
-      - name: D
+    duration: 1/4
+  - notes:
+      - name: F
+        sign: FLAT
+        octave: FIRST
+    duration: 1/4
+  - notes:
+      - name: E
         sign: NATURAL
         octave: SECOND
+      - name: E
+        sign: NATURAL
+        octave: FIRST
     duration: 1/2

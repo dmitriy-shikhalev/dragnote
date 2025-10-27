@@ -1,5 +1,4 @@
-name: One note
-tonality: C-dur/C-moll
+first_note: C0
 tempo: 60
 harmonies:
   - notes:

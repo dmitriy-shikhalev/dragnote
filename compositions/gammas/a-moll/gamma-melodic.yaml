@@ -1,5 +1,4 @@
-name: A melodic gamma
-tonality: A-moll
+first_note: A0
 tempo: 80
 harmonies:
   - notes:

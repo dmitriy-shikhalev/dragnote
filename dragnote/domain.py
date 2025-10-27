@@ -65,7 +65,6 @@ class Harmony:
 
 @dataclass(frozen=True)
 class Composition:
-    name: str
     tempo: int
-    tonality: str
+    first_note: str
     harmonies: tuple[Harmony, ...]

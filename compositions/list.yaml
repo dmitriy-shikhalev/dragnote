@@ -23,3 +23,9 @@ compositions:
   - gammas/e-moll/accords.yaml
   - gammas/e-moll/arp short.yaml
   - gammas/e-moll/arp long.yaml
+
+  - kazachia/1.yaml
+  - kazachia/2.yaml
+  - kazachia/3.yaml
+  - kazachia/4.yaml
+  - kazachia/5.yaml

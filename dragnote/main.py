@@ -4,11 +4,11 @@ from dragnote.initialize import initialize
 from dragnote.play import play
 from dragnote.settings import Settings
 
-logging.basicConfig(level=logging.INFO)
-
 
 def main():
     settings = Settings()
+
+    logging.basicConfig(level=getattr(logging, settings.log_level))
 
     initialize()
 

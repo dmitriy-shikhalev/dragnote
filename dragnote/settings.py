@@ -3,6 +3,7 @@ from pydantic_settings import BaseSettings, PydanticBaseSettingsSource, Settings
 
 class Settings(BaseSettings):
     synth: int
+    log_level: str
 
     model_config = SettingsConfigDict(yaml_file='settings.yaml')
 

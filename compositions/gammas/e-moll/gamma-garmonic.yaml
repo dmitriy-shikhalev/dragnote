@@ -1,5 +1,4 @@
-name: E garmonic gamma
-tonality: E-moll
+first_note: E0
 tempo: 80
 harmonies:
   - notes:

@@ -1,5 +1,4 @@
-name: E minor accords
-tonality: E-moll
+first_note: E0
 tempo: 60
 harmonies:
   - notes:

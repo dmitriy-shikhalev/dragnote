@@ -1,34 +1,23 @@
-first_note: H-1
+first_note: H0
 tempo: 80
 harmonies:
   - notes:
       - name: H
         sign: NATURAL
-        octave: SMALL
-    duration: 1/8
+        octave: FIRST
+    duration: 1/4
   - notes:
       - name: G
         sign: NATURAL
         octave: FIRST
     duration: 1/8
-  - notes:
-      - name: A
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/8
-  - notes:
-      - name: G
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/8
-
   - notes:
       - name: F
         sign: SHARP
         octave: FIRST
     duration: 1/8
   - notes:
-      - name: H
+      - name: E
         sign: NATURAL
-        octave: SMALL
-    duration: 10/8
+        octave: FIRST
+    duration: 1/2

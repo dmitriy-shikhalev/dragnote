@@ -1,5 +1,4 @@
-name: C major arpeggios long
-tonality: C-dur
+first_note: C0
 tempo: 60
 harmonies:
   - notes:

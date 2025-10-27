@@ -1,5 +1,4 @@
-name: C major gamma
-tonality: C-dur
+first_note: C0
 tempo: 80
 harmonies:
   - notes:

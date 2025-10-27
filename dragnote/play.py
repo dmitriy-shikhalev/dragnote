@@ -4,6 +4,7 @@ from fractions import Fraction
 from dragnote.consts import ACCEPTABLE_ERROR_NUMBER
 from dragnote.database import read, write
 from dragnote.domain import Composition, Harmony, Note
+from dragnote.errors import NoFile
 from dragnote.parse import parse_composition
 from dragnote.sequencer import Sequencer
 from dragnote.sounds import Sounds, play_sound
@@ -85,8 +86,9 @@ class PlayComposition:
             yield harmony
 
     def play(self):
-        print("Composition name is", self.composition.name)
-        print("Tonality is", self.composition.tonality)
+        logger.debug("Play composition")
+        print("New composition")
+        print("First note is", self.composition.first_note)
         self.sequencer.play_composition(self.composition)
         input_ = Input()
 
@@ -111,8 +113,9 @@ def play(synth_num: int):
 
         try:
             play_composition = PlayComposition(composition_num, sequencer)
-        except ValueError:
-            print(f"No composition {composition_num}")
+        except NoFile as error:
+            logger.debug("No file: %s", error)
+            print(f"Compositions are over")
             play_sound(Sounds.DZIN)
             return
 
