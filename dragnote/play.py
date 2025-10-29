@@ -114,9 +114,8 @@ def play(synth_num: int):
         try:
             play_composition = PlayComposition(composition_num, sequencer)
         except NoFile as error:
-            logger.debug("No file: %s", error)
-            print(f"Compositions are over")
-            play_sound(Sounds.DZIN)
+            logger.error("No file: %s", error)
+            # play_sound(Sounds.DZIN)
             return
 
         play_composition.play()

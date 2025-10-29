@@ -72,6 +72,8 @@ class SIGN(str, Enum):
         match s:
             case "":
                 return cls.NATURAL
+            case None:
+                return cls.NATURAL
             case "b":
                 return cls.FLAT
             case "#":
@@ -115,63 +117,32 @@ class SIGN(str, Enum):
 
 
 class OCTAVE(str, Enum):
-    SUBCONTRA = "SUBCONTRA"
-    CONTRA = "CONTRA"
-    GREAT = "GREAT"
     SMALL = "SMALL"
     FIRST = "FIRST"
     SECOND = "SECOND"
-    THIRD = "THIRD"
-    FOURTH = "FOURTH"
-    FIFTH = "FIFTH"
 
     @classmethod
     def from_num(cls, num: int) -> OCTAVE:
         match num:
-            case -4:
-                return cls.SUBCONTRA
-            case -3:
-                return cls.CONTRA
-            case -2:
-                return cls.GREAT
-            case -1:
-                return cls.SMALL
             case 0:
-                return cls.FIRST
+                return cls.SMALL
             case 1:
-                return cls.SECOND
+                return cls.FIRST
             case 2:
-                return cls.THIRD
-            case 3:
-                return cls.FOURTH
-            case 4:
-                return cls.FIFTH
+                return cls.SECOND
             case _:
                 raise ValueError(num)
 
     def to_num(self) -> int:
         match self:
-            case self.SUBCONTRA:
-                return -4
-            case self.CONTRA:
-                return -3
-            case self.GREAT:
-                return -2
             case self.SMALL:
-                return -1
-            case self.FIRST:
                 return 0
-            case self.SECOND:
+            case self.FIRST:
                 return 1
-            case self.THIRD:
+            case self.SECOND:
                 return 2
-            case self.FOURTH:
-                return 3
-            case self.FIFTH:
-                return 4
             case _:
                 raise ValueError(self)
 
 
 ACCEPTABLE_ERROR_NUMBER = 3
-VOLUME = 127

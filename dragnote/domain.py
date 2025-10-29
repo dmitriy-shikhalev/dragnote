@@ -61,10 +61,3 @@ class Harmony:
 
     def to_str(self) -> str:
         return ":".join([note.to_str() for note in self.notes])
-
-
-@dataclass(frozen=True)
-class Composition:
-    tempo: int
-    first_note: str
-    harmonies: tuple[Harmony, ...]

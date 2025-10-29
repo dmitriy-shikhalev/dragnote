@@ -1,8 +1,0 @@
-first_note: C0
-tempo: 60
-harmonies:
-  - notes:
-      - name: C
-        sign: NATURAL
-        octave: FIRST
-    duration: 1/2

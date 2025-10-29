@@ -4,6 +4,8 @@ from pydantic_settings import BaseSettings, PydanticBaseSettingsSource, Settings
 class Settings(BaseSettings):
     synth: int
     log_level: str
+    volume: int = 127
+    tempo: int = 60
 
     model_config = SettingsConfigDict(yaml_file='settings.yaml')
 

@@ -1,5 +1,5 @@
 compositions:
-  - different/one note.yaml
+  - one note/one note.txt
   - different/bat.yaml
 
   - gammas/c-dur/gamma.yaml
