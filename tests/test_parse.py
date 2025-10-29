@@ -5,7 +5,7 @@ from dragnote.parse import Parser
 
 
 def test_parser():
-    text = "  C0:H1 (1/2)  Dbb2 (31/65)"
+    text = "  C0:H1 (1/2)  Dbb2 (31/65)         \n"
     p = Parser(text)
 
     l = list(p)
