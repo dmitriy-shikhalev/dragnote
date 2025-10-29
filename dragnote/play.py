@@ -17,7 +17,7 @@ def get_notes_list_from_str(input_notes: str, duration: Fraction) -> list[Note]:
     note_list = [s for s in note_list.notes if s]  # todo: use normal name against "s"
     return note_list
 
-
+# todo: use parse.Parser!!!!
 class Input:
     def __init__(self):
         self.data = ""
