@@ -6,10 +6,7 @@ from dragnote.main import main
 
 
 @patch("dragnote.main.play")
-@patch("dragnote.main.print_synths")
-@patch("dragnote.main.print_compositions")
-@patch("dragnote.main.get_args", return_value=Mock(command="synth"))
-def test_main_synth(get_args_mock, print_compositions_mock, print_synths_mock, play_mock):
+def test_main_synth(play_mock):
     main()
 
     get_args_mock.assert_called_once_with()
@@ -19,10 +16,7 @@ def test_main_synth(get_args_mock, print_compositions_mock, print_synths_mock, p
 
 
 @patch("dragnote.main.play")
-@patch("dragnote.main.print_synths")
-@patch("dragnote.main.print_compositions")
-@patch("dragnote.main.get_args", return_value=Mock(command="compositions"))
-def test_main_compositions(get_args_mock, print_compositions_mock, print_synths_mock, play_mock):
+def test_main_compositions(play_mock):
     main()
 
     get_args_mock.assert_called_once_with()
@@ -32,10 +26,7 @@ def test_main_compositions(get_args_mock, print_compositions_mock, print_synths_
 
 
 @patch("dragnote.main.play")
-@patch("dragnote.main.print_synths")
-@patch("dragnote.main.print_compositions")
-@patch("dragnote.main.get_args", return_value=Mock(command="play"))
-def test_main_play(get_args_mock, print_compositions_mock, print_synths_mock, play_mock):
+def test_main_play(play_mock):
     main()
 
     get_args_mock.assert_called_once_with()
@@ -48,10 +39,7 @@ def test_main_play(get_args_mock, print_compositions_mock, print_synths_mock, pl
 
 
 @patch("dragnote.main.play")
-@patch("dragnote.main.print_synths")
-@patch("dragnote.main.print_compositions")
-@patch("dragnote.main.get_args")
-def test_main_error(get_args_mock, print_compositions_mock, print_synths_mock, play_mock):
+def test_main_error(play_mock):
     with pytest.raises(ValueError):
         main()
 

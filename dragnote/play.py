@@ -3,9 +3,9 @@ from fractions import Fraction
 
 from dragnote.consts import ACCEPTABLE_ERROR_NUMBER
 from dragnote.database import read, write
-from dragnote.domain import Composition, Harmony, Note
+from dragnote.domain import Harmony, Note
 from dragnote.errors import NoFile
-from dragnote.parse import parse_composition
+from dragnote.parse import Parser
 from dragnote.sequencer import Sequencer
 from dragnote.sounds import Sounds, play_sound
 

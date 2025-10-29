@@ -2,9 +2,7 @@ import logging
 
 import pygame.midi
 
-from dragnote.consts import VOLUME
 from dragnote.domain import (
-    Composition,
     Harmony,
     Note,
 )
@@ -34,6 +32,6 @@ class Sequencer:
         for note in harmony.notes:
             self.midi_out.note_off(note.to_note_value(), VOLUME)
 
-    def play_composition(self, composition: Composition):
+    def play_composition(self, composition: list[Harmony]):
         for harmony in composition.harmonies:
             self.play_harmony(harmony, composition.tempo)
