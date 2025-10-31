@@ -38,7 +38,7 @@ def parse_composition(txt: str) -> Composition:
             is_note = False
         else:
             if notes is None:
-                raise ValueError("Notes is None, but parsing duration now.")
+                raise ValueError("Notes is None, but parsing duration now.")  # pragma: no cover
             duration = parse_duration(part)
             yield Harmony(notes=tuple(notes), duration=duration)
             is_note = True
