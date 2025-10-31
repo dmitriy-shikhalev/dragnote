@@ -14,8 +14,8 @@ logger = logging.getLogger(__name__)
 class Main:
     def __init__(self, settings: Settings):
         self.settings = settings
-        self.sequencer = Sequencer(settings.synth, settings.instrument, settings.volume, settings.tempo)
         initialize_midi()
+        self.sequencer = Sequencer(settings.synth, settings.instrument, settings.volume, settings.tempo)
 
     def _run_one_game(self):
         composition_num = database.read()

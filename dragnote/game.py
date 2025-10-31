@@ -18,7 +18,6 @@ class Game:
         composition: list[Harmony],
         sequencer: Sequencer,
         max_error_count: int,
-        composition_num: int,
         volume: int,
         tempo: int,
     ):
