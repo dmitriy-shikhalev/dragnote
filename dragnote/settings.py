@@ -3,9 +3,11 @@ from pydantic_settings import BaseSettings, PydanticBaseSettingsSource, Settings
 
 class Settings(BaseSettings):
     synth: int
-    log_level: str
+    instrument: int = 0
+    log_level: str = "INFO"
     volume: int = 127
     tempo: int = 60
+    max_error_count: int = 3
 
     model_config = SettingsConfigDict(yaml_file='settings.yaml')
 

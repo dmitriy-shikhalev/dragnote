@@ -2,7 +2,7 @@ import pygame
 import pygame.midi
 
 
-def initialize():
+def initialize_midi():
     pygame.init()
     pygame.mixer.init()
     pygame.midi.init()

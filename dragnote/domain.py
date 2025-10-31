@@ -10,7 +10,6 @@ from dragnote.consts import (
     SEMITONES_IN_AN_OCTAVE,
     SIGN,
 )
-from dragnote.regexps import NOTE_INPUT
 
 logger = logging.getLogger(__name__)
 
@@ -20,23 +19,6 @@ class Note:
     name: NAME
     sign: SIGN
     octave: OCTAVE
-
-    @classmethod
-    def from_str(cls, s: str) -> Note:
-        r = NOTE_INPUT.search(s)
-        if r is None:
-            raise ValueError(f"Incorrect note: \"{s}\"")
-
-        groupdict = r.groupdict()
-        name = NAME.from_str(groupdict["note"].upper())
-        sign = SIGN.from_str(groupdict["sign"] or "")
-        octave = OCTAVE.from_num(int(groupdict["octave"]))
-
-        return cls(
-            name=name,
-            sign=sign,
-            octave=octave,
-        )
 
     def to_note_value(self) -> int:
         value = self.name.to_num() + self.sign.to_num()

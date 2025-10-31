@@ -1,7 +1,6 @@
 from fractions import Fraction
 
 from dragnote.consts import NAME, OCTAVE, SIGN
-from dragnote.parse import Parser
 
 
 def test_parser():

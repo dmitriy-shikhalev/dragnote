@@ -1,89 +1,55 @@
 import logging
 import os
-import re
 from fractions import Fraction
-
-import yaml
+from typing import Iterator
 
 from dragnote.consts import NAME, OCTAVE, SIGN
-from dragnote.domain import Note, Harmony
-from dragnote.errors import NoFile
-from dragnote.regexps import DURATION_INPUT, NOTE_INPUT
+from dragnote.database import get_filename, get_full_filename
+from dragnote.domain import Harmony, Note
+from dragnote.errors import NoFile, ParserError
 
 logger = logging.getLogger(__name__)
-DIRNAME = "compositions"
-LIST_FILENAME = "list.yaml"
 
 
-def get_filename(num: int):
-    filenames = yaml.load(open(os.path.join(DIRNAME, LIST_FILENAME)), yaml.Loader)["compositions"]
-    if num >= len(filenames):
-        raise NoFile(f"No composition with num {num}")
-    return filenames[num]
+def parse_note(string: str) -> Note:
+    raise NotImplementedError
 
 
-def get_full_filename(filename: str) -> str:
-    return os.path.join(DIRNAME, filename)
+def parse_notes(string: str) -> Iterator[Note]:
+    for part in string.split(":"):
+        yield parse_note(part)
 
 
-class ParserError(Exception):
-    pass
+def parse_duration(string: str) -> Fraction:
+    if not string or string[0] != "(" or string[-1] != ")":
+        raise ValueError(f"Wrong duration string: {string}")
+    ls = string.split("/")
+    numerator = int(ls[0])
+    denominator = int(ls[1])
+    return Fraction(numerator, denominator)
 
 
-class Parser:
-    result: list[tuple[str]]
+def parse_composition(num: int) -> Iterator[Harmony]:
+    with open(
+        get_full_filename(
+            get_filename(num)
+        )
+    ) as fd:
+        txt = fd.read()
 
-    def __init__(self, text: str):
-        self.text = text
+    is_note = True
+    notes = None
+    for part in txt.split():
+        if is_note:
+            notes = parse_notes(part)
+            is_note = False
+        else:
+            if notes is None:
+                raise ValueError("Notes is None, but parsing duration now.")
+            duration = parse_duration(part)
+            yield Harmony(
+                notes=tuple(notes),
+                duration=duration
+            )
+            is_note = True
 
-        # raise ParserError(f"No any result: {self.text}")
-
-    def __iter__(self):
-        i = 0
-        is_note = True
-
-        notes = []
-
-        for subtext in self.text.split():
-            if is_note:
-                for note_str in subtext.split(":"):
-                    r = NOTE_INPUT.match(note_str)
-                    if r is None:
-                        raise ParserError(f"Unknown note: {note_str}")
-                    groupdict = r.groupdict()
-                    notes.append(
-                        Note(
-                            name=NAME.from_str(groupdict["name"]),
-                            sign=SIGN.from_str(groupdict["sign"]),
-                            octave=OCTAVE.from_num(int(groupdict["octave"])),
-                        ),
-                    )
-
-                is_note = False
-            else:
-                r = DURATION_INPUT.match(subtext)
-                if r is None:
-                    raise ParserError(f"Wrong duration: {subtext}")
-                groupdict = r.groupdict()
-                yield Harmony(
-                    notes=tuple(notes),
-                    duration=Fraction(int(groupdict["beats"]), int(groupdict["duration"]))
-                )
-
-                notes.clear()
-                is_note = True
-
-
-def parse_file(filename: str):
-    return pydantic_yaml.parse_yaml_file_as(Composition, open(filename))  # type: ignore[type-var]
-
-
-# def parse_composition(num: int) -> Composition:
-#     logger.debug("Get file num %s", num)
-#     filename = get_filename(num)
-#     logger.debug("Filename: %s", filename)
-#     full_filename = get_full_filename(filename)
-#     logger.debug("Full filename: %s", full_filename)
-#     if not os.path.exists(full_filename):
-#         raise NoFile(full_filename)
-#     return parse_file(full_filename)

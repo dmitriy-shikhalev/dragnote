@@ -5,45 +5,34 @@ from dragnote.consts import ACCEPTABLE_ERROR_NUMBER
 from dragnote.database import read, write
 from dragnote.domain import Harmony, Note
 from dragnote.errors import NoFile
-from dragnote.parse import Parser
+from dragnote.parse import parse_composition, parse_note
 from dragnote.sequencer import Sequencer
 from dragnote.sounds import Sounds, play_sound
 
 logger = logging.getLogger(__name__)
 
 
-def get_notes_list_from_str(input_notes: str, duration: Fraction) -> list[Note]:
-    note_list = Harmony.from_str(input_notes, duration)
-    note_list = [s for s in note_list.notes if s]  # todo: use normal name against "s"
-    return note_list
+class Game:
+    def __init__(
+        self,
+        composition: list[Harmony],
+        sequencer: Sequencer,
+        max_error_count: int,
+        composition_num: int,
+        volume: int,
+        tempo: int,
+    ):
+        self.composition = composition
+        self.sequencer = sequencer
+        self.max_error_count = max_error_count
+        self.error_count = 0
 
-# todo: use parse.Parser!!!!
-class Input:
-    def __init__(self):
-        self.data = ""
-        self.right_notes = []
-
-    def _read_input(self):
-        self.data = input(f"Enter note ({' '.join(self.right_notes)}): ")
-
-    def clean(self):
-        self.data = ""
-
-    def get_note(self):
-        if not self.data:
-            self._read_input()
-
-        if " " in self.data:
-            note_str, self.data = self.data.split(" ", 1)
-        else:
-            note_str = self.data
-            self.data = ""
-
-        return note_str
+    def play(self):
+        raise NotImplementedError
 
 
 class PlayHarmony:
-    def __init__(self, harmony: Harmony, count: int, step_num: int, tempo: int, sequencer: Sequencer, input: Input):
+    def __init__(self, harmony: Harmony, count: int, step_num: int, tempo: int, sequencer: Sequencer):
         self.harmony = harmony
         self.count = count
         self.step_num = step_num
@@ -76,24 +65,33 @@ class PlayHarmony:
 
 
 class PlayComposition:
-    def __init__(self, composition_num: int, sequencer: Sequencer):
+    _composition: list[Harmony] | None = None
+
+    def __init__(self, composition_num: int, sequencer: Sequencer, volume: int, tempo: int):
         self.composition_num = composition_num
         self.sequencer = sequencer
-        self.composition = parse_composition(self.composition_num)
+        self.volume = volume
+        self.tempo = tempo
+
+    @property
+    def composition(self):
+        if self._composition is None:
+            self._composition = parse_composition(self.composition_num)
+        return self._composition
 
     def get_harmonies(self):
-        for harmony in self.composition.harmonies:
+        for harmony in self.composition:
             yield harmony
 
     def play(self):
         logger.debug("Play composition")
         print("New composition")
-        print("First note is", self.composition.first_note)
+        print("First note is", self.composition[0].notes)
         self.sequencer.play_composition(self.composition)
         input_ = Input()
 
         for i, harmony in enumerate(self.get_harmonies()):
-            play_harmony = PlayHarmony(harmony, ACCEPTABLE_ERROR_NUMBER, i, self.composition.tempo, self.sequencer, input_)
+            play_harmony = PlayHarmony(harmony, ACCEPTABLE_ERROR_NUMBER, i, self.tempo, self.sequencer, input_)
             result = play_harmony.play()
 
             if not result:
@@ -103,19 +101,3 @@ class PlayComposition:
         else:
             play_sound(Sounds.BULK)
             write(self.composition_num + 1)
-
-
-def play(synth_num: int):
-    sequencer = Sequencer(synth_num, 0)
-
-    while True:
-        composition_num = read()
-
-        try:
-            play_composition = PlayComposition(composition_num, sequencer)
-        except NoFile as error:
-            logger.error("No file: %s", error)
-            # play_sound(Sounds.DZIN)
-            return
-
-        play_composition.play()
