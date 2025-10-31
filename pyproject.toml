@@ -19,6 +19,7 @@ pytest-ruff = "^0.4.1"
 pytest-black = "^0.6.0"
 pytest-mypy = "^0.10.3"
 pytest-coverage = "^0.0"
+types-pyyaml = "^6.0.12.20250915"
 
 [tool.isort]
 profile = "black"

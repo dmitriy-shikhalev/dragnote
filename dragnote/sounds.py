@@ -18,9 +18,3 @@ def play_sound(sound: Sounds):
     pygame.mixer.music.play()
     while pygame.mixer.music.get_busy():
         pygame.time.Clock().tick(10)
-
-
-if __name__ == "__main__":
-    from dragnote.initialize import init
-    init()
-    play_sound(Sounds.BULK)

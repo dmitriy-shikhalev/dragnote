@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from fractions import Fraction
+from typing import Iterator
 
 from dragnote.consts import (
     NAME,
@@ -19,6 +20,19 @@ class Note:
     name: NAME
     sign: SIGN
     octave: OCTAVE
+
+    def __eq__(self, other: object):
+        if not isinstance(other, Note):
+            raise ValueError(f"Can not check equality Note and {other}")
+        return self.to_note_value() == other.to_note_value()
+
+    @classmethod
+    def from_str(cls, string: str) -> Note:
+        name = NAME.from_str(string[0])
+        sign = SIGN.from_str(string[1:-1])
+        octave = OCTAVE.from_num(int(string[-1]))
+
+        return Note(name=name, sign=sign, octave=octave)
 
     def to_note_value(self) -> int:
         value = self.name.to_num() + self.sign.to_num()
@@ -43,3 +57,6 @@ class Harmony:
 
     def to_str(self) -> str:
         return ":".join([note.to_str() for note in self.notes])
+
+
+Composition = Iterator[Harmony]
