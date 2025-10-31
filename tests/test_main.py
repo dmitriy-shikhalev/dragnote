@@ -29,7 +29,7 @@ class TestMain:
         main_ = Main(settings)
 
         assert main_.settings == settings
-        sequencer_mock.assert_called_once_with(settings.synth_num, settings.instrument, settings.volume, settings.tempo)
+        sequencer_mock.assert_called_once_with(settings.synth, settings.instrument, settings.volume, settings.tempo)
         assert main_.sequencer == sequencer_mock.return_value
         initialize_midi_mock.assert_called_once_with()
 
@@ -51,7 +51,11 @@ class TestMain:
             read_mock.assert_called_once_with()
             parse_composition_mock.assert_called_once_with(read_mock.return_value)
             game_mock.assert_called_once_with(
-                parse_composition_mock.return_value, sequencer_mock, settings_mock.max_error_count
+                parse_composition_mock.return_value,
+                sequencer_mock,
+                settings_mock.max_error_count,
+                settings_mock.volume,
+                settings_mock.tempo,
             )
 
     @patch("dragnote.main.initialize_midi")

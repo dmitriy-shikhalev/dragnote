@@ -14,13 +14,15 @@ logger = logging.getLogger(__name__)
 class Main:
     def __init__(self, settings: Settings):
         self.settings = settings
-        self.sequencer = Sequencer(settings.synth_num, settings.instrument, settings.volume, settings.tempo)
+        self.sequencer = Sequencer(settings.synth, settings.instrument, settings.volume, settings.tempo)
         initialize_midi()
 
     def _run_one_game(self):
         composition_num = database.read()
         composition = parse_composition(composition_num)
-        game = Game(composition, self.sequencer, self.settings.max_error_count)
+        game = Game(
+            composition, self.sequencer, self.settings.max_error_count, self.settings.volume, self.settings.tempo
+        )
         game.play()
 
     def run(self):
