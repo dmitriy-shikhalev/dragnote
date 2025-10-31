@@ -22,14 +22,14 @@ def parse_duration(string: str) -> Fraction:
     return Fraction(numerator, denominator)
 
 
-def parse_composition_from_num(num: int) -> Composition:
+def read_composition(num: int) -> Composition:
     with open(get_full_filename(get_filename(num))) as fd:
         txt = fd.read()
 
-    return parse_composition_from_txt(txt)
+    return parse_composition(txt)
 
 
-def parse_composition_from_txt(txt: str) -> Composition:
+def parse_composition(txt: str) -> Composition:
     is_note = True
     notes = None
     for part in txt.split():

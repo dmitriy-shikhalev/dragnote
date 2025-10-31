@@ -1,12 +1,12 @@
 from fractions import Fraction
 
 from dragnote.consts import NAME, OCTAVE, SIGN
-from dragnote.parse import parse_composition_from_txt
+from dragnote.parse import parse_composition
 
 
 def test_parse_composition():
     text = "  C0:H1 (1/2)  Dbb2 (31/65)         \n"
-    composition = parse_composition_from_txt(text)
+    composition = parse_composition(text)
 
     l_ = list(composition)
 

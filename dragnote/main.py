@@ -4,7 +4,7 @@ from dragnote import database
 from dragnote.domain import Composition
 from dragnote.game import Game
 from dragnote.initialize import initialize_midi
-from dragnote.parse import parse_composition_from_num
+from dragnote.parse import read_composition
 from dragnote.sequencer import Sequencer
 from dragnote.settings import Settings
 from dragnote.sounds import Sounds, play_sound
@@ -21,7 +21,7 @@ class Main:
     @staticmethod
     def _read_composition() -> Composition:
         num = database.read()
-        composition = parse_composition_from_num(num)
+        composition = read_composition(num)
         return composition
 
     @staticmethod
