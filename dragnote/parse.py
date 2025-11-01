@@ -2,7 +2,6 @@ import logging
 from fractions import Fraction
 from typing import Iterator
 
-from dragnote.database import get_filename, get_full_filename
 from dragnote.domain import Composition, Harmony, Note
 
 logger = logging.getLogger(__name__)
@@ -20,13 +19,6 @@ def parse_duration(string: str) -> Fraction:
     numerator = int(ls[0])
     denominator = int(ls[1])
     return Fraction(numerator, denominator)
-
-
-def read_composition(num: int) -> Composition:
-    with open(get_full_filename(get_filename(num))) as fd:
-        txt = fd.read()
-
-    return parse_composition(txt)
 
 
 def parse_composition(txt: str) -> Composition:

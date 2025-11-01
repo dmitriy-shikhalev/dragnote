@@ -60,3 +60,10 @@ class Harmony:
 
 
 Composition = Iterator[Harmony]
+
+
+@dataclass
+class Info:
+    common: int
+    current: int
+    attempts: int

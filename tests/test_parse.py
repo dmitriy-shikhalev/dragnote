@@ -1,5 +1,5 @@
 from fractions import Fraction
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -8,7 +8,6 @@ from dragnote.parse import (
     parse_composition,
     parse_duration,
     parse_notes,
-    read_composition,
 )
 
 
@@ -45,26 +44,26 @@ def test_parse_duration_error():
         _ = parse_duration(duration_str)
 
 
-@patch("dragnote.parse.parse_composition")
-@patch(
-    "dragnote.parse.open",
-    return_value=Mock(
-        __enter__=Mock(),
-        __exit__=Mock(),
-    ),
-)
-@patch("dragnote.parse.get_full_filename")
-@patch("dragnote.parse.get_filename")
-def test_read_composition(get_filename_mock, get_full_filename_mock, open_mock, parse_composition_mock):
-    num = Mock()
-    result = read_composition(num)
-
-    assert result == parse_composition_mock.return_value
-
-    get_filename_mock.assert_called_once_with(num)
-    get_full_filename_mock.assert_called_once_with(get_filename_mock.return_value)
-    open_mock.assert_called_once_with(get_full_filename_mock.return_value)
-    parse_composition_mock.assert_called_once_with(open_mock.return_value.__enter__.return_value.read.return_value)
+# @patch("dragnote.parse.parse_composition")  # todo: move to library test file
+# @patch(
+#     "dragnote.parse.open",
+#     return_value=Mock(
+#         __enter__=Mock(),
+#         __exit__=Mock(),
+#     ),
+# )
+# @patch("dragnote.parse.get_full_filename")
+# @patch("dragnote.parse.get_filename")
+# def test_read_composition(get_filename_mock, get_full_filename_mock, open_mock, parse_composition_mock):
+#     num = Mock()
+#     result = read_composition(num)
+#
+#     assert result == parse_composition_mock.return_value
+#
+#     get_filename_mock.assert_called_once_with(num)
+#     get_full_filename_mock.assert_called_once_with(get_filename_mock.return_value)
+#     open_mock.assert_called_once_with(get_full_filename_mock.return_value)
+#     parse_composition_mock.assert_called_once_with(open_mock.return_value.__enter__.return_value.read.return_value)
 
 
 def test_parse_composition_ok():

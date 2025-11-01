@@ -1,13 +1,13 @@
 import logging
 
-from dragnote import database
+from dragnote.database import Database
 from dragnote.domain import Composition
 from dragnote.game import Game
-from dragnote.initialize import initialize_midi
-from dragnote.parse import read_composition
+from dragnote.initialize import initialize
+from dragnote.iofuncs import play_fail, play_over
+from dragnote.library import Library
 from dragnote.sequencer import Sequencer
 from dragnote.settings import Settings
-from dragnote.sounds import Sounds, play_sound
 
 logger = logging.getLogger(__name__)
 
@@ -15,19 +15,15 @@ logger = logging.getLogger(__name__)
 class Main:
     def __init__(self, settings: Settings):
         self.settings = settings
-        initialize_midi()
+        initialize()
         self.sequencer = Sequencer(settings.synth, settings.instrument, settings.volume, settings.tempo)
+        self.database = Database()
+        self.library = Library()
 
-    @staticmethod
-    def _read_composition() -> Composition:
-        num = database.read()
-        composition = read_composition(num)
+    def _read_composition(self) -> Composition:
+        num = self.database.read()
+        composition = self.library.read_composition(num)
         return composition
-
-    @staticmethod
-    def _write_plus_one_to_db():
-        num = database.read()
-        database.write(num + 1)
 
     def _run_one_game(self):
         composition = self._read_composition()
@@ -37,10 +33,10 @@ class Main:
         try:
             game.play()
         except ValueError:
-            play_sound(Sounds.BULK)
+            play_fail()
         else:
-            play_sound(Sounds.OVER)
-            self._write_plus_one_to_db()
+            play_over()
+            self.database.write_plus_one_to_db()
 
     def run(self):
         while True:

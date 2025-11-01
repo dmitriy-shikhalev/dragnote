@@ -146,3 +146,7 @@ class OCTAVE(str, Enum):
 
 
 ACCEPTABLE_ERROR_NUMBER = 3
+
+FILENAME = "_current.db"
+DIRNAME = "compositions"
+LIST_FILENAME = "list.yaml"
