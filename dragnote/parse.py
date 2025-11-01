@@ -12,6 +12,12 @@ def parse_notes(string: str) -> Iterator[Note]:
         yield Note.from_str(part)
 
 
+def parse_notes_row(string: str) -> Iterator[set[Note]]:
+    for part in string.split():
+        notes = set(parse_notes(part))
+        yield notes
+
+
 def parse_duration(string: str) -> Fraction:
     if not string or string[0] != "(" or string[-1] != ")":
         raise ValueError(f"Wrong duration string: {string}")

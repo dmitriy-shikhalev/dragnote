@@ -4,3 +4,7 @@ class NoFile(Exception):
 
 class ParserError(Exception):
     pass
+
+
+class EmptyString(Exception):
+    pass

@@ -2,6 +2,7 @@ import logging
 
 from dragnote.domain import Composition, Harmony
 from dragnote.parse import parse_notes
+from dragnote.queues import InputQueue
 from dragnote.sequencer import Sequencer
 from dragnote.sounds import Sounds, play_sound
 
@@ -22,6 +23,7 @@ class Game:
         self.max_error_count = max_error_count
         self.volume = volume
         self.tempo = tempo
+        self.input_queue = InputQueue()
 
         self.error_count = 0
 
