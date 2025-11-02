@@ -46,11 +46,11 @@ class Game:
             notes = parse_notes(string)
             if set(notes) == set(harmony.notes):
                 play_sound(Sounds.DZIN)
-                self.sequencer.play_harmony(harmony, self.tempo)
+                self.sequencer.play_harmony(harmony)
             else:
                 play_sound(Sounds.PEEP)
-                self.sequencer.play_harmony(harmony, self.tempo)
-                self.sequencer.play_harmony(Harmony(notes=tuple(notes), duration=harmony.duration), self.tempo)
+                self.sequencer.play_harmony(harmony)
+                self.sequencer.play_harmony(Harmony(notes=tuple(notes), duration=harmony.duration))
                 self.error_count += 1
                 if self.error_count > self.max_error_count:
                     raise ValueError
