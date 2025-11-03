@@ -9,8 +9,20 @@ from dragnote.parse import parse_composition
 
 
 class Library:
+    @staticmethod
+    def get_full_list_filename():
+        return os.path.join(DIRNAME, LIST_FILENAME)
+
+    @classmethod
+    def get_list_file_descriptor(cls):
+        return open(cls.get_full_list_filename())
+
+    @classmethod
+    def read_yaml_list_file(cls):
+        return yaml.load(cls.get_list_file_descriptor(), yaml.Loader)
+
     def __init__(self):
-        self.filenames = yaml.load(open(os.path.join(DIRNAME, LIST_FILENAME)), yaml.Loader)["compositions"]
+        self.filenames = self.read_yaml_list_file()["compositions"]
 
     def _check_num(self, num):
         if num >= len(self.filenames):

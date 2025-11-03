@@ -1,5 +1,5 @@
 from fractions import Fraction
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -8,6 +8,7 @@ from dragnote.parse import (
     parse_composition,
     parse_duration,
     parse_notes,
+    parse_notes_row,
 )
 
 
@@ -30,6 +31,22 @@ def test_parse_notes(note_mock):
     note_mock.from_str.assert_any_call("c")
 
     assert note1 == note2 == note3 == note_mock.from_str.return_value
+
+
+@patch("dragnote.parse.parse_notes", return_value=[Mock(), Mock()])
+def test_parse_notes_row(parse_notes_mock):
+    notes = parse_notes_row("C1:D1 E1")
+    notes_list = list(notes)
+
+    assert len(notes_list) == 2
+
+    assert len(notes_list[0]) == 2
+    assert parse_notes_mock.return_value[0] in notes_list[0]
+    assert parse_notes_mock.return_value[1] in notes_list[0]
+
+    assert len(notes_list[1]) == 2
+    assert parse_notes_mock.return_value[0] in notes_list[1]
+    assert parse_notes_mock.return_value[1] in notes_list[1]
 
 
 def test_parse_duration_ok():
