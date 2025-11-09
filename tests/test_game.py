@@ -254,3 +254,4 @@ class TestGame:
             assert qsize_mock.call_count == 2
             qsize_mock.assert_any_call()
             _one_iterate_play_mock.assert_called_once_with()
+            play_over_mock.assert_called_once_with()
