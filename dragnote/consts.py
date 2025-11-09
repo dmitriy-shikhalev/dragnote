@@ -56,7 +56,7 @@ class NAME(Enum):
                 return 69
             case self.H:
                 return 71
-            case _:
+            case _:  # pragma: no cover
                 raise ValueError(self)
 
 
@@ -81,7 +81,7 @@ class SIGN(str, Enum):
             case "bb":
                 return cls.DOUBLE_FLAT
             case "##":
-                return cls.DOUBLE_FLAT
+                return cls.DOUBLE_SHARP
             case _:
                 raise ValueError(s)
 
@@ -97,7 +97,7 @@ class SIGN(str, Enum):
                 return -2
             case self.DOUBLE_SHARP:
                 return 2
-            case _:
+            case _:  # pragma: no cover
                 raise ValueError(self)
 
     def to_str(self) -> str:
@@ -109,10 +109,10 @@ class SIGN(str, Enum):
             case self.SHARP:
                 return "#"
             case self.DOUBLE_FLAT:
-                return "##"
-            case self.DOUBLE_SHARP:
                 return "bb"
-            case _:
+            case self.DOUBLE_SHARP:
+                return "##"
+            case _:  # pragma: no cover
                 raise ValueError(self)
 
 
@@ -141,7 +141,7 @@ class OCTAVE(str, Enum):
                 return 1
             case self.SECOND:
                 return 2
-            case _:
+            case _:  # pragma: no cover
                 raise ValueError(self)
 
 

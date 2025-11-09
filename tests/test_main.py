@@ -2,6 +2,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
+from dragnote.errors import GameOver
 from dragnote.main import Main, main
 
 
@@ -85,7 +86,7 @@ class TestMain:
 
     @patch("dragnote.main.play_fail")
     @patch("dragnote.main.play_over")
-    @patch("dragnote.main.Game", return_value=Mock(play=Mock(side_effect=ValueError)))
+    @patch("dragnote.main.Game", return_value=Mock(play=Mock(side_effect=GameOver)))
     @patch("dragnote.main.initialize")
     @patch("dragnote.main.Sequencer")
     def test_run_one_game_error(self, sequencer_mock, initialize_mock, game_mock, play_over_mock, play_fail_mock):

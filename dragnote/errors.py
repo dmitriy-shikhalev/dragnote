@@ -8,3 +8,11 @@ class ParserError(Exception):
 
 class EmptyString(Exception):
     pass
+
+
+class GameOver(Exception):
+    pass
+
+
+class EmptyInput(Exception):
+    pass

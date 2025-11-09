@@ -2,6 +2,7 @@ import logging
 
 from dragnote.database import Database
 from dragnote.domain import Composition
+from dragnote.errors import GameOver
 from dragnote.game import Game
 from dragnote.initialize import initialize
 from dragnote.iofuncs import play_fail, play_over
@@ -32,7 +33,7 @@ class Main:
         )
         try:
             game.play()
-        except ValueError:
+        except GameOver:
             play_fail()
         else:
             play_over()
