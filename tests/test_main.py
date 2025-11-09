@@ -69,6 +69,7 @@ class TestMain:
             patch.object(main_, "_read_composition") as _read_composition_mock,
             patch.object(main_, "sequencer") as sequencer_mock,
             patch.object(main_, "settings") as settings_mock,
+            patch.object(main_.database, "write_plus_one_to_db") as write_plus_one_to_db_mock,
         ):
             main_._run_one_game()
 
@@ -83,6 +84,7 @@ class TestMain:
             game_mock.return_value.play.assert_called_once_with()
             play_over_mock.assert_called_once_with()
             play_fail_mock.assert_not_called()
+            write_plus_one_to_db_mock.write_plus_one_to_db()
 
     @patch("dragnote.main.play_fail")
     @patch("dragnote.main.play_over")
@@ -97,6 +99,7 @@ class TestMain:
             patch.object(main_, "_read_composition") as _read_composition_mock,
             patch.object(main_, "sequencer") as sequencer_mock,
             patch.object(main_, "settings") as settings_mock,
+            patch.object(main_.database, "write_plus_one_to_db") as write_plus_one_to_db_mock,
         ):
             main_._run_one_game()
 
@@ -111,6 +114,7 @@ class TestMain:
             game_mock.return_value.play.assert_called_once_with()
             play_over_mock.assert_not_called()
             play_fail_mock.assert_called_once_with()
+            write_plus_one_to_db_mock.assert_not_called()
 
     @patch("dragnote.main.initialize")
     @patch("dragnote.main.Sequencer")
