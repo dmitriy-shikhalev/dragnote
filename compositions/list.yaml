@@ -1,6 +1,6 @@
 compositions:
   - one note/one note.txt
-  - different/bat.yaml
+  - bat/1.txt
 
   - gammas/c-dur/gamma.yaml
   - gammas/c-dur/accords.yaml

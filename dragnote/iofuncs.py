@@ -1,9 +1,9 @@
-from dragnote.domain import Info
+from dragnote.domain import Info, Note
 from dragnote.sounds import Sounds, play_sound
 
 
-def read_input():
-    return input("> ")
+def read_input(first_note: Note):
+    return input(f"(first note: {first_note.to_str()})> ")
 
 
 def print_info(info: Info):

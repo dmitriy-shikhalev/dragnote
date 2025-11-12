@@ -56,9 +56,8 @@ class Game:
         if self.error_count > self.max_error_count:
             raise GameOver
 
-    @staticmethod
-    def _read_input():
-        string = read_input()
+    def _read_input(self):
+        string = read_input(self.composition[0])
         if not string:
             raise EmptyInput
         return string
