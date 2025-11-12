@@ -21,7 +21,7 @@ class Game:
         volume: int,
         tempo: int,
     ):
-        self.composition = composition
+        self.composition = list(composition)
         self.sequencer = sequencer
         self.max_error_count = max_error_count
         self.volume = volume
@@ -33,6 +33,7 @@ class Game:
         self.error_count = 0
 
     def _play_composition(self):
+        logger.debug("Play composition")
         self.sequencer.play_composition(self.composition)
 
     def _init_queue(self):
@@ -40,15 +41,17 @@ class Game:
             self.queue.put(harmony)
 
     def _ok(self, harmony: Harmony):
-        play_ok()
+        logger.debug("Ok")
         self.sequencer.play_harmony(harmony)
+        play_ok()
         self.error_count = 0
 
     def _mistake(self, harmony: Harmony, notes: Iterator[Note]):
+        logger.debug("Mistake")
         self.queue.put(harmony)
+        self.sequencer.play_harmony(Harmony(notes=tuple(notes), duration=harmony.duration))
         play_mistake()
         self.sequencer.play_harmony(harmony)
-        self.sequencer.play_harmony(Harmony(notes=tuple(notes), duration=harmony.duration))
         self.error_count += 1
         if self.error_count > self.max_error_count:
             raise GameOver
@@ -70,8 +73,9 @@ class Game:
         return set(notes) == set(harmony.notes)
 
     def _one_iterate_play(self):
+        logger.debug("One iteration play")
         try:
-            notes = self._get_notes()
+            notes = list(self._get_notes())
         except EmptyInput:
             self._play_composition()
             return
@@ -83,6 +87,7 @@ class Game:
             self._mistake(harmony, notes)
 
     def play(self):
+        logger.debug("Play")
         self._play_composition()
 
         while True:

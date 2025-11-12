@@ -11,3 +11,6 @@
 - ```python dragnote```
 
 ## Добавить кучу гамм: https://samesound.ru/write/78409-piano-scales-for-dummies
+
+## Ошибки:
+- 2 раза при успехе на упражнении играет буль-буль, а должно быть один.

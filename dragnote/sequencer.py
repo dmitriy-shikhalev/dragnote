@@ -26,5 +26,6 @@ class Sequencer:
             self.midi_out.note_off(note.to_note_value(), self.volume)
 
     def play_composition(self, composition: Composition):
+        logger.debug("Play composition: %s", composition)
         for harmony in composition:
             self.play_harmony(harmony)

@@ -22,7 +22,7 @@ class NAME(Enum):
 
     @classmethod
     def from_str(cls, s: str) -> NAME:
-        match s:
+        match s.upper():
             case "C":
                 return NAME.C
             case "D":
