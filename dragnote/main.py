@@ -21,22 +21,21 @@ class Main:
         self.database = Database()
         self.library = Library()
 
-    def _read_composition(self) -> Composition:
+    def _read_composition(self) -> tuple[int, Composition]:
         num = self.database.read()
         composition = self.library.read_composition(num)
-        return composition
+        return num, composition
 
     def _run_one_game(self):
-        composition = self._read_composition()
+        num, composition = self._read_composition()
         game = Game(
-            composition, self.sequencer, self.settings.max_error_count, self.settings.volume, self.settings.tempo
+            num, composition, self.sequencer, self.settings.max_error_count, self.settings.volume, self.settings.tempo
         )
         try:
             game.play()
         except GameOver:
             play_fail()
         else:
-            play_over()
             self.database.write_plus_one_to_db()
 
     def run(self):

@@ -1,9 +1,15 @@
-from dragnote.domain import Info, Note
+from dragnote.domain import Harmony, Info, Note
 from dragnote.sounds import Sounds, play_sound
 
 
-def read_input(first_note: Note):
-    return input(f"(first note: {first_note.to_str()})> ")
+def read_input(notes_list: list[Note] | Harmony):
+    if isinstance(notes_list, list):
+        input_str = " ".join(":".join(note.to_str() for note in notes) for notes in notes_list)
+    elif isinstance(notes_list, Harmony):
+        input_str = notes_list.to_str()
+    else:
+        raise ValueError(notes_list)
+    return input(f"({input_str})> ")
 
 
 def print_info(info: Info):

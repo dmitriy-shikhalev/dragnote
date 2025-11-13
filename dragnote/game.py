@@ -15,12 +15,14 @@ logger = logging.getLogger(__name__)
 class Game:
     def __init__(
         self,
+        num: int,
         composition: Composition,
         sequencer: Sequencer,
         max_error_count: int,
         volume: int,
         tempo: int,
     ):
+        self.num = num
         self.composition = list(composition)
         self.sequencer = sequencer
         self.max_error_count = max_error_count
@@ -31,6 +33,7 @@ class Game:
         self._init_queue()
 
         self.error_count = 0
+        self._notes = []
 
     def _play_composition(self):
         logger.debug("Play composition")
@@ -45,8 +48,9 @@ class Game:
         self.sequencer.play_harmony(harmony)
         play_ok()
         self.error_count = 0
+        self._notes.append(harmony.notes)
 
-    def _mistake(self, harmony: Harmony, notes: Iterator[Note]):
+    def _mistake(self, harmony: Harmony, notes: list[Note]):
         logger.debug("Mistake")
         self.queue.put(harmony)
         self.sequencer.play_harmony(Harmony(notes=tuple(notes), duration=harmony.duration))
@@ -57,7 +61,7 @@ class Game:
             raise GameOver
 
     def _read_input(self):
-        string = read_input(self.composition[0])
+        string = read_input(self._notes or self.composition[0])
         if not string:
             raise EmptyInput
         return string
@@ -68,7 +72,7 @@ class Game:
         return notes
 
     @staticmethod
-    def _is_harmony_eq_notes(harmony: Harmony, notes: Iterator[Note]):
+    def _is_harmony_eq_notes(harmony: Harmony, notes: list[Note]):
         return set(notes) == set(harmony.notes)
 
     def _one_iterate_play(self):
@@ -87,6 +91,7 @@ class Game:
 
     def play(self):
         logger.debug("Play")
+        print(f"New composition: {self.num}")
         self._play_composition()
 
         while True:
