@@ -1,5 +1,5 @@
 import logging
-from queue import Queue
+from queue import LifoQueue
 from typing import Iterator
 
 from dragnote.domain import Composition, Harmony, Note
@@ -29,7 +29,7 @@ class Game:
         self.volume = volume
         self.tempo = tempo
         self.input_queue = InputQueue()
-        self.queue: Queue[Harmony] = Queue()
+        self.queue: LifoQueue[Harmony] = LifoQueue()
         self._init_queue()
 
         self.error_count = 0
@@ -40,7 +40,7 @@ class Game:
         self.sequencer.play_composition(self.composition)
 
     def _init_queue(self):
-        for harmony in self.composition:
+        for harmony in self.composition[::-1]:
             self.queue.put(harmony)
 
     def _ok(self, harmony: Harmony):

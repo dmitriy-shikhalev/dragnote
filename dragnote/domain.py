@@ -59,7 +59,7 @@ class Harmony:
         return ":".join([note.to_str() for note in self.notes])
 
 
-Composition = Iterator[Harmony]
+Composition = list[Harmony]
 
 
 @dataclass
