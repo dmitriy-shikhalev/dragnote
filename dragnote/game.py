@@ -4,7 +4,7 @@ from typing import Iterator
 
 from dragnote.domain import Composition, Harmony, Note
 from dragnote.errors import EmptyInput, GameOver
-from dragnote.iofuncs import play_mistake, play_ok, play_over, read_input
+from dragnote.iofuncs import play_mistake, play_ok, play_over
 from dragnote.parse import parse_notes
 from dragnote.queues import InputQueue
 from dragnote.sequencer import Sequencer
@@ -60,16 +60,8 @@ class Game:
         if self.error_count > self.max_error_count:
             raise GameOver
 
-    def _read_input(self):
-        string = read_input(self._notes or self.composition[0])
-        if not string:
-            raise EmptyInput
-        return string
-
-    def _get_notes(self) -> Iterator[Note]:
-        string = self._read_input()
-        notes = parse_notes(string)
-        return notes
+    def _get_notes(self, first_note: Harmony, notes_list: list[list[Note]]) -> set[Note]:
+        return self.input_queue.get(first_note=first_note, notes_list=notes_list)
 
     @staticmethod
     def _is_harmony_eq_notes(harmony: Harmony, notes: list[Note]):
@@ -78,7 +70,7 @@ class Game:
     def _one_iterate_play(self):
         logger.debug("One iteration play")
         try:
-            notes = list(self._get_notes())
+            notes = list(self._get_notes(first_note=self.composition[0], notes_list=self._notes))
         except EmptyInput:
             self._play_composition()
             return

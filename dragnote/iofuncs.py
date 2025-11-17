@@ -2,13 +2,13 @@ from dragnote.domain import Harmony, Info, Note
 from dragnote.sounds import Sounds, play_sound
 
 
-def read_input(notes_list: list[Note] | Harmony):
-    if isinstance(notes_list, list):
+def read_input(notes_list: list[Note] = None, first_note: Harmony = None):
+    if notes_list:
         input_str = " ".join(":".join(note.to_str() for note in notes) for notes in notes_list)
-    elif isinstance(notes_list, Harmony):
-        input_str = notes_list.to_str()
+    elif first_note:
+        input_str = f"First note is {first_note.to_str()}"
     else:
-        raise ValueError(notes_list)
+        raise ValueError("Notes list is None and first_note is None")
     return input(f"({input_str})> ")
 
 

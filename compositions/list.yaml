@@ -6,32 +6,32 @@ compositions:
   - bat/4.txt
   - bat/5.txt
 
-  - gammas/c-dur/gamma.yaml
-  - gammas/c-dur/accords.yaml
-  - gammas/c-dur/arp short.yaml
-  - gammas/c-dur/arp long.yaml
+  - gammas/c-dur/gamma.txt
+  - gammas/c-dur/accords.txt
+  - gammas/c-dur/arp short.txt
+  - gammas/c-dur/arp long.txt
 
-  - gammas/a-moll/gamma-garmonic.yaml
-  - gammas/a-moll/gamma-melodic.yaml
-  - gammas/a-moll/accords.yaml
-  - gammas/a-moll/arp short.yaml
-  - gammas/a-moll/arp long.yaml
+  - gammas/a-moll/gamma-garmonic.txt
+  - gammas/a-moll/gamma-melodic.txt
+  - gammas/a-moll/accords.txt
+  - gammas/a-moll/arp short.txt
+  - gammas/a-moll/arp long.txt
 
-  - gammas/g-dur/gamma.yaml
-  - gammas/g-dur/accords.yaml
-  - gammas/g-dur/arp short.yaml
-  - gammas/g-dur/arp long.yaml
+  - gammas/g-dur/gamma.txt
+  - gammas/g-dur/accords.txt
+  - gammas/g-dur/arp short.txt
+  - gammas/g-dur/arp long.txt
 
-  - gammas/e-moll/gamma-garmonic.yaml
-  - gammas/e-moll/gamma-melodic.yaml
-  - gammas/e-moll/accords.yaml
-  - gammas/e-moll/arp short.yaml
-  - gammas/e-moll/arp long.yaml
+  - gammas/e-moll/gamma-garmonic.txt
+  - gammas/e-moll/gamma-melodic.txt
+  - gammas/e-moll/accords.txt
+  - gammas/e-moll/arp short.txt
+  - gammas/e-moll/arp long.txt
 
-  - kazachia/1.yaml
-  - kazachia/2.yaml
-  - kazachia/3.yaml
-  - kazachia/4.yaml
-  - kazachia/5.yaml
-  - kazachia/6.yaml
-  - kazachia/7.yaml
+  - kazachia/1.txt
+  - kazachia/2.txt
+  - kazachia/3.txt
+  - kazachia/4.txt
+  - kazachia/5.txt
+  - kazachia/6.txt
+  - kazachia/7.txt
