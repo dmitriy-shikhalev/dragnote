@@ -52,6 +52,10 @@ class Harmony:
     def from_str(cls, s: str, duration: Fraction) -> Harmony:
         return Harmony(notes=tuple(Note.from_str(note_str) for note_str in s.split(":")), duration=duration)
 
+    def __eq__(self, other):
+        if not isinstance(other, Harmony):
+            raise ValueError(f"Can not compare Harmony ({self}) and {type(other)} ({other})")
+
     def get_duration_in_seconds(self, tempo: int) -> float:
         return float(self.duration) * 4 * 60 / tempo
 

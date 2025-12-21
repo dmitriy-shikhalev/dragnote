@@ -1,94 +1,41 @@
 import logging
-from queue import LifoQueue
-from typing import Iterator
 
-from dragnote.domain import Composition, Harmony, Note
-from dragnote.errors import EmptyInput, GameOver
-from dragnote.iofuncs import play_mistake, play_ok, play_over
-from dragnote.parse import parse_notes
-from dragnote.queues import InputQueue
+from dragnote.database import Database
+from dragnote.domain import Composition
+from dragnote.initialize import initialize
+from dragnote.iofuncs import play_fail, play_over
+from dragnote.library import Library
 from dragnote.sequencer import Sequencer
+from dragnote.settings import Settings
 
 logger = logging.getLogger(__name__)
 
 
 class Game:
-    def __init__(
-        self,
-        num: int,
-        composition: Composition,
-        sequencer: Sequencer,
-        max_error_count: int,
-        volume: int,
-        tempo: int,
-    ):
-        self.num = num
-        self.composition = list(composition)
-        self.sequencer = sequencer
-        self.max_error_count = max_error_count
-        self.volume = volume
-        self.tempo = tempo
-        self.input_queue = InputQueue()
-        self.queue: LifoQueue[Harmony] = LifoQueue()
-        self._init_queue()
+    def __init__(self, settings: Settings):
+        self.settings = settings
+        initialize()
+        self.sequencer = Sequencer(settings.synth, settings.instrument, settings.volume, settings.tempo)
+        self.database = Database()
+        self.library = Library()
 
-        self.error_count = 0
-        self._notes = []
+    def _read_composition(self) -> tuple[int, Composition]:
+        num = self.database.read()
+        composition = self.library.read_composition(num)
+        return num, composition
 
-    def _play_composition(self):
-        logger.debug("Play composition")
-        self.sequencer.play_composition(self.composition)
-
-    def _init_queue(self):
-        for harmony in self.composition[::-1]:
-            self.queue.put(harmony)
-
-    def _ok(self, harmony: Harmony):
-        logger.debug("Ok")
-        self.sequencer.play_harmony(harmony)
-        play_ok()
-        self.error_count = 0
-        self._notes.append(harmony.notes)
-
-    def _mistake(self, harmony: Harmony, notes: list[Note]):
-        logger.debug("Mistake")
-        self.queue.put(harmony)
-        self.sequencer.play_harmony(Harmony(notes=tuple(notes), duration=harmony.duration))
-        play_mistake()
-        self.sequencer.play_harmony(harmony)
-        self.error_count += 1
-        if self.error_count > self.max_error_count:
-            raise GameOver
-
-    def _get_notes(self, first_note: Harmony, notes_list: list[list[Note]]) -> set[Note]:
-        return self.input_queue.get(first_note=first_note, notes_list=notes_list)
-
-    @staticmethod
-    def _is_harmony_eq_notes(harmony: Harmony, notes: list[Note]):
-        return set(notes) == set(harmony.notes)
-
-    def _one_iterate_play(self):
-        logger.debug("One iteration play")
+    def _run_one_game(self):
+        num, composition = self._read_composition()
+        game = Game(
+            num, composition, self.sequencer, self.settings.max_error_count, self.settings.volume, self.settings.tempo
+        )
         try:
-            notes = list(self._get_notes(first_note=self.composition[0], notes_list=self._notes))
-        except EmptyInput:
-            self._play_composition()
-            return
-
-        harmony = self.queue.get()
-        if self._is_harmony_eq_notes(harmony, notes):
-            self._ok(harmony)
+            game.play()
+        except GameOver:
+            play_fail()
         else:
-            self._mistake(harmony, notes)
+            self.database.write_plus_one_to_db()
 
-    def play(self):
-        logger.debug("Play")
-        print(f"New composition: {self.num}")
-        self._play_composition()
-
+    def run(self):
         while True:
-            if not self.queue.qsize():
-                play_over()
-                break
-
-            self._one_iterate_play()
+            self._run_one_game()

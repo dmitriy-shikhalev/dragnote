@@ -6,9 +6,8 @@ from dragnote.consts import FILENAME
 class Database:
     @staticmethod
     def read() -> int:
-        if not os.path.exists(FILENAME):
-            current = 0
-        else:
+        current = 0
+        if os.path.exists(FILENAME):
             with open(FILENAME, "r") as fd:
                 current = int(fd.read().strip())
 

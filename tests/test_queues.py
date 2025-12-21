@@ -2,7 +2,6 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from dragnote.errors import EmptyString
 from dragnote.queues import InputQueue
 
 
@@ -18,7 +17,7 @@ class TestInputQueue:
     def test_read_empty(self, read_input_mock):
         input_queue = InputQueue()
 
-        with pytest.raises(EmptyString):
+        with pytest.raises(ValueError):
             input_queue._read()
 
     @patch("dragnote.queues.parse_notes_row", return_value=[Mock(), Mock(), Mock()])
