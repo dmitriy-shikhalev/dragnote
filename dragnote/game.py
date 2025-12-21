@@ -1,6 +1,5 @@
-"""
-ЗО модуля - одна игра. То есть от начала, до ошибки GameOver.
-"""
+"""ЗО модуля - одна игра. То есть от начала, до ошибки GameOver."""
+
 import logging
 
 from dragnote.database import Database

@@ -1,6 +1,5 @@
-"""
-Модель отвечает за модели предметной области программы.
-"""
+"""Модель отвечает за модели предметной области программы."""
+
 from __future__ import annotations
 
 import logging
@@ -71,7 +70,7 @@ class Harmony:
         return ":".join([note.to_str() for note in self.notes])
 
 
-Composition = list[Harmony]
+Composition = list[Harmony]  # TODO: изменить на класс с полем harmonies. Тогда можно будет сюда перенести все методы парсинга.
 
 
 @dataclass
