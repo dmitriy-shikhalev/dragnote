@@ -5,7 +5,6 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from fractions import Fraction
-from typing import Iterator
 
 from dragnote.consts import (
     NAME,
@@ -64,13 +63,17 @@ class Harmony:
         return True
 
     def get_duration_in_seconds(self, tempo: int) -> float:
+        if self.duration is None:
+            raise Exception()  # TODO: specify error type
         return float(self.duration) * 4 * 60 / tempo
 
     def to_str(self) -> str:
         return ":".join([note.to_str() for note in self.notes])
 
 
-Composition = list[Harmony]  # TODO: изменить на класс с полем harmonies. Тогда можно будет сюда перенести все методы парсинга.
+Composition = list[
+    Harmony
+]  # TODO: изменить на класс с полем harmonies. Тогда можно будет сюда перенести все методы парсинга.
 
 
 @dataclass
