@@ -1,3 +1,7 @@
+"""
+ЗО модуля - описание и парсинг всех сеттингов программы.
+"""
+
 from pydantic_settings import (
     BaseSettings,
     PydanticBaseSettingsSource,

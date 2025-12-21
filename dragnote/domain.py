@@ -1,3 +1,6 @@
+"""
+Модель отвечает за модели предметной области программы.
+"""
 from __future__ import annotations
 
 import logging
@@ -46,7 +49,7 @@ class Note:
 @dataclass(frozen=True)
 class Harmony:
     notes: tuple[Note, ...]
-    duration: Fraction
+    duration: Fraction | None = None
 
     @classmethod
     def from_str(cls, s: str, duration: Fraction) -> Harmony:
@@ -55,6 +58,11 @@ class Harmony:
     def __eq__(self, other):
         if not isinstance(other, Harmony):
             raise ValueError(f"Can not compare Harmony ({self}) and {type(other)} ({other})")
+        if self.duration != other.duration:
+            return False
+        if set(self.notes) != set(other.notes):
+            return False
+        return True
 
     def get_duration_in_seconds(self, tempo: int) -> float:
         return float(self.duration) * 4 * 60 / tempo

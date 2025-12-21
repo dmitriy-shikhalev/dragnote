@@ -1,3 +1,6 @@
+"""
+ЗО модуля - одна игра. То есть от начала, до ошибки GameOver.
+"""
 import logging
 
 from dragnote.database import Database
@@ -30,7 +33,7 @@ class Game:
             num, composition, self.sequencer, self.settings.max_error_count, self.settings.volume, self.settings.tempo
         )
         try:
-            game.play()
+            game.run()
         except GameOver:
             play_fail()
         else:

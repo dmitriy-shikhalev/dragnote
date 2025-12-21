@@ -1,3 +1,6 @@
+"""
+ЗО модуля - преобразовывать строки в ноты, длительности и композиции. Но разве это не дублирует ЗО domain.py?
+"""
 import logging
 from fractions import Fraction
 from typing import Iterator
@@ -28,6 +31,7 @@ def parse_duration(string: str) -> Fraction:
 
 
 def parse_composition(txt: str) -> Composition:
+    harmonies = []
     is_note = True
     notes = None
     for part in txt.split():
@@ -38,5 +42,6 @@ def parse_composition(txt: str) -> Composition:
             if notes is None:
                 raise ValueError("Notes is None, but parsing duration now.")  # pragma: no cover
             duration = parse_duration(part)
-            yield Harmony(notes=tuple(notes), duration=duration)
+            harmonies.append(Harmony(notes=tuple(notes), duration=duration))
             is_note = True
+    return harmonies

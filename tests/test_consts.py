@@ -36,7 +36,7 @@ class TestNANE:
         (SIGN.NATURAL, "", 0, False),
         (SIGN.NATURAL, None, 0, False),
         (SIGN.FLAT, "b", -1, False),
-        (SIGN.DOUBLE_FLAT, "BB", -2, False),
+        (SIGN.DOUBLE_FLAT, "bb", -2, False),
         (SIGN.SHARP, "#", 1, False),
         (SIGN.DOUBLE_SHARP, "##", 2, False),
         (None, "X", None, True),

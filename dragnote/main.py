@@ -1,3 +1,7 @@
+"""
+ЗО модуля - обеспечить точку входа в программу из терминала.
+"""
+
 import logging
 
 from dragnote.game import Game

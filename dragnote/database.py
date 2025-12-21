@@ -1,3 +1,7 @@
+"""
+Модуль отвечает за взаимодействие с персистентным хранилищем результатов игр.
+"""
+
 import os
 
 from dragnote.consts import FILENAME

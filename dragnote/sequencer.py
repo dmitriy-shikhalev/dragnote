@@ -1,3 +1,7 @@
+"""
+ЗО модуля - уметь преобразоывать Note, Harmony, Composition в миди-события и проигрывать их на миди-синтезаторе.
+"""
+
 import logging
 
 import pygame.midi

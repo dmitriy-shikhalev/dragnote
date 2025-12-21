@@ -1,5 +1,6 @@
 from unittest.mock import Mock, patch
 
+from dragnote.domain import Harmony, Note
 from dragnote.iofuncs import (
     play_fail,
     play_mistake,
@@ -14,9 +15,11 @@ from dragnote.sounds import Sounds
 
 @patch("dragnote.iofuncs.input")
 def test_read_input(input_mock):
-    result = read_input()
+    result = read_input(
+        first_harmony=Harmony(notes=(Note.from_str("C1"),)),
+    )
 
-    input_mock.assert_called_once_with("> ")
+    input_mock.assert_called_once_with("(First note is C1)> ")
     assert result == input_mock.return_value
 
 

@@ -1,3 +1,6 @@
+"""
+Модуль содержит основные констаты программы.
+"""
 from __future__ import annotations
 
 from enum import Enum
