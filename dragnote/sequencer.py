@@ -29,5 +29,5 @@ class Sequencer:
 
     def play_composition(self, composition: Composition):
         logger.debug("Play composition: %s", composition)
-        for harmony in composition:
+        for harmony in composition.harmonies:
             self.play_harmony(harmony)

@@ -64,12 +64,13 @@ class TestSequencer:
         volume = Mock()
         tempo = Mock()
         sequencer = Sequencer(synth_num, instrument_num, volume, tempo)
-        composition = [Mock(), Mock(), Mock()]
+        harmonies = [Mock(), Mock(), Mock()]
+        composition = Mock(harmonies=harmonies)
 
         with patch.object(sequencer, "play_harmony") as play_harmony_mock:
             sequencer.play_composition(composition)
 
             assert play_harmony_mock.call_count == 3
-            play_harmony_mock.assert_any_call(composition[0])
-            play_harmony_mock.assert_any_call(composition[1])
-            play_harmony_mock.assert_any_call(composition[2])
+            play_harmony_mock.assert_any_call(harmonies[0])
+            play_harmony_mock.assert_any_call(harmonies[1])
+            play_harmony_mock.assert_any_call(harmonies[2])

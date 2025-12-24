@@ -71,9 +71,9 @@ class Harmony:
         return ":".join([note.to_str() for note in self.notes])
 
 
-Composition = list[
-    Harmony
-]  # TODO: изменить на класс с полем harmonies. Тогда можно будет сюда перенести все методы парсинга.
+@dataclass(frozen=True)
+class Composition:
+    harmonies = tuple[Harmony, ...]
 
 
 @dataclass
