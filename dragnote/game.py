@@ -33,9 +33,7 @@ class Game:
 
     def _run_one_game(self):
         num, composition = self._read_composition()
-        game = Game(
-            num, composition, self.sequencer, self.settings.max_error_count, self.settings.volume, self.settings.tempo
-        )
+        game = Game(self.settings)
         try:
             game.run()
         except GameOver:
