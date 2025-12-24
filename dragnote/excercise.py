@@ -7,11 +7,18 @@
 Нужно добавить класс ИтераторКомпозиции!
 """
 
+from dragnote.domain import Composition
+
 
 class CompositionIterator:
-    pass
+    def __init__(self, composition: Composition):
+        self.composition = composition
 
 
 class Exercise:
-    def __init__(self):
-        pass
+    def __init__(self, composition: Composition):
+        self.composition = composition
+        self.composition_iterator = CompositionIterator(composition)
+
+    def run(self):
+        raise NotImplementedError

@@ -33,10 +33,10 @@ class Game:
         return num, composition
 
     def _run_one_game(self):
-        num, composition = self._read_composition()
-        game = Game(self.settings)
+        composition = self._read_composition()
+        exercise = Exercise(composition)
         try:
-            game.run()
+            exercise.run()
         except GameOver:
             play_fail()
         else:
