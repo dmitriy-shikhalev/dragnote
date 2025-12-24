@@ -9,6 +9,7 @@ import logging
 from dragnote.database import Database
 from dragnote.domain import Composition
 from dragnote.errors import GameOver
+from dragnote.excercise import Exercise
 from dragnote.initialize import initialize
 from dragnote.iofuncs import play_fail
 from dragnote.library import Library
