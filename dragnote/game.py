@@ -27,10 +27,10 @@ class Game:
         self.database = Database()
         self.library = Library()
 
-    def _read_composition(self) -> tuple[int, Composition]:
+    def _read_composition(self) -> Composition:
         num = self.database.read()
         composition = self.library.read_composition(num)
-        return num, composition
+        return composition
 
     def _run_one_game(self):
         composition = self._read_composition()
