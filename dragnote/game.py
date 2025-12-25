@@ -44,4 +44,4 @@ class Game:
 
     def run(self):
         while True:
-            self._run_one_game()
+            self._run_one_exercise()
