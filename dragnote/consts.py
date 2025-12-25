@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from enum import Enum
 
 SEMITONES_IN_AN_OCTAVE = 12
@@ -145,6 +146,9 @@ class OCTAVE(str, Enum):
                 return 2
             case _:  # pragma: no cover
                 raise ValueError(self)
+
+
+NOTE_DURATION_RE = re.compile(r"^(?P<notes>\S+)\((?P<duration>\S+)\)$")
 
 
 ACCEPTABLE_ERROR_NUMBER = 3

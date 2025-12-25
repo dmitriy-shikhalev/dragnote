@@ -8,6 +8,7 @@ from fractions import Fraction
 
 from dragnote.consts import (
     NAME,
+    NOTE_DURATION_RE,
     OCTAVE,
     SEMITONES_IN_AN_OCTAVE,
     SIGN,
@@ -51,20 +52,27 @@ class Harmony:
 
     @classmethod
     def from_str(cls, s: str, duration: Fraction | None = None) -> Harmony:
-        return Harmony(notes=tuple(Note.from_str(note_str) for note_str in s.split(":")), duration=duration)
+        if duration:
+            return Harmony(notes=tuple(Note.from_str(note_str) for note_str in s.split(":")), duration=duration)
+
+        value = NOTE_DURATION_RE.match(s)
+        if not value:
+            raise ValueError(f"Not a Harmony: {s}")
+        return Harmony(
+            notes=tuple(Note.from_str(note_str) for note_str in value.groupdict()["notes"].split(":")),
+            duration=Fraction(value.groupdict()["duration"]),
+        )
 
     def __eq__(self, other):
         if not isinstance(other, Harmony):
             raise ValueError(f"Can not compare Harmony ({self}) and {type(other)} ({other})")
-        if self.duration != other.duration:
-            return False
         if set(self.notes) != set(other.notes):
             return False
         return True
 
     def get_duration_in_seconds(self, tempo: int) -> float:
         if self.duration is None:
-            raise Exception()  # TODO: specify error type
+            raise ValueError("No duration")
         return float(self.duration) * 4 * 60 / tempo
 
     def to_str(self) -> str:
@@ -80,8 +88,6 @@ class Composition:
         ls = s.split()
         harmonies = []
         for st in ls:
-            if not st.strip():
-                continue
             harmony = Harmony.from_str(st)
             harmonies.append(harmony)
         return cls(harmonies=tuple(harmonies))
