@@ -7,7 +7,6 @@ import yaml
 from dragnote.consts import DIRNAME, LIST_FILENAME
 from dragnote.domain import Composition
 from dragnote.errors import NoFile
-from dragnote.parse import parse_composition
 
 
 class Library:
@@ -41,4 +40,4 @@ class Library:
         with open(self.get_full_filename(num)) as fd:
             txt = fd.read()
 
-        return parse_composition(txt)
+        return Composition.from_str(txt)

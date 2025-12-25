@@ -50,7 +50,7 @@ class Harmony:
     duration: Fraction | None = None
 
     @classmethod
-    def from_str(cls, s: str, duration: Fraction) -> Harmony:
+    def from_str(cls, s: str, duration: Fraction | None = None) -> Harmony:
         return Harmony(notes=tuple(Note.from_str(note_str) for note_str in s.split(":")), duration=duration)
 
     def __eq__(self, other):
@@ -73,7 +73,18 @@ class Harmony:
 
 @dataclass(frozen=True)
 class Composition:
-    harmonies = tuple[Harmony, ...]
+    harmonies: tuple[Harmony, ...]
+
+    @classmethod
+    def from_str(cls, s: str) -> Composition:
+        ls = s.split()
+        harmonies = []
+        for st in ls:
+            if not st.strip():
+                continue
+            harmony = Harmony.from_str(st)
+            harmonies.append(harmony)
+        return cls(harmonies=tuple(harmonies))
 
 
 @dataclass

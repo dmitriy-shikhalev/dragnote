@@ -59,7 +59,7 @@ class TestLibrary:
             full_filename = library.get_full_filename(0)
             assert full_filename == "compositions/a"
 
-    @patch("dragnote.library.parse_composition")
+    @patch("dragnote.library.Composition.from_str")
     @patch(
         "dragnote.library.open",
         return_value=Mock(
@@ -67,7 +67,7 @@ class TestLibrary:
             __exit__=Mock(),
         ),
     )
-    def test_read_composition(self, open_mock, parse_composition_mock):
+    def test_read_composition(self, open_mock, from_str_mock):
         num = random.randint(0, 100)
 
         with (
@@ -76,12 +76,10 @@ class TestLibrary:
         ):
             library = Library()
             data = library.read_composition(num)
-            assert data == parse_composition_mock.return_value
+            assert data == from_str_mock.return_value
 
             get_full_filename_mock.assert_called_once_with(num)
             open_mock.assert_called_once_with(get_full_filename_mock.return_value)
             open_mock.return_value.__enter__.assert_called_once_with()
             open_mock.return_value.__enter__.return_value.read.assert_called_once_with()
-            parse_composition_mock.assert_called_once_with(
-                open_mock.return_value.__enter__.return_value.read.return_value
-            )
+            from_str_mock.assert_called_once_with(open_mock.return_value.__enter__.return_value.read.return_value)
