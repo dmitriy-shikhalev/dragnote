@@ -27,13 +27,13 @@ class Game:
         self.database = Database()
         self.library = Library()
 
-    def _read_composition(self) -> Composition:
+    def _get_composition(self) -> Composition:
         num = self.database.read()
         composition = self.library.read_composition(num)
         return composition
 
     def _run_one_exercise(self):
-        composition = self._read_composition()
+        composition = self._get_composition()
         exercise = Exercise(composition)
         try:
             exercise.run()
