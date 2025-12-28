@@ -13,6 +13,7 @@ class Sounds(Enum):
     OVER = "sounds/over.mp3"
     DZIN = "sounds/dzin.mp3"
     BULK = "sounds/bulk.mp3"
+    TUK = "sounds/tuk.mp3"
 
 
 def play_sound(sound: Sounds):

@@ -26,7 +26,7 @@ def play_ok():
 
 
 def play_before_start():
-    play_sound(Sounds.DZIN)
+    play_sound(Sounds.TUK)
 
 
 def play_mistake():

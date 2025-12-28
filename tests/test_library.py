@@ -8,6 +8,28 @@ from dragnote.library import Library
 
 
 class TestLibrary:
+    def test_get_full_list_filename(self):
+        result = Library.get_full_list_filename()
+        assert result == "compositions/list.yaml"
+
+    @patch("dragnote.library.open")
+    def test_get_list_file_descriptor(self, open_mock):
+        with patch.object(Library, "get_full_list_filename") as get_full_list_filename_mock:
+            result = Library.get_list_file_descriptor()
+
+            get_full_list_filename_mock.assert_called_once_with()
+            open_mock.assert_called_once_with(get_full_list_filename_mock.return_value)
+            assert result == open_mock.return_value
+
+    @patch("dragnote.library.yaml")
+    def test_read_yaml_list_file(self, yaml_mock):
+        with patch.object(Library, "get_list_file_descriptor") as get_list_file_descriptor_mock:
+            result = Library.read_yaml_list_file()
+
+            get_list_file_descriptor_mock.assert_called_once_with()
+            yaml_mock.load.assert_called_once_with(get_list_file_descriptor_mock.return_value, yaml_mock.Loader)
+            assert result == yaml_mock.load.return_value
+
     def test_init(self):
         filenames = [Mock(), Mock(), Mock()]
         with patch.object(

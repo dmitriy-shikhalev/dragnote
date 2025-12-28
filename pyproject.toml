@@ -85,11 +85,6 @@ docstring-quotes = "double"
 quote-style = "double"
 
 
-#[[tool.mypy.overrides]]
-#module = "xxx.*"
-#ignore_missing_imports = true
-
-
 [tool.pytest.ini_options]
 filterwarnings = [
     "error",
