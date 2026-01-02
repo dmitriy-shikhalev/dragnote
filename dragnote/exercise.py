@@ -7,7 +7,9 @@
 Нужно добавить класс ИтераторКомпозиции!
 """
 
-from dragnote.domain import Composition
+from typing import Iterable
+
+from dragnote.domain import Composition, Harmony
 from dragnote.errors import GameOver
 from dragnote.play_sounds import (
     play_before_start,
@@ -25,17 +27,29 @@ class Exercise:
         self.current_harmony = 0
         self.error_count = 0
 
+    def get_harmonies(self) -> Iterable[Harmony]:
+        return self.composition.harmonies[self.current_harmony :]
+
+    def is_over(self) -> bool:
+        return self.current_harmony >= len(self.composition.harmonies)
+
+    def is_fail(self) -> bool:
+        return self.error_count >= self.max_error_count
+
+    def run_one_iterate(self):
+        round_ = Round(self.get_harmonies())
+        count, errors = round_.run()
+        if errors:
+            self.error_count += 1
+            play_mistake()
+        self.current_harmony += count
+
     def run(self):
         play_before_start()
-        while self.current_harmony < len(self.composition.harmonies):
-            round_ = Round(self.composition.harmonies[self.current_harmony :])
-            count, errors = round_.run()
-            if errors:
-                self.error_count += 1
-                play_mistake()
-            self.current_harmony += count
+        while not self.is_over():
+            self.run_one_iterate()
 
-        if self.current_harmony >= self.max_error_count:
+        if self.is_fail():
             play_fail()
             raise GameOver()
         else:

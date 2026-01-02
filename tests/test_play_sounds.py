@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 from dragnote.play_sounds import (
+    play_before_start,
     play_fail,
     play_mistake,
     play_ok,
@@ -43,3 +44,10 @@ def test_play_over(play_sound_mock):
     play_over()
 
     play_sound_mock.assert_called_once_with(Sounds.BULK)
+
+
+@patch("dragnote.play_sounds.play_sound")
+def test_play_before_start(play_sound_mock):
+    play_before_start()
+
+    play_sound_mock.assert_called_once_with(Sounds.TUK)
