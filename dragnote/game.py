@@ -11,7 +11,6 @@ from dragnote.domain import Composition
 from dragnote.errors import GameOver
 from dragnote.exercise import Exercise
 from dragnote.initialize import initialize
-from dragnote.iofuncs import play_fail
 from dragnote.library import Library
 from dragnote.sequencer import Sequencer
 from dragnote.settings import Settings
@@ -34,11 +33,11 @@ class Game:
 
     def _run_one_exercise(self):
         composition = self._get_composition()
-        exercise = Exercise(composition)
+        exercise = Exercise(composition, self.settings.max_error_count)
         try:
             exercise.run()
         except GameOver:
-            play_fail()
+            pass
         else:
             self.database.write_plus_one_to_db()
 

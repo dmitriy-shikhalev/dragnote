@@ -35,11 +35,8 @@ class TestGame:
         game.library.read_composition.assert_called_once_with(game.database.read.return_value)
         assert composition == game.library.read_composition.return_value
 
-    @patch("dragnote.game.play_fail")
     @patch("dragnote.game.Exercise")
-    def test_run_one_exercise(
-        self, exercise_mock, play_fail_mock, initialize_mock, sequencer_mock, database_mock, library_mock
-    ):
+    def test_run_one_exercise(self, exercise_mock, initialize_mock, sequencer_mock, database_mock, library_mock):
         settings = Mock()
         game = Game(settings)
 
@@ -47,15 +44,13 @@ class TestGame:
             game._run_one_exercise()
 
             _get_composition_mock.assert_called_once_with()
-            exercise_mock.assert_called_once_with(_get_composition_mock.return_value)
+            exercise_mock.assert_called_once_with(_get_composition_mock.return_value, settings.max_error_count)
             exercise_mock.return_value.run.assert_called_once_with()
-            play_fail_mock.assert_not_called()
             game.database.write_plus_one_to_db.assert_called_once_with()
 
-    @patch("dragnote.game.play_fail")
     @patch("dragnote.game.Exercise", return_value=Mock(run=Mock(side_effect=GameOver)))
     def test_run_one_exercise_game_over(
-        self, exercise_mock, play_fail_mock, initialize_mock, sequencer_mock, database_mock, library_mock
+        self, exercise_mock, initialize_mock, sequencer_mock, database_mock, library_mock
     ):
         settings = Mock()
         game = Game(settings)
@@ -64,9 +59,8 @@ class TestGame:
             game._run_one_exercise()
 
             _get_composition_mock.assert_called_once_with()
-            exercise_mock.assert_called_once_with(_get_composition_mock.return_value)
+            exercise_mock.assert_called_once_with(_get_composition_mock.return_value, settings.max_error_count)
             exercise_mock.return_value.run.assert_called_once_with()
-            play_fail_mock.assert_called_once_with()
             game.database.write_plus_one_to_db.assert_not_called()
 
     def test_run(self, initialize_mock, sequencer_mock, database_mock, library_mock):
