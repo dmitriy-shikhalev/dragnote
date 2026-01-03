@@ -25,7 +25,7 @@ types-pyyaml = "^6.0.12.20250915"
 profile = "black"
 src_paths = ["dragnote", "tests"]
 skip = [
-    "dragnote/xxx.py",
+    "dragnote/xxx.py",  # TODO: remove this line
 ]
 
 [build-system]
@@ -34,6 +34,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 dragnote = "dragnote.main:main"
+synths = "dragnote.main:synths"
 
 
 [tool.black]

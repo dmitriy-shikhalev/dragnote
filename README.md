@@ -1,8 +1,8 @@
 # dragnote
 
-## В linux запустить fluidsynth:
+## В debian linux запустить fluidsynth:
 - Установить ALSA в ОС.
-- Установить в ОС ```fluidsynth```.
+- Установить в ОС ```fluidsynth``` и ```fluid-soundfont-gm```.
 - Открыть терминал и запустить ```fluidsynth```.
 - Узнать номер синтезатора ```aconnect -l``` (номер - это порядковый номер из приведенных, начиная с 0)
 ```

@@ -9,7 +9,7 @@ from pydantic_settings import (
 
 
 class Settings(BaseSettings):
-    synth: int
+    synth: int = 2
     instrument: int = 0
     log_level: str = "INFO"
     volume: int = 127
