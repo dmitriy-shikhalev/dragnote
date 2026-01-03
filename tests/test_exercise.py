@@ -15,45 +15,72 @@ class TestExercise:
         return Composition(
             harmonies=(
                 Harmony(notes=(Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.FIRST),), duration=Fraction(1 / 2)),
+                Harmony(notes=(Note(name=NAME.D, sign=SIGN.NATURAL, octave=OCTAVE.FIRST),), duration=Fraction(1 / 2)),
+                Harmony(notes=(Note(name=NAME.E, sign=SIGN.NATURAL, octave=OCTAVE.FIRST),), duration=Fraction(1 / 2)),
             ),
         )
 
     def test_init(self):
         composition = self.get_composition()
-        exercise = Exercise(composition=composition, max_error_count=3)
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
 
         assert exercise.composition == composition
+        assert exercise.sequencer == sequencer
         assert exercise.max_error_count == 3
         assert exercise.current_harmony == 0
         assert exercise.error_count == 0
 
     def test_get_harmonies(self):
         composition = self.get_composition()
-        exercise = Exercise(composition=composition, max_error_count=3)
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
 
         assert exercise.get_harmonies() == composition.harmonies
 
     def test_is_over(self):
         composition = self.get_composition()
-        exercise = Exercise(composition=composition, max_error_count=3)
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
 
         assert not exercise.is_over()
 
     def test_is_fail(self):
         composition = self.get_composition()
-        exercise = Exercise(composition=composition, max_error_count=3)
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
 
         assert not exercise.is_fail()
+
+    def test_get_greeting_no_current(self):
+        composition = self.get_composition()
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
+
+        greeting = exercise.get_greeting()
+
+        assert greeting == "First harmony is C1"
+
+    def test_get_greeting_with_current(self):
+        composition = self.get_composition()
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
+        exercise.current_harmony = 2
+
+        greeting = exercise.get_greeting()
+
+        assert greeting == "C1 D1"
 
     @patch("dragnote.exercise.play_mistake")
     @patch("dragnote.exercise.Round", return_value=Mock(run=Mock(return_value=(1, 1))))
     def test_run_one_iterate(self, round_mock, play_mistake_mock):
         composition = self.get_composition()
-        exercise = Exercise(composition=composition, max_error_count=3)
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
 
         exercise.run_one_iterate()
 
-        round_mock.assert_called_once_with(composition.harmonies)
+        round_mock.assert_called_once_with(composition.harmonies, greeting="First harmony is C1", sequencer=sequencer)
         round_mock.return_value.run.assert_called_once_with()
         assert exercise.error_count == 1
         play_mistake_mock.assert_called_once_with()
@@ -64,7 +91,8 @@ class TestExercise:
     @patch("dragnote.exercise.play_before_start")
     def test_run_game_over(self, play_before_start_mock, play_fail_mock, play_success_mock):
         composition = self.get_composition()
-        exercise = Exercise(composition=composition, max_error_count=3)
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
 
         with (
             patch.object(exercise, "is_over", side_effect=(False, True)) as is_over_mock,
@@ -86,7 +114,8 @@ class TestExercise:
     @patch("dragnote.exercise.play_before_start")
     def test_run_success(self, play_before_start_mock, play_fail_mock, play_success_mock):
         composition = self.get_composition()
-        exercise = Exercise(composition=composition, max_error_count=3)
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
 
         with (
             patch.object(exercise, "is_over", side_effect=(False, True)) as is_over_mock,

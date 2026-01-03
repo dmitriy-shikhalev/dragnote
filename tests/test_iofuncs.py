@@ -1,40 +1,28 @@
 from unittest.mock import Mock, patch
 
-import pytest
-
-from dragnote.domain import Harmony, Note
 from dragnote.iofuncs import (
     print_info,
     read_input,
+    read_notes,
 )
 
 
 @patch("dragnote.iofuncs.input")
-def test_read_input_harmonies_list(input_mock):
-    result = read_input(
-        harmonies_list=[Harmony(notes=(Note.from_str("C1"),))],
-    )
+def test_read_input(input_mock):
+    result = read_input("C1")
 
     input_mock.assert_called_once_with("(C1)> ")
     assert result == input_mock.return_value
 
 
-@patch("dragnote.iofuncs.input")
-def test_read_input_first_harmony(input_mock):
-    result = read_input(
-        first_harmony=Harmony(notes=(Note.from_str("C1"),)),
-    )
+@patch("dragnote.iofuncs.Composition.from_str")
+@patch("dragnote.iofuncs.read_input")
+def test_read_notes(read_input_mock, from_str_mock):
+    result = read_notes("Test")
 
-    input_mock.assert_called_once_with("(First note is C1)> ")
-    assert result == input_mock.return_value
-
-
-@patch("dragnote.iofuncs.input")
-def test_read_input_value_error(input_mock):
-    with pytest.raises(ValueError):
-        _ = read_input()
-
-    input_mock.assert_not_called()
+    read_input_mock.assert_called_once_with("Test")
+    from_str_mock.assert_called_once_with(read_input_mock.return_value)
+    assert result == from_str_mock.return_value
 
 
 @patch("dragnote.iofuncs.print")

@@ -7,7 +7,7 @@
 Нужно добавить класс ИтераторКомпозиции!
 """
 
-from typing import Iterable
+from typing import Sequence
 
 from dragnote.domain import Composition, Harmony
 from dragnote.errors import GameOver
@@ -18,17 +18,27 @@ from dragnote.play_sounds import (
     play_success,
 )
 from dragnote.round import Round
+from dragnote.sequencer import Sequencer
 
 
 class Exercise:
-    def __init__(self, composition: Composition, max_error_count: int):
+    def __init__(self, composition: Composition, max_error_count: int, sequencer: Sequencer):
         self.composition = composition
         self.max_error_count = max_error_count
+        self.sequencer = sequencer
         self.current_harmony = 0
         self.error_count = 0
 
-    def get_harmonies(self) -> Iterable[Harmony]:
+    def get_harmonies(self) -> Sequence[Harmony]:
         return self.composition.harmonies[self.current_harmony :]
+
+    def get_greeting(self) -> str:
+        if self.current_harmony == 0:
+            return f"First harmony is {self.composition.harmonies[0].to_str()}"
+        return " ".join(
+            ":".join(note.to_str() for note in harmony.notes)
+            for harmony in self.composition.harmonies[: self.current_harmony]
+        )
 
     def is_over(self) -> bool:
         return self.current_harmony >= len(self.composition.harmonies)
@@ -37,7 +47,7 @@ class Exercise:
         return self.error_count >= self.max_error_count
 
     def run_one_iterate(self):
-        round_ = Round(self.get_harmonies())
+        round_ = Round(self.get_harmonies(), greeting=self.get_greeting(), sequencer=self.sequencer)
         count, errors = round_.run()
         if errors:
             self.error_count += 1

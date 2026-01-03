@@ -3,17 +3,16 @@
 Чтение нот, проигрывание звуков, вывод текста на экран.
 """
 
-from dragnote.domain import Harmony, Info
+from dragnote.domain import Composition, Info
 
 
-def read_input(harmonies_list: list[Harmony] | None = None, first_harmony: Harmony | None = None):
-    if harmonies_list:
-        input_str = " ".join(":".join(note.to_str() for note in harmony.notes) for harmony in harmonies_list)
-    elif first_harmony:
-        input_str = f"First note is {first_harmony.to_str()}"
-    else:
-        raise ValueError("Notes list is None and first_harmony is None")
-    return input(f"({input_str})> ")
+def read_input(greeting: str):
+    return input(f"({greeting})> ")
+
+
+def read_notes(greeting: str):
+    string = read_input(greeting)
+    return Composition.from_str(string)
 
 
 def print_info(info: Info):
