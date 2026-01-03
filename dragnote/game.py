@@ -33,7 +33,7 @@ class Game:
 
     def _run_one_exercise(self):
         composition = self._get_composition()
-        exercise = Exercise(composition, self.settings.max_error_count)
+        exercise = Exercise(composition, self.settings.max_error_count, self.sequencer)
         try:
             exercise.run()
         except GameOver:
