@@ -148,7 +148,7 @@ class OCTAVE(str, Enum):
                 raise ValueError(self)
 
 
-NOTE_DURATION_RE = re.compile(r"^(?P<notes>\S+)\((?P<duration>\S+)\)$")
+NOTE_DURATION_RE = re.compile(r"^(?P<name>[AC-Hac-h])(?P<sign>[#b]*)(?P<octave>\d)(\((?P<duration>\S+)\))?$")
 
 
 ACCEPTABLE_ERROR_NUMBER = 3

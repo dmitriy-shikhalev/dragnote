@@ -30,9 +30,12 @@ class Note:
 
     @classmethod
     def from_str(cls, string: str) -> Note:
-        name = NAME.from_str(string[0])
-        sign = SIGN.from_str(string[1:-1])
-        octave = OCTAVE.from_num(int(string[-1]))
+        r = NOTE_DURATION_RE.match(string)
+        if not r:
+            raise ValueError(f"Not correct note: {string}")
+        name = NAME.from_str(r.groupdict()["name"])
+        sign = SIGN.from_str(r.groupdict()["sign"])
+        octave = OCTAVE.from_num(int(r.groupdict()["octave"]))
 
         return Note(name=name, sign=sign, octave=octave)
 
@@ -88,7 +91,7 @@ class Composition:
         ls = s.split()
         harmonies = []
         for st in ls:
-            harmony = Harmony.from_str(st)
+            harmony = Harmony.from_str(st, 1)
             harmonies.append(harmony)
         return cls(harmonies=tuple(harmonies))
 

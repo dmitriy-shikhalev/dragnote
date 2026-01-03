@@ -2,6 +2,7 @@
 
 from typing import Sequence
 
+from dragnote.compare import Compare
 from dragnote.domain import Harmony
 from dragnote.iofuncs import read_notes
 from dragnote.play_sounds import play_mistake
@@ -14,13 +15,20 @@ class Round:
         self.greeting = greeting
         self.sequencer = sequencer
 
+    def play_harmonies(self):
+        for harmony in self.harmonies:
+            self.sequencer.play_harmony(harmony)
+
     def run(self) -> tuple[int, int]:
+        self.play_harmonies()
+
         composition = read_notes(self.greeting)
         count = 0
         errors = 0
 
         while count < len(self.harmonies):
-            if self.harmonies[count] == composition.harmonies[count]:
+            compare = Compare(self.harmonies[count], composition.harmonies[count])
+            if compare.is_equal():
                 self.sequencer.play_harmony(composition.harmonies[count])
                 count += 1
             else:

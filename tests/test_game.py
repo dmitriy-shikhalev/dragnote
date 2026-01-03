@@ -44,7 +44,9 @@ class TestGame:
             game._run_one_exercise()
 
             _get_composition_mock.assert_called_once_with()
-            exercise_mock.assert_called_once_with(_get_composition_mock.return_value, settings.max_error_count)
+            exercise_mock.assert_called_once_with(
+                _get_composition_mock.return_value, settings.max_error_count, sequencer_mock.return_value
+            )
             exercise_mock.return_value.run.assert_called_once_with()
             game.database.write_plus_one_to_db.assert_called_once_with()
 
@@ -59,7 +61,9 @@ class TestGame:
             game._run_one_exercise()
 
             _get_composition_mock.assert_called_once_with()
-            exercise_mock.assert_called_once_with(_get_composition_mock.return_value, settings.max_error_count)
+            exercise_mock.assert_called_once_with(
+                _get_composition_mock.return_value, settings.max_error_count, sequencer_mock.return_value
+            )
             exercise_mock.return_value.run.assert_called_once_with()
             game.database.write_plus_one_to_db.assert_not_called()
 
