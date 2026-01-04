@@ -2,8 +2,6 @@
 
 import logging
 
-import pygame.midi
-
 from dragnote.game import Game
 from dragnote.settings import Settings
 
@@ -15,14 +13,3 @@ def main():
 
     game_instance = Game(settings)
     game_instance.run()
-
-
-def synths():
-    pygame.init()
-    pygame.midi.init()
-    count = pygame.midi.get_count()
-    print("Count of synths is", count)
-    for i in range(count):
-        info = pygame.midi.get_device_info(i)
-        print(i, info)
-

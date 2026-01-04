@@ -34,14 +34,14 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 dragnote = "dragnote.main:main"
-synths = "dragnote.main:synths"
+synths = "dragnote.synths:synths"
 
 
 [tool.black]
 line-length = 120
 target-version = ['py313']
 include = '\.pyi?$'
-exclude = 'xxx'
+exclude = 'xxx'  # TODO: remove this line
 
 [tool.ruff]
 # Same as Black.

@@ -1,5 +1,6 @@
 """ЗО модуля - один раунд: считать данные с входа, сравнить с текущими данными упражнения, выдать результат."""
 
+import logging
 from typing import Sequence
 
 from dragnote.compare import Compare
@@ -7,6 +8,8 @@ from dragnote.domain import Harmony
 from dragnote.iofuncs import read_notes
 from dragnote.play_sounds import play_mistake
 from dragnote.sequencer import Sequencer
+
+logger = logging.getLogger(__name__)
 
 
 class Round:
@@ -26,7 +29,8 @@ class Round:
         count = 0
         errors = 0
 
-        while count < len(self.harmonies):
+        while count < len(self.harmonies) and count < len(composition.harmonies):
+            logger.debug("Play %s note in harmonies, len(self.harmonies) = %s", count, len(self.harmonies))
             compare = Compare(self.harmonies[count], composition.harmonies[count])
             if compare.is_equal():
                 self.sequencer.play_harmony(composition.harmonies[count])

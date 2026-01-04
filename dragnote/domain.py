@@ -8,11 +8,11 @@ from fractions import Fraction
 
 from dragnote.consts import (
     NAME,
-    NOTE_DURATION_RE,
     OCTAVE,
     SEMITONES_IN_AN_OCTAVE,
     SIGN,
 )
+from dragnote.regexp import NOTE_DURATION_RE
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +76,7 @@ class Harmony:
     def get_duration_in_seconds(self, tempo: int) -> float:
         if self.duration is None:
             raise ValueError("No duration")
-        return float(self.duration) * 4 * 60 / tempo
+        return float(self.duration) * 60 / tempo
 
     def to_str(self) -> str:
         return ":".join([note.to_str() for note in self.notes])
