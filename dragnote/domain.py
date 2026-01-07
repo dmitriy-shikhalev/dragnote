@@ -28,17 +28,6 @@ class Note:
             raise ValueError(f"Can not check equality Note and {other}")
         return self.to_note_value() == other.to_note_value()
 
-    @classmethod
-    def from_str(cls, string: str) -> Note:
-        r = NOTE_DURATION_RE.match(string)
-        if not r:
-            raise ValueError(f"Not correct note: {string}")
-        name = NAME.from_str(r.groupdict()["name"])
-        sign = SIGN.from_str(r.groupdict()["sign"])
-        octave = OCTAVE.from_num(int(r.groupdict()["octave"]))
-
-        return Note(name=name, sign=sign, octave=octave)
-
     def to_note_value(self) -> int:
         value = self.name.to_num() + self.sign.to_num()
         value += SEMITONES_IN_AN_OCTAVE * self.octave.to_num()
@@ -52,19 +41,6 @@ class Note:
 class Harmony:
     notes: tuple[Note, ...]
     duration: Fraction | None = None
-
-    @classmethod
-    def from_str(cls, s: str, duration: Fraction | None = None) -> Harmony:
-        if duration:
-            return Harmony(notes=tuple(Note.from_str(note_str) for note_str in s.split(":")), duration=duration)
-
-        value = NOTE_DURATION_RE.match(s)
-        if not value:
-            raise ValueError(f"Not a Harmony: {s}")
-        return Harmony(
-            notes=tuple(Note.from_str(note_str) for note_str in value.groupdict()["notes"].split(":")),
-            duration=Fraction(value.groupdict()["duration"]),
-        )
 
     def __eq__(self, other):
         if not isinstance(other, Harmony):
@@ -85,15 +61,6 @@ class Harmony:
 @dataclass(frozen=True)
 class Composition:
     harmonies: tuple[Harmony, ...]
-
-    @classmethod
-    def from_str(cls, s: str) -> Composition:
-        ls = s.split()
-        harmonies = []
-        for st in ls:
-            harmony = Harmony.from_str(st, 1)
-            harmonies.append(harmony)
-        return cls(harmonies=tuple(harmonies))
 
 
 @dataclass
