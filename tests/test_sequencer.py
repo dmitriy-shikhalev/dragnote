@@ -39,23 +39,23 @@ class TestSequencer:
 
         sequencer.play_harmony(harmony)
 
-        harmony.notes[0].to_note_value.assert_called_with()
-        harmony.notes[1].to_note_value.assert_called_with()
-        harmony.notes[2].to_note_value.assert_called_with()
+        harmony.notes[0].to_value.assert_called_with()
+        harmony.notes[1].to_value.assert_called_with()
+        harmony.notes[2].to_value.assert_called_with()
 
         harmony.get_duration_in_seconds.assert_called_once_with(tempo)
 
         assert sequencer.midi_out.note_on.call_count == 3
-        sequencer.midi_out.note_on.assert_any_call(harmony.notes[0].to_note_value.return_value, sequencer.volume)
-        sequencer.midi_out.note_on.assert_any_call(harmony.notes[1].to_note_value.return_value, sequencer.volume)
-        sequencer.midi_out.note_on.assert_any_call(harmony.notes[2].to_note_value.return_value, sequencer.volume)
+        sequencer.midi_out.note_on.assert_any_call(harmony.notes[0].to_value.return_value, sequencer.volume)
+        sequencer.midi_out.note_on.assert_any_call(harmony.notes[1].to_value.return_value, sequencer.volume)
+        sequencer.midi_out.note_on.assert_any_call(harmony.notes[2].to_value.return_value, sequencer.volume)
 
         wait_mock.assert_called_once_with(2000)
 
         assert sequencer.midi_out.note_off.call_count == 3
-        sequencer.midi_out.note_off.assert_any_call(harmony.notes[0].to_note_value.return_value, sequencer.volume)
-        sequencer.midi_out.note_off.assert_any_call(harmony.notes[1].to_note_value.return_value, sequencer.volume)
-        sequencer.midi_out.note_off.assert_any_call(harmony.notes[2].to_note_value.return_value, sequencer.volume)
+        sequencer.midi_out.note_off.assert_any_call(harmony.notes[0].to_value.return_value, sequencer.volume)
+        sequencer.midi_out.note_off.assert_any_call(harmony.notes[1].to_value.return_value, sequencer.volume)
+        sequencer.midi_out.note_off.assert_any_call(harmony.notes[2].to_value.return_value, sequencer.volume)
 
     @patch("dragnote.sequencer.pygame.midi.Output")
     def test_play_composition(self, output_mock):

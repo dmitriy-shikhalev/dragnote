@@ -20,12 +20,12 @@ class Sequencer:
     def play_harmony(self, harmony: Harmony):
         logger.debug("play harmony: %s in tempo %s", harmony, self.tempo)
         for note in harmony.notes:
-            self.midi_out.note_on(note.to_note_value(), self.volume)
+            self.midi_out.note_on(note.to_value(), self.volume)
 
         pygame.time.wait(int(harmony.get_duration_in_seconds(self.tempo) * 1000))
 
         for note in harmony.notes:
-            self.midi_out.note_off(note.to_note_value(), self.volume)
+            self.midi_out.note_off(note.to_value(), self.volume)
 
     def play_composition(self, composition: Composition):
         logger.debug("Play composition: %s", composition)

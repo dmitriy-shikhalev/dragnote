@@ -3,7 +3,8 @@
 Чтение нот, проигрывание звуков, вывод текста на экран.
 """
 
-from dragnote.domain import Composition, Info
+from dragnote.coder import CompositionCoder
+from dragnote.domain import Info
 
 
 def read_input(greeting: str):
@@ -12,7 +13,7 @@ def read_input(greeting: str):
 
 def read_notes(greeting: str):
     string = read_input(greeting)
-    return Composition.from_str(string)
+    return CompositionCoder.decode(string, with_duration=False)
 
 
 def print_info(info: Info):

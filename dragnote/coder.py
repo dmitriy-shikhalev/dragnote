@@ -7,19 +7,18 @@ from dragnote.consts import NAME, OCTAVE, SIGN
 from dragnote.domain import Composition, Duration, Harmony, Note
 from dragnote.errors import CoderError
 
-
 CODER_TYPE = TypeVar("CODER_TYPE", Composition, Harmony, Duration, Note, NAME, OCTAVE, SIGN)
 
 
 class AbstractCoder(ABC, Generic[CODER_TYPE]):
     @classmethod
     @abstractmethod
-    def encode(cls, obj: CODER_TYPE) -> str:
+    def encode(cls, obj: CODER_TYPE, **kwargs) -> str:
         raise NotImplementedError  # pragma: no cover
 
     @classmethod
     @abstractmethod
-    def decode(cls, text: str) -> CODER_TYPE:
+    def decode(cls, text: str, **kwargs) -> CODER_TYPE:
         raise NotImplementedError  # pragma: no cover
 
 
@@ -159,7 +158,6 @@ class HarmonyCoder(AbstractCoder[Harmony]):
             return ":".join(NoteCoder.encode(note) for note in obj.notes) + DurationCoder.encode(obj.duration)
         return ":".join(NoteCoder.encode(note) for note in obj.notes)
 
-
     @classmethod
     def decode(cls, text: str, with_duration: bool) -> Harmony:
         if with_duration:
@@ -171,9 +169,7 @@ class HarmonyCoder(AbstractCoder[Harmony]):
                 duration=DurationCoder.decode(duration),
             )
         notes_list = text.split(":")
-        return Harmony(
-            notes=tuple([NoteCoder.decode(note) for note in notes_list])
-        )
+        return Harmony(notes=tuple([NoteCoder.decode(note) for note in notes_list]))
 
 
 class CompositionCoder(AbstractCoder[Composition]):

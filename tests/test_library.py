@@ -82,13 +82,16 @@ class TestLibrary:
             assert full_filename == "compositions/a"
 
     @patch(
+        "dragnote.library.CompositionCoder",
+    )
+    @patch(
         "dragnote.library.open",
         return_value=Mock(
             __enter__=Mock(),
             __exit__=Mock(),
         ),
     )
-    def test_read_composition(self, open_mock):
+    def test_read_composition(self, open_mock, composition_coder_mock):
         num = random.randint(0, 100)
 
         with (
@@ -97,10 +100,13 @@ class TestLibrary:
         ):
             library = Library()
             data = library.read_composition(num)
-            assert data == from_str_mock.return_value
+
+            composition_coder_mock.decode.assert_called_once_with(
+                open_mock.return_value.__enter__.return_value.read.return_value, with_duration=True
+            )
+            assert data == composition_coder_mock.decode.return_value
 
             get_full_filename_mock.assert_called_once_with(num)
             open_mock.assert_called_once_with(get_full_filename_mock.return_value)
             open_mock.return_value.__enter__.assert_called_once_with()
             open_mock.return_value.__enter__.return_value.read.assert_called_once_with()
-            from_str_mock.assert_called_once_with(open_mock.return_value.__enter__.return_value.read.return_value)

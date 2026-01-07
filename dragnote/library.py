@@ -41,4 +41,4 @@ class Library:
         with open(self.get_full_filename(num)) as fd:
             txt = fd.read()
 
-        return CompositionCoder.decode(txt)
+        return CompositionCoder.decode(txt, with_duration=True)

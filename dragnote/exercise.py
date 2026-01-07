@@ -9,6 +9,7 @@
 
 from typing import Sequence
 
+from dragnote.coder import HarmonyCoder
 from dragnote.domain import Composition, Harmony
 from dragnote.errors import GameOver
 from dragnote.play_sounds import (
@@ -34,9 +35,9 @@ class Exercise:
 
     def get_greeting(self) -> str:
         if self.current_harmony == 0:
-            return f"First harmony is {self.composition.harmonies[0].to_str()}"
+            return f"First harmony is {HarmonyCoder.encode(self.composition.harmonies[0], with_duration=False)}"
         return " ".join(
-            ":".join(note.to_str() for note in harmony.notes)
+            HarmonyCoder.encode(harmony, with_duration=False)
             for harmony in self.composition.harmonies[: self.current_harmony]
         )
 

@@ -15,14 +15,14 @@ def test_read_input(input_mock):
     assert result == input_mock.return_value
 
 
-@patch("dragnote.iofuncs.Composition.from_str")
+@patch("dragnote.iofuncs.CompositionCoder.decode")
 @patch("dragnote.iofuncs.read_input")
-def test_read_notes(read_input_mock, from_str_mock):
+def test_read_notes(read_input_mock, decode_mock):
     result = read_notes("Test")
 
     read_input_mock.assert_called_once_with("Test")
-    from_str_mock.assert_called_once_with(read_input_mock.return_value)
-    assert result == from_str_mock.return_value
+    decode_mock.assert_called_once_with(read_input_mock.return_value, with_duration=False)
+    assert result == decode_mock.return_value
 
 
 @patch("dragnote.iofuncs.print")
