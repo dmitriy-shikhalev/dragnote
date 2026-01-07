@@ -12,7 +12,6 @@ from dragnote.consts import (
     SEMITONES_IN_AN_OCTAVE,
     SIGN,
 )
-from dragnote.regexp import NOTE_DURATION_RE
 
 logger = logging.getLogger(__name__)
 
@@ -26,21 +25,27 @@ class Note:
     def __eq__(self, other: object):
         if not isinstance(other, Note):
             raise ValueError(f"Can not check equality Note and {other}")
-        return self.to_note_value() == other.to_note_value()
+        return self.to_value() == other.to_value()
 
-    def to_note_value(self) -> int:
+    def to_value(self) -> int:
         value = self.name.to_num() + self.sign.to_num()
         value += SEMITONES_IN_AN_OCTAVE * self.octave.to_num()
         return value
 
-    def to_str(self) -> str:
-        return f"{self.name.value}{self.sign.to_str()}{self.octave.to_num()}"
+
+@dataclass(frozen=True)
+class Duration:
+    numerator: int
+    denominator: int
+
+    def to_fraction(self) -> Fraction:
+        return Fraction(self.numerator, self.denominator)
 
 
 @dataclass(frozen=True)
 class Harmony:
     notes: tuple[Note, ...]
-    duration: Fraction | None = None
+    duration: Duration | None = None
 
     def __eq__(self, other):
         if not isinstance(other, Harmony):
@@ -52,10 +57,7 @@ class Harmony:
     def get_duration_in_seconds(self, tempo: int) -> float:
         if self.duration is None:
             raise ValueError("No duration")
-        return float(self.duration) * 60 / tempo
-
-    def to_str(self) -> str:
-        return ":".join([note.to_str() for note in self.notes])
+        return float(self.duration.to_fraction()) * 60 / tempo
 
 
 @dataclass(frozen=True)

@@ -1,7 +1,17 @@
 import pytest
 
-from dragnote.coder import NameCoder, OctaveCoder, SignCoder
-from dragnote.domain import NAME, OCTAVE, SIGN
+from dragnote.coder import (
+    CompositionCoder,
+    DurationCoder,
+    HarmonyCoder,
+    NameCoder,
+    NoteCoder,
+    OctaveCoder,
+    SignCoder,
+)
+from dragnote.consts import NAME, OCTAVE, SIGN
+from dragnote.domain import Composition, Duration, Harmony, Note
+from dragnote.errors import CoderError
 
 
 class TestOctaveCoder:
@@ -17,7 +27,7 @@ class TestOctaveCoder:
         assert OctaveCoder.encode(octave) == text
 
     def test_encode_error(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(CoderError):
             _ = OctaveCoder.encode(object())
 
     @pytest.mark.parametrize(
@@ -32,7 +42,7 @@ class TestOctaveCoder:
         assert OctaveCoder.decode(text) == octave
 
     def test_decode_error(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(CoderError):
             _ = OctaveCoder.decode("test-error")
 
 
@@ -51,7 +61,7 @@ class TestSignCoder:
         assert SignCoder.encode(sign) == text
 
     def test_encode_error(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(CoderError):
             _ = SignCoder.encode(object())
 
     @pytest.mark.parametrize(
@@ -68,7 +78,7 @@ class TestSignCoder:
         assert SignCoder.decode(text) == sign
 
     def test_decode_error(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(CoderError):
             _ = SignCoder.decode("test-error")
 
 
@@ -89,7 +99,7 @@ class TestNameCoder:
         assert NameCoder.encode(name) == text
 
     def test_encode_error(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(CoderError):
             _ = NameCoder.encode(object())
 
     @pytest.mark.parametrize(
@@ -108,5 +118,145 @@ class TestNameCoder:
         assert NameCoder.decode(text) == name
 
     def test_decode_error(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(CoderError):
             _ = NameCoder.decode("test-error")
+
+
+class TestNoteCoder:
+    def test_encode(self):
+        note = Note(name=NAME.C, sign=SIGN.DOUBLE_FLAT, octave=OCTAVE.SECOND)
+        assert NoteCoder.encode(note) == "Cbb2"
+
+    def test_decode(self):
+        note = Note(name=NAME.C, sign=SIGN.DOUBLE_FLAT, octave=OCTAVE.SECOND)
+        assert NoteCoder.decode("cbb2") == note
+
+
+class TestDurationCoder:
+    def test_encode(self):
+        duration = Duration(numerator=1, denominator=4)
+        assert DurationCoder.encode(duration) == "(1/4)"
+
+    def test_decode(self):
+        duration = Duration(numerator=1, denominator=4)
+        assert DurationCoder.decode("(1/4)") == duration
+
+    def test_decode_error_parenthesis(self):
+        with pytest.raises(CoderError):
+            _ = DurationCoder.decode("(1/4]")
+
+    def test_decode_error_non_numeric(self):
+        with pytest.raises(CoderError):
+            _ = DurationCoder.decode("(1/:)")
+
+
+class TestHarmonyCoder:
+    def test_encode_with_duration_false(self):
+        harmony = Harmony(
+            notes=(
+                Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.SMALL),
+                Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
+                Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
+            ),
+            duration=Duration(numerator=3, denominator=8),
+        )
+        assert HarmonyCoder.encode(harmony, False) == "C0:Eb1:G##2"
+
+    def test_encode_with_duration_true(self):
+        harmony = Harmony(
+            notes=(
+                Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.SMALL),
+                Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
+                Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
+            ),
+            duration=Duration(numerator=3, denominator=8),
+        )
+        assert HarmonyCoder.encode(harmony, True) == "C0:Eb1:G##2(3/8)"
+
+    def test_decode_with_duration_false(self):
+        harmony = Harmony(
+            notes=(
+                Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.SMALL),
+                Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
+                Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
+            ),
+            duration=Duration(numerator=3, denominator=8),
+        )
+        assert HarmonyCoder.decode("C0:Eb1:G##2", False) == harmony
+
+    def test_decode_with_duration_true(self):
+        harmony = Harmony(
+            notes=(
+                Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.SMALL),
+                Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
+                Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
+            ),
+            duration=Duration(numerator=3, denominator=8),
+        )
+        assert HarmonyCoder.decode("C0:Eb1:G##2(3/8)", True) == harmony
+
+
+class TestCompositionCode:
+    def test_encode_with_duration_false(self):
+        harmony = Harmony(
+            notes=(
+                Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.SMALL),
+                Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
+                Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
+            ),
+            duration=None,
+        )
+        composition = Composition(
+            harmonies=(harmony, harmony, harmony),
+        )
+        assert CompositionCoder.encode(composition, with_duration=False) == "C0:Eb1:G##2 C0:Eb1:G##2 C0:Eb1:G##2"
+
+    def test_encode_with_duration_true(self):
+        harmony = Harmony(
+            notes=(
+                Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.SMALL),
+                Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
+                Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
+            ),
+            duration=Duration(numerator=3, denominator=8),
+        )
+        composition = Composition(
+            harmonies=(harmony, harmony, harmony),
+        )
+        assert (
+            CompositionCoder.encode(composition, with_duration=True)
+            == "C0:Eb1:G##2(3/8) C0:Eb1:G##2(3/8) C0:Eb1:G##2(3/8)"
+        )
+
+    def test_decode_with_duration_false(self):
+        harmony = Harmony(
+            notes=(
+                Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.SMALL),
+                Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
+                Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
+            ),
+            duration=None,
+        )
+        composition = Composition(
+            harmonies=(harmony, harmony, harmony),
+        )
+        assert CompositionCoder.decode("C0:Eb1:G##2 C0:Eb1:G##2 C0:Eb1:G##2", with_duration=False) == composition
+
+    def test_decode_with_duration_true(self):
+        harmony = Harmony(
+            notes=(
+                Note(name=NAME.C, sign=SIGN.NATURAL, octave=OCTAVE.SMALL),
+                Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
+                Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
+            ),
+            duration=Duration(numerator=3, denominator=8),
+        )
+        composition = Composition(
+            harmonies=(harmony, harmony, harmony),
+        )
+        assert (
+            CompositionCoder.decode(
+                "C0:Eb1:G##2(3/8) \t\nC0:Eb1:G##2(3/8)    C0:Eb1:G##2(3/8)      ", with_duration=True
+            )
+            == composition
+        )

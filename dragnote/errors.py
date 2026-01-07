@@ -5,7 +5,7 @@ class NoFile(Exception):
     pass
 
 
-class ParserError(Exception):
+class CoderError(Exception):
     pass
 
 
