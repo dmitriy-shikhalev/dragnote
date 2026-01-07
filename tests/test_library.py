@@ -81,7 +81,6 @@ class TestLibrary:
             full_filename = library.get_full_filename(0)
             assert full_filename == "compositions/a"
 
-    @patch("dragnote.library.Composition.from_str")
     @patch(
         "dragnote.library.open",
         return_value=Mock(
@@ -89,7 +88,7 @@ class TestLibrary:
             __exit__=Mock(),
         ),
     )
-    def test_read_composition(self, open_mock, from_str_mock):
+    def test_read_composition(self, open_mock):
         num = random.randint(0, 100)
 
         with (

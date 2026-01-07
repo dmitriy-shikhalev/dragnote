@@ -22,26 +22,6 @@ class NAME(Enum):
 
     P = 0  # Pause
 
-    @classmethod
-    def from_str(cls, s: str) -> NAME:
-        match s.upper():
-            case "C":
-                return NAME.C
-            case "D":
-                return NAME.D
-            case "E":
-                return NAME.E
-            case "F":
-                return NAME.F
-            case "G":
-                return NAME.G
-            case "A":
-                return NAME.A
-            case "H":
-                return NAME.H
-            case _:
-                raise ValueError(s)
-
     def to_num(self) -> int:
         match self:
             case self.C:
@@ -69,24 +49,6 @@ class SIGN(str, Enum):
     DOUBLE_SHARP = "DOUBLE_SHARP"
     DOUBLE_FLAT = "DOUBLE_FLAT"
 
-    @classmethod
-    def from_str(cls, s: str) -> SIGN:
-        match s:
-            case "":
-                return cls.NATURAL
-            case None:
-                return cls.NATURAL
-            case "b":
-                return cls.FLAT
-            case "#":
-                return cls.SHARP
-            case "bb":
-                return cls.DOUBLE_FLAT
-            case "##":
-                return cls.DOUBLE_SHARP
-            case _:
-                raise ValueError(s)
-
     def to_num(self) -> int:
         match self:
             case self.NATURAL:
@@ -102,38 +64,11 @@ class SIGN(str, Enum):
             case _:  # pragma: no cover
                 raise ValueError(self)
 
-    def to_str(self) -> str:
-        match self:
-            case self.NATURAL:
-                return ""
-            case self.FLAT:
-                return "b"
-            case self.SHARP:
-                return "#"
-            case self.DOUBLE_FLAT:
-                return "bb"
-            case self.DOUBLE_SHARP:
-                return "##"
-            case _:  # pragma: no cover
-                raise ValueError(self)
-
 
 class OCTAVE(str, Enum):
     SMALL = "SMALL"
     FIRST = "FIRST"
     SECOND = "SECOND"
-
-    @classmethod
-    def from_num(cls, num: int) -> OCTAVE:
-        match num:
-            case 0:
-                return cls.SMALL
-            case 1:
-                return cls.FIRST
-            case 2:
-                return cls.SECOND
-            case _:
-                raise ValueError(num)
 
     def to_num(self) -> int:
         match self:

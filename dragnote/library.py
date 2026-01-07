@@ -4,6 +4,7 @@ import os
 
 import yaml
 
+from dragnote.coder import CompositionCoder
 from dragnote.consts import DIRNAME, LIST_FILENAME
 from dragnote.domain import Composition
 from dragnote.errors import NoFile
@@ -40,4 +41,4 @@ class Library:
         with open(self.get_full_filename(num)) as fd:
             txt = fd.read()
 
-        return Composition.from_str(txt)
+        return CompositionCoder.decode(txt)
