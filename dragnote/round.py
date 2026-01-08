@@ -35,7 +35,9 @@ class Round:
                 self.sequencer.play_harmony(self.harmonies[count])
                 count += 1
             else:
-                self.sequencer.play_harmony(composition.harmonies[count].get_with_duration(self.harmonies[count].duration))
+                self.sequencer.play_harmony(
+                    composition.harmonies[count].get_with_duration(self.harmonies[count].duration)
+                )
                 errors += 1
                 break
 

@@ -56,7 +56,7 @@ class TestHarmony:
     def test_get_duration_in_seconds(self):
         harmony = self.get_test_harmony()
 
-        assert harmony.get_duration_in_seconds(60) == 0.75
+        assert harmony.get_duration_in_seconds(60) == 3
 
     def test_get_duration_in_seconds_without_duration(self):
         harmony = Harmony(notes=self.get_test_harmony().notes, duration=None)

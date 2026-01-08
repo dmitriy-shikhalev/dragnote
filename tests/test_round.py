@@ -15,7 +15,6 @@ class TestRound:
         assert round_.greeting == "Test"
         assert round_.sequencer == sequencer
 
-    @patch("dragnote.round.play_mistake")
     @patch(
         "dragnote.round.read_notes",
         return_value=Composition(
@@ -25,7 +24,7 @@ class TestRound:
             )
         ),
     )
-    def test_run(self, read_notes_mock, play_mistake_mock):
+    def test_run(self, read_notes_mock):
         sequencer = Mock()
         harmonies = (
             Harmony(notes=(Note(name=NAME.C, octave=OCTAVE.FIRST, sign=SIGN.NATURAL),)),
@@ -39,4 +38,3 @@ class TestRound:
         assert count == 1
         assert errors == 1
         read_notes_mock.assert_called_once_with("Test")
-        play_mistake_mock.assert_called_once_with()

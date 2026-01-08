@@ -46,10 +46,13 @@ class Exercise:
                 f"First harmony is {HarmonyCoder.encode(self.composition.harmonies[0].get_without_duration())} "
                 f"| {self.get_error_count_string()}"
             )
-        return " ".join(
-            HarmonyCoder.encode(harmony.get_without_duration())
-            for harmony in self.composition.harmonies[: self.current_harmony]
-        ) + f" | {self.get_error_count_string()}"
+        return (
+            " ".join(
+                HarmonyCoder.encode(harmony.get_without_duration())
+                for harmony in self.composition.harmonies[: self.current_harmony]
+            )
+            + f" | {self.get_error_count_string()}"
+        )
 
     def is_over(self) -> bool:
         return self.current_harmony >= len(self.composition.harmonies)
