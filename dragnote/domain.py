@@ -57,12 +57,18 @@ class Harmony:
     def get_duration_in_seconds(self, tempo: int) -> float:
         if self.duration is None:
             raise ValueError("No duration")
-        return float(self.duration.to_fraction()) * 60 / tempo
+        return float(self.duration.to_fraction()) * 4 * 60 / tempo
 
     def get_without_duration(self) -> Harmony:
         return Harmony(
             notes=self.notes,
             duration=None,
+        )
+
+    def get_with_duration(self, duration: Duration) -> Harmony:
+        return Harmony(
+            notes=self.notes,
+            duration=duration,
         )
 
 

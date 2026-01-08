@@ -6,7 +6,6 @@ from typing import Sequence
 from dragnote.compare import Compare
 from dragnote.domain import Harmony
 from dragnote.iofuncs import read_notes
-from dragnote.play_sounds import play_mistake
 from dragnote.sequencer import Sequencer
 
 logger = logging.getLogger(__name__)
@@ -33,11 +32,10 @@ class Round:
             logger.debug("Play %s note in harmonies, len(self.harmonies) = %s", count, len(self.harmonies))
             compare = Compare(self.harmonies[count], composition.harmonies[count])
             if compare.is_equal():
-                self.sequencer.play_harmony(composition.harmonies[count])
+                self.sequencer.play_harmony(self.harmonies[count])
                 count += 1
             else:
-                self.sequencer.play_harmony(self.harmonies[count])
-                play_mistake()
+                self.sequencer.play_harmony(composition.harmonies[count].get_with_duration(self.harmonies[count].duration))
                 errors += 1
                 break
 
