@@ -21,7 +21,7 @@ def test_read_notes(read_input_mock, decode_mock):
     result = read_notes("Test")
 
     read_input_mock.assert_called_once_with("Test")
-    decode_mock.assert_called_once_with(read_input_mock.return_value, with_duration=False)
+    decode_mock.assert_called_once_with(read_input_mock.return_value)
     assert result == decode_mock.return_value
 
 

@@ -59,6 +59,12 @@ class Harmony:
             raise ValueError("No duration")
         return float(self.duration.to_fraction()) * 60 / tempo
 
+    def get_without_duration(self) -> Harmony:
+        return Harmony(
+            notes=self.notes,
+            duration=None,
+        )
+
 
 @dataclass(frozen=True)
 class Composition:

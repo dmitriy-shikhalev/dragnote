@@ -158,9 +158,9 @@ class TestHarmonyCoder:
                 Note(name=NAME.E, sign=SIGN.FLAT, octave=OCTAVE.FIRST),
                 Note(name=NAME.G, sign=SIGN.DOUBLE_SHARP, octave=OCTAVE.SECOND),
             ),
-            duration=Duration(numerator=3, denominator=8),
+            duration=None,
         )
-        assert HarmonyCoder.encode(harmony, False) == "C0:Eb1:G##2"
+        assert HarmonyCoder.encode(harmony) == "C0:Eb1:G##2"
 
     def test_encode_with_duration_true(self):
         harmony = Harmony(
@@ -171,7 +171,7 @@ class TestHarmonyCoder:
             ),
             duration=Duration(numerator=3, denominator=8),
         )
-        assert HarmonyCoder.encode(harmony, True) == "C0:Eb1:G##2(3/8)"
+        assert HarmonyCoder.encode(harmony) == "C0:Eb1:G##2(3/8)"
 
     def test_decode_with_duration_false(self):
         harmony = Harmony(
@@ -182,7 +182,7 @@ class TestHarmonyCoder:
             ),
             duration=Duration(numerator=3, denominator=8),
         )
-        assert HarmonyCoder.decode("C0:Eb1:G##2", False) == harmony
+        assert HarmonyCoder.decode("C0:Eb1:G##2") == harmony
 
     def test_decode_with_duration_true(self):
         harmony = Harmony(
@@ -193,7 +193,7 @@ class TestHarmonyCoder:
             ),
             duration=Duration(numerator=3, denominator=8),
         )
-        assert HarmonyCoder.decode("C0:Eb1:G##2(3/8)", True) == harmony
+        assert HarmonyCoder.decode("C0:Eb1:G##2(3/8)") == harmony
 
 
 class TestCompositionCode:
@@ -209,7 +209,7 @@ class TestCompositionCode:
         composition = Composition(
             harmonies=(harmony, harmony, harmony),
         )
-        assert CompositionCoder.encode(composition, with_duration=False) == "C0:Eb1:G##2 C0:Eb1:G##2 C0:Eb1:G##2"
+        assert CompositionCoder.encode(composition) == "C0:Eb1:G##2 C0:Eb1:G##2 C0:Eb1:G##2"
 
     def test_encode_with_duration_true(self):
         harmony = Harmony(
@@ -223,10 +223,7 @@ class TestCompositionCode:
         composition = Composition(
             harmonies=(harmony, harmony, harmony),
         )
-        assert (
-            CompositionCoder.encode(composition, with_duration=True)
-            == "C0:Eb1:G##2(3/8) C0:Eb1:G##2(3/8) C0:Eb1:G##2(3/8)"
-        )
+        assert CompositionCoder.encode(composition) == "C0:Eb1:G##2(3/8) C0:Eb1:G##2(3/8) C0:Eb1:G##2(3/8)"
 
     def test_decode_with_duration_false(self):
         harmony = Harmony(
@@ -240,7 +237,7 @@ class TestCompositionCode:
         composition = Composition(
             harmonies=(harmony, harmony, harmony),
         )
-        assert CompositionCoder.decode("C0:Eb1:G##2 C0:Eb1:G##2 C0:Eb1:G##2", with_duration=False) == composition
+        assert CompositionCoder.decode("C0:Eb1:G##2 C0:Eb1:G##2 C0:Eb1:G##2") == composition
 
     def test_decode_with_duration_true(self):
         harmony = Harmony(
@@ -254,9 +251,4 @@ class TestCompositionCode:
         composition = Composition(
             harmonies=(harmony, harmony, harmony),
         )
-        assert (
-            CompositionCoder.decode(
-                "C0:Eb1:G##2(3/8) \t\nC0:Eb1:G##2(3/8)    C0:Eb1:G##2(3/8)      ", with_duration=True
-            )
-            == composition
-        )
+        assert CompositionCoder.decode("C0:Eb1:G##2(3/8) \t\nC0:Eb1:G##2(3/8)    C0:Eb1:G##2(3/8)      ") == composition

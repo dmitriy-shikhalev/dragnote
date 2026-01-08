@@ -13,12 +13,12 @@ CODER_TYPE = TypeVar("CODER_TYPE", Composition, Harmony, Duration, Note, NAME, O
 class AbstractCoder(ABC, Generic[CODER_TYPE]):
     @classmethod
     @abstractmethod
-    def encode(cls, obj: CODER_TYPE, **kwargs) -> str:
+    def encode(cls, obj: CODER_TYPE) -> str:
         raise NotImplementedError  # pragma: no cover
 
     @classmethod
     @abstractmethod
-    def decode(cls, text: str, **kwargs) -> CODER_TYPE:
+    def decode(cls, text: str) -> CODER_TYPE:
         raise NotImplementedError  # pragma: no cover
 
 
@@ -153,14 +153,14 @@ class DurationCoder(AbstractCoder[Duration]):
 
 class HarmonyCoder(AbstractCoder[Harmony]):
     @classmethod
-    def encode(cls, obj: Harmony, with_duration: bool) -> str:
-        if with_duration:
+    def encode(cls, obj: Harmony) -> str:
+        if obj.duration is not None:
             return ":".join(NoteCoder.encode(note) for note in obj.notes) + DurationCoder.encode(obj.duration)
         return ":".join(NoteCoder.encode(note) for note in obj.notes)
 
     @classmethod
-    def decode(cls, text: str, with_duration: bool) -> Harmony:
-        if with_duration:
+    def decode(cls, text: str) -> Harmony:
+        if "(" in text:
             notes, duration = text.split("(")
             duration = "(" + duration
             notes_list = notes.split(":")
@@ -174,10 +174,10 @@ class HarmonyCoder(AbstractCoder[Harmony]):
 
 class CompositionCoder(AbstractCoder[Composition]):
     @classmethod
-    def encode(cls, obj: Composition, with_duration: bool) -> str:
-        return " ".join(HarmonyCoder.encode(harmony, with_duration=with_duration) for harmony in obj.harmonies)
+    def encode(cls, obj: Composition) -> str:
+        return " ".join(HarmonyCoder.encode(harmony) for harmony in obj.harmonies)
 
     @classmethod
-    def decode(cls, text: str, with_duration: bool) -> Composition:
+    def decode(cls, text: str) -> Composition:
         parts = text.split()
-        return Composition(harmonies=tuple([HarmonyCoder.decode(part, with_duration=with_duration) for part in parts]))
+        return Composition(harmonies=tuple([HarmonyCoder.decode(part) for part in parts]))

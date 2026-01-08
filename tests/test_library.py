@@ -102,7 +102,7 @@ class TestLibrary:
             data = library.read_composition(num)
 
             composition_coder_mock.decode.assert_called_once_with(
-                open_mock.return_value.__enter__.return_value.read.return_value, with_duration=True
+                open_mock.return_value.__enter__.return_value.read.return_value
             )
             assert data == composition_coder_mock.decode.return_value
 

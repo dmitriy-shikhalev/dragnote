@@ -35,9 +35,9 @@ class Exercise:
 
     def get_greeting(self) -> str:
         if self.current_harmony == 0:
-            return f"First harmony is {HarmonyCoder.encode(self.composition.harmonies[0], with_duration=False)}"
+            return f"First harmony is {HarmonyCoder.encode(self.composition.harmonies[0].get_without_duration())}"
         return " ".join(
-            HarmonyCoder.encode(harmony, with_duration=False)
+            HarmonyCoder.encode(harmony.get_without_duration())
             for harmony in self.composition.harmonies[: self.current_harmony]
         )
 

@@ -13,7 +13,7 @@ def read_input(greeting: str):
 
 def read_notes(greeting: str):
     string = read_input(greeting)
-    return CompositionCoder.decode(string, with_duration=False)
+    return CompositionCoder.decode(string)
 
 
 def print_info(info: Info):
