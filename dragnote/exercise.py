@@ -65,7 +65,7 @@ class Exercise:
             self.sequencer.play_harmony(harmony)
 
     def run_one_iterate(self):
-        logger.critical("New iterate")
+        logger.debug("New iterate")
         round_ = Round(self.get_harmonies(), greeting=self.get_greeting(), sequencer=self.sequencer)
         count, errors = round_.run()
         if errors:
