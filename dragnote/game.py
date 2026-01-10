@@ -32,6 +32,7 @@ class Game:
         return composition
 
     def _run_one_exercise(self):
+        logger.critical("run one exercise")
         composition = self._get_composition()
         exercise = Exercise(composition, self.settings.max_error_count, self.sequencer)
         try:

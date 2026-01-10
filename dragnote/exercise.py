@@ -61,7 +61,7 @@ class Exercise:
         return self.error_count >= self.max_error_count
 
     def run_one_iterate(self):
-        logger.debug("New iterate")
+        logger.critical("New iterate")
         round_ = Round(self.get_harmonies(), greeting=self.get_greeting(), sequencer=self.sequencer)
         count, errors = round_.run()
         if errors:
