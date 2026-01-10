@@ -17,13 +17,7 @@ class Round:
         self.greeting = greeting
         self.sequencer = sequencer
 
-    def play_harmonies(self):
-        for harmony in self.harmonies:
-            self.sequencer.play_harmony(harmony)
-
     def run(self) -> tuple[int, int]:
-        self.play_harmonies()
-
         composition = read_notes(self.greeting)
         count = 0
         errors = 0

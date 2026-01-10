@@ -60,6 +60,10 @@ class Exercise:
     def is_fail(self) -> bool:
         return self.error_count >= self.max_error_count
 
+    def play_composition(self):
+        for harmony in self.composition.harmonies:
+            self.sequencer.play_harmony(harmony)
+
     def run_one_iterate(self):
         logger.critical("New iterate")
         round_ = Round(self.get_harmonies(), greeting=self.get_greeting(), sequencer=self.sequencer)
@@ -69,10 +73,13 @@ class Exercise:
             play_mistake()
         elif count:
             play_ok()
+        else:
+            self.play_composition()
         self.current_harmony += count
 
     def run(self):
         play_before_start()
+        self.play_composition()
         while not self.is_over() and not self.is_fail():
             self.run_one_iterate()
 
