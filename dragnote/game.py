@@ -8,7 +8,7 @@ import logging
 
 from dragnote.database import Database
 from dragnote.domain import Composition
-from dragnote.errors import GameOver
+from dragnote.errors import GameOver, NoFile
 from dragnote.exercise import Exercise
 from dragnote.initialize import initialize
 from dragnote.library import Library
@@ -31,11 +31,15 @@ class Game:
         composition = self.library.read_composition(num)
         return composition
 
+    def print_greeting(self):
+        print(f"Exercise {self.database.read()}/{len(self.library.filenames) - 1}")
+
     def _run_one_exercise(self):
         logger.debug("run one exercise")
         composition = self._get_composition()
 
         exercise = Exercise(composition, self.settings.max_error_count, self.sequencer)
+        self.print_greeting()
         try:
             exercise.run()
         except GameOver:
@@ -45,4 +49,8 @@ class Game:
 
     def run(self):
         while True:
-            self._run_one_exercise()
+            try:
+                self._run_one_exercise()
+            except NoFile:
+                print("No more exercises!")
+                break
