@@ -107,6 +107,27 @@ class TestExercise:
         assert exercise.current_harmony == 1
         play_ok_mock.assert_called_once_with()
 
+    @patch("dragnote.exercise.play_ok")
+    @patch("dragnote.exercise.play_mistake")
+    @patch("dragnote.exercise.Round", return_value=Mock(run=Mock(return_value=(0, 0))))
+    def test_run_one_iterate_without_any(self, round_mock, play_mistake_mock, play_ok_mock):
+        composition = self.get_composition()
+        sequencer = Mock()
+        exercise = Exercise(composition=composition, max_error_count=3, sequencer=sequencer)
+
+        with patch.object(exercise, "play_composition") as play_composition_mock:
+            exercise.run_one_iterate()
+
+            round_mock.assert_called_once_with(
+                composition.harmonies, greeting="First harmony is C1 | 0/3", sequencer=sequencer
+            )
+            round_mock.return_value.run.assert_called_once_with()
+            assert exercise.error_count == 0
+            play_mistake_mock.assert_not_called()
+            assert exercise.current_harmony == 0
+            play_ok_mock.assert_not_called()
+            play_composition_mock.assert_called_once_with()
+
     @patch("dragnote.exercise.play_success")
     @patch("dragnote.exercise.play_fail")
     @patch("dragnote.exercise.play_before_start")

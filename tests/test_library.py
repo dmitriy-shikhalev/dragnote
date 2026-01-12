@@ -110,3 +110,8 @@ class TestLibrary:
             open_mock.assert_called_once_with(get_full_filename_mock.return_value)
             open_mock.return_value.__enter__.assert_called_once_with()
             open_mock.return_value.__enter__.return_value.read.assert_called_once_with()
+
+    def test_count(self):
+        with patch.object(Library, "read_yaml_list_file", return_value={"compositions": ["a", "b", "c"]}):
+            library = Library()
+            assert library.count == 3

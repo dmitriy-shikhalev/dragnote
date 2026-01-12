@@ -1,8 +1,6 @@
 from unittest.mock import Mock, call, patch
 
-import pytest
-
-from dragnote.errors import GameOver
+from dragnote.errors import GameOver, NoFile
 from dragnote.game import Game
 
 
@@ -71,8 +69,7 @@ class TestGame:
         settings = Mock()
         game = Game(settings)
 
-        with patch.object(game, "_run_one_exercise", side_effect=[None, KeyboardInterrupt]) as _run_one_exercise_mock:
-            with pytest.raises(KeyboardInterrupt):
-                game.run()
+        with patch.object(game, "_run_one_exercise", side_effect=[None, NoFile]) as _run_one_exercise_mock:
+            game.run()
 
             assert _run_one_exercise_mock.call_args_list == [call(), call()]
