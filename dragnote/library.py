@@ -26,6 +26,10 @@ class Library:
     def __init__(self):
         self.filenames = self.read_yaml_list_file()["compositions"]
 
+    @property
+    def count(self):
+        return len(self.filenames)
+
     def _check_num(self, num):
         if num >= len(self.filenames):
             raise NoFile(f"No composition with num {num}")

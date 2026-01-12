@@ -32,7 +32,7 @@ class Game:
         return composition
 
     def print_greeting(self):
-        print(f"Exercise {self.database.read()}/{len(self.library.filenames) - 1}")
+        print(f"Exercise {self.database.read()}/{self.library.count - 1}")
 
     def _run_one_exercise(self):
         logger.debug("run one exercise")
