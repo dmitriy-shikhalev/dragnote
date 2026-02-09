@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "blank-project"
+name = "dragnote"
 version = "0.1.0"
 description = ""
 authors = ["Dmitriy Shikhalev <dmitriy.shikhalev@xmail.ru>"]
@@ -8,6 +8,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
+pygame = "^2.6.1"
+pydantic-settings = {extras = ["yaml"], version = "^2.11.0"}
 
 
 [tool.poetry.group.dev.dependencies]
@@ -17,12 +19,13 @@ pytest-ruff = "^0.4.1"
 pytest-black = "^0.6.0"
 pytest-mypy = "^0.10.3"
 pytest-coverage = "^0.0"
+types-pyyaml = "^6.0.12.20250915"
 
 [tool.isort]
 profile = "black"
-src_paths = ["blank_project", "tests"]
+src_paths = ["dragnote", "tests"]
 skip = [
-    "blank_project/xxx.py",
+    "dragnote/xxx.py",  # TODO: remove this line
 ]
 
 [build-system]
@@ -30,20 +33,21 @@ requires = ["poetry-core>=2.0.1"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-blank-project = "blank_project.main:main"
+dragnote = "dragnote.main:main"
+synths = "dragnote.synths:synths"
 
 
 [tool.black]
 line-length = 120
 target-version = ['py313']
 include = '\.pyi?$'
-exclude = 'xxx'
+exclude = 'xxx'  # TODO: remove this line
 
 [tool.ruff]
 # Same as Black.
 line-length = 120
 cache-dir = "~/.cache/ruff"
-include = ["blank_project/*", "tests/*"]
+include = ["dragnote/*", "tests/*"]
 exclude = [".venv"]
 # Assume Python 3.13
 target-version = "py313"
@@ -66,7 +70,12 @@ lint.ignore = [
     "W292",  # no new line at end of file, handled by black
     "C901",  # too complex
     "D100",  # Missing docstring in public module
+    "D101",
+    "D102",
+    "D103",
     "D104",  # Missing docstring in public package
+    "D105",  # Missing docstring in magic method
+    "D107",  # Missing docstring in `__init__`
 ]
 
 [tool.ruff.lint.flake8-quotes]
@@ -75,11 +84,6 @@ docstring-quotes = "double"
 [tool.ruff.format]
 # Like Black, use double quotes for strings.
 quote-style = "double"
-
-
-#[[tool.mypy.overrides]]
-#module = "xxx.*"
-#ignore_missing_imports = true
 
 
 [tool.pytest.ini_options]
@@ -91,8 +95,8 @@ filterwarnings = [
 ]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
-addopts = "-vvv --mypy --ruff --black --isort --cov=blank_project --no-cov-on-fail  --cov-fail-under=100 --cov-report term-missing --color=yes"
+addopts = "-vvv --mypy --ruff --black --isort --cov=dragnote --no-cov-on-fail  --cov-fail-under=100 --cov-report term-missing --color=yes"
 testpaths = [
-    "blank_project", "tests",
+    "dragnote", "tests",
 ]
 

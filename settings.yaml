@@ -1,0 +1,4 @@
+synth: 2
+#log_level: DEBUG
+log_level: INFO
+tempo: 80

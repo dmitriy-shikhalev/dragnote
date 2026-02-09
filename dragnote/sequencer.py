@@ -1,0 +1,33 @@
+"""ЗО модуля - уметь преобразоывать Note, Harmony, Composition в миди-события и проигрывать их на миди-синтезаторе."""
+
+import logging
+
+import pygame.midi
+
+from dragnote.domain import Composition, Harmony
+
+logger = logging.getLogger(__name__)
+
+
+class Sequencer:
+    def __init__(self, synth_num: int, instrument_num: int, volume: int, tempo: int):
+        self.synth_num = synth_num
+        self.volume = volume
+        self.tempo = tempo
+        self.midi_out = pygame.midi.Output(synth_num)
+        self.midi_out.set_instrument(instrument_num)
+
+    def play_harmony(self, harmony: Harmony):
+        logger.debug("play harmony: %s in tempo %s", harmony, self.tempo)
+        for note in harmony.notes:
+            self.midi_out.note_on(note.to_value(), self.volume)
+
+        pygame.time.wait(int(harmony.get_duration_in_seconds(self.tempo) * 1000))
+
+        for note in harmony.notes:
+            self.midi_out.note_off(note.to_value(), self.volume)
+
+    def play_composition(self, composition: Composition):
+        logger.debug("Play composition: %s", composition)
+        for harmony in composition.harmonies:
+            self.play_harmony(harmony)

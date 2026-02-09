@@ -1,0 +1,33 @@
+compositions:
+  - one note/one note.txt
+  - bat/bat.txt
+
+  - gammas/c-dur/gamma.txt
+  - gammas/c-dur/accords.txt
+  - gammas/c-dur/arp short.txt
+  - gammas/c-dur/arp long.txt
+
+  - gammas/a-moll/gamma-garmonic.txt
+  - gammas/a-moll/gamma-melodic.txt
+  - gammas/a-moll/accords.txt
+  - gammas/a-moll/arp short.txt
+  - gammas/a-moll/arp long.txt
+
+  - gammas/g-dur/gamma.txt
+  - gammas/g-dur/accords.txt
+  - gammas/g-dur/arp short.txt
+  - gammas/g-dur/arp long.txt
+
+  - gammas/e-moll/gamma-garmonic.txt
+  - gammas/e-moll/gamma-melodic.txt
+  - gammas/e-moll/accords.txt
+  - gammas/e-moll/arp short.txt
+  - gammas/e-moll/arp long.txt
+
+  - kazachia/1.txt
+  - kazachia/2.txt
+  - kazachia/3.txt
+  - kazachia/4.txt
+  - kazachia/5.txt
+  - kazachia/6.txt
+  - kazachia/7.txt

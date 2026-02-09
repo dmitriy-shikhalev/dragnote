@@ -1,0 +1,30 @@
+"""ЗО модуля - описание и парсинг всех сеттингов программы."""
+
+from pydantic_settings import (
+    BaseSettings,
+    PydanticBaseSettingsSource,
+    SettingsConfigDict,
+    YamlConfigSettingsSource,
+)
+
+
+class Settings(BaseSettings):
+    synth: int = 2
+    instrument: int = 0
+    log_level: str = "INFO"
+    volume: int = 127
+    tempo: int = 60
+    max_error_count: int = 3
+
+    model_config = SettingsConfigDict(yaml_file="settings.yaml")
+
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,
+        file_secret_settings: PydanticBaseSettingsSource,
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        return (YamlConfigSettingsSource(settings_cls),)  # pragma: no cover
